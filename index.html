@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cuenta Corriente · Elda</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f2ed;
+    --bg2: #ede9e2;
+    --card: #ffffff;
+    --ink: #1a1814;
+    --ink2: #5a5650;
+    --ink3: #9a958e;
+    --navy: #1e2d4a;
+    --navy2: #2d4068;
+    --green: #2d6a4f;
+    --green-bg: #d8f3dc;
+    --red: #a33030;
+    --red-bg: #fde8e8;
+    --gold: #c4962a;
+    --gold-bg: #fdf3d8;
+    --border: #d4cfc8;
+    --radius: 10px;
+    --shadow: 0 2px 12px rgba(26,24,20,0.08);
+    --shadow-lg: 0 8px 32px rgba(26,24,20,0.14);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+  /* HEADER */
+  .header {
+    background: var(--navy);
+    color: #fff;
+    padding: 20px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.2);
+  }
+  .header-left h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    letter-spacing: -0.3px;
+  }
+  .header-left p {
+    font-size: 12px;
+    color: rgba(255,255,255,0.55);
+    margin-top: 2px;
+  }
+  .header-right { display: flex; gap: 10px; align-items: center; }
+  .btn {
+    padding: 8px 18px;
+    border-radius: 8px;
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn-primary { background: #4a7fcb; color: #fff; }
+  .btn-primary:hover { background: #3a6ab8; }
+  .btn-secondary { background: rgba(255,255,255,0.12); color: #fff; border: 1px solid rgba(255,255,255,0.2); }
+  .btn-secondary:hover { background: rgba(255,255,255,0.2); }
+  .btn-danger { background: var(--red-bg); color: var(--red); }
+  .btn-danger:hover { background: #f5c6c6; }
+  .btn-success { background: var(--green); color: #fff; }
+  .btn-success:hover { background: #245c42; }
+  .btn-sm { padding: 5px 12px; font-size: 12px; }
+  .btn-ghost { background: transparent; color: var(--ink2); border: 1px solid var(--border); }
+  .btn-ghost:hover { background: var(--bg2); }
+  /* MAIN */
+  .main { max-width: 1100px; margin: 0 auto; padding: 28px 24px; }
+  /* SETUP SCREEN */
+  .setup-screen {
+    max-width: 480px;
+    margin: 60px auto;
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 40px;
+    box-shadow: var(--shadow-lg);
+    text-align: center;
+  }
+  .setup-screen h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    margin-bottom: 8px;
+  }
+  .setup-screen p {
+    color: var(--ink2);
+    font-size: 14px;
+    margin-bottom: 28px;
+    line-height: 1.6;
+  }
+  /* SUMMARY CARDS */
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+  .summary-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+  }
+  .summary-card .label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--ink3);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 8px;
+  }
+  .summary-card .value {
+    font-family: 'DM Mono', monospace;
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .summary-card.saldo-positive .value { color: var(--red); }
+  .summary-card.saldo-ok .value { color: var(--green); }
+  .summary-card .sub {
+    font-size: 11px;
+    color: var(--ink3);
+    margin-top: 4px;
+  }
+  /* SECTIONS */
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    color: var(--navy);
+  }
+  /* TABLE */
+  .table-wrap {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  table { width: 100%; border-collapse: collapse; }
+  thead tr { background: var(--navy); }
+  thead th {
+    padding: 12px 16px;
+    text-align: right;
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.65);
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    white-space: nowrap;
+  }
+  thead th:first-child { text-align: left; }
+  tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.1s;
+  }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--bg); }
+  tbody tr.sac-row { background: var(--gold-bg); }
+  tbody tr.sac-row:hover { background: #f8edcc; }
+  td {
+    padding: 13px 16px;
+    font-size: 13px;
+    vertical-align: middle;
+  }
+  td.num {
+    text-align: right;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+  }
+  td.mes-name {
+    font-weight: 600;
+    font-size: 14px;
+    min-width: 140px;
+  }
+  .saldo-deuda { color: var(--red); font-weight: 500; }
+  .saldo-ok { color: var(--green); font-weight: 500; }
+  .saldo-zero { color: var(--ink3); }
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+  }
+  .badge-sac { background: var(--gold-bg); color: var(--gold); }
+  .badge-pendiente { background: var(--red-bg); color: var(--red); }
+  .badge-ok { background: var(--green-bg); color: var(--green); }
+  .actions-col { text-align: center !important; }
+  .row-actions { display: flex; gap: 6px; justify-content: flex-end; }
+  /* DETAIL PANEL */
+  .detail-panel {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border);
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+  .detail-header {
+    background: var(--navy);
+    color: #fff;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .detail-header h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+  }
+  .detail-header .close-btn {
+    background: rgba(255,255,255,0.1);
+    border: none;
+    color: #fff;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s;
+  }
+  .detail-header .close-btn:hover { background: rgba(255,255,255,0.25); }
+  .detail-body { padding: 24px; }
+  .detail-info {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .detail-info-item .di-label {
+    font-size: 11px;
+    color: var(--ink3);
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .detail-info-item .di-val {
+    font-family: 'DM Mono', monospace;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .pagos-section h4 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink2);
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .pagos-list { list-style: none; }
+  .pago-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    margin-bottom: 8px;
+    background: var(--bg);
+  }
+  .pago-item:last-child { margin-bottom: 0; }
+  .pago-fecha {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--ink3);
+    min-width: 80px;
+  }
+  .pago-concepto { flex: 1; font-size: 13px; }
+  .pago-monto {
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green);
+    min-width: 100px;
+    text-align: right;
+  }
+  .pago-delete {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--ink3);
+    padding: 4px;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: color 0.15s;
+  }
+  .pago-delete:hover { color: var(--red); }
+  .no-pagos {
+    text-align: center;
+    padding: 20px;
+    color: var(--ink3);
+    font-size: 13px;
+    font-style: italic;
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+  }
+  .add-pago-row {
+    margin-top: 12px;
+  }
+  /* MODALS */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(26,24,20,0.5);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-overlay.active { display: flex; }
+  .modal {
+    background: var(--card);
+    border-radius: 14px;
+    padding: 32px;
+    width: 90%;
+    max-width: 460px;
+    box-shadow: var(--shadow-lg);
+    animation: modalIn 0.2s ease;
+  }
+  @keyframes modalIn {
+    from { transform: scale(0.94) translateY(-10px); opacity: 0; }
+    to { transform: scale(1) translateY(0); opacity: 1; }
+  }
+  .modal h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: var(--navy);
+  }
+  .form-row { margin-bottom: 16px; }
+  .form-row label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink2);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+  }
+  .form-row input, .form-row select {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    background: var(--bg);
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .form-row input:focus, .form-row select:focus {
+    border-color: var(--navy2);
+  }
+  .form-row .hint {
+    font-size: 11px;
+    color: var(--ink3);
+    margin-top: 4px;
+  }
+  .form-row .computed {
+    font-family: 'DM Mono', monospace;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--navy);
+    padding: 10px 0 4px;
+  }
+  .form-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .modal-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+  /* CONFIG PANEL */
+  .config-bar {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    box-shadow: var(--shadow);
+  }
+  .config-bar label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink2);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .config-bar input {
+    border: 1.5px solid var(--border);
+    border-radius: 7px;
+    padding: 7px 12px;
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    width: 130px;
+    outline: none;
+    background: var(--bg);
+  }
+  .config-bar input:focus { border-color: var(--navy2); }
+  .status-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #ccc;
+    display: inline-block;
+    margin-right: 6px;
+  }
+  .status-dot.ok { background: var(--green); }
+  .status-dot.loading { background: var(--gold); }
+  .status-dot.error { background: var(--red); }
+  .status-text { font-size: 11px; color: var(--ink3); }
+  /* TOAST */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--navy);
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 13px;
+    z-index: 9999;
+    box-shadow: var(--shadow-lg);
+    opacity: 0;
+    transform: translateY(12px);
+    transition: all 0.3s;
+    pointer-events: none;
+  }
+  .toast.show { opacity: 1; transform: translateY(0); }
+  /* YEAR GROUP */
+  .year-group { margin-bottom: 28px; }
+  .year-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    color: var(--navy2);
+    font-weight: 600;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--border);
+  }
+  /* EMPTY STATE */
+  .empty-state {
+    text-align: center;
+    padding: 48px 20px;
+    color: var(--ink3);
+  }
+  .empty-state .es-icon { font-size: 40px; margin-bottom: 12px; }
+  .empty-state h3 { font-size: 16px; color: var(--ink2); margin-bottom: 6px; }
+  .empty-state p { font-size: 13px; }
+  /* LOADING */
+  .loading-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    color: var(--ink3);
+    gap: 16px;
+  }
+  .spinner {
+    width: 36px; height: 36px;
+    border: 3px solid var(--border);
+    border-top-color: var(--navy);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .summary-grid { grid-template-columns: 1fr 1fr; }
+    .detail-info { grid-template-columns: 1fr 1fr; }
+    .header { padding: 14px 16px; }
+    .main { padding: 16px; }
+    table { font-size: 12px; }
+    td { padding: 10px 10px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-left">
+    <h1>Cuenta Corriente · Elda</h1>
+    <p id="statusBar"><span class="status-dot" id="statusDot"></span><span id="statusText">Conectando…</span></p>
+  </div>
+  <div class="header-right">
+    <button class="btn btn-secondary" onclick="openConfig()">⚙ Configuración</button>
+    <button class="btn btn-primary" onclick="openNuevoPeriodo()">+ Período</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- SETUP SCREEN -->
+<div class="main" id="setupScreen" style="display:none">
+  <div class="setup-screen">
+    <div style="font-size:48px;margin-bottom:16px">📒</div>
+    <h2>Primera configuración</h2>
+    <p>Para guardar los datos en la nube, ingresá el <strong>Bin ID</strong> de JSONBin y la <strong>Master Key</strong>. Si no tenés un bin todavía, se creará automáticamente.</p>
+    <div class="form-row">
+      <label>Master Key de JSONBin</label>
+      <input type="password" id="setupKey" placeholder="$2a$10$..." />
+    </div>
+    <div class="form-row">
+      <label>Bin ID (dejá vacío para crear nuevo)</label>
+      <input type="text" id="setupBin" placeholder="67abc123..." />
+    </div>
+    <button class="btn btn-success" style="width:100%;padding:12px;font-size:15px;margin-top:8px" onclick="setupApp()">Iniciar</button>
+  </div>
+</div>
+
+<!-- LOADING -->
+<div class="main" id="loadingScreen">
+  <div class="loading-screen">
+    <div class="spinner"></div>
+    <p>Cargando datos…</p>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div class="main" id="appScreen" style="display:none">
+  <!-- SUMMARY -->
+  <div class="summary-grid" id="summaryCards"></div>
+
+  <!-- DETAIL VIEW (hidden by default) -->
+  <div id="detailPanel" style="display:none"></div>
+
+  <!-- PERIODS LIST -->
+  <div class="section-header">
+    <div class="section-title">Historial de períodos</div>
+    <button class="btn btn-ghost btn-sm" onclick="openNuevoPeriodo()">+ Agregar período</button>
+  </div>
+  <div id="periodosList"></div>
+</div>
+
+<!-- MODAL: NUEVO PERÍODO -->
+<div class="modal-overlay" id="modalPeriodo">
+  <div class="modal">
+    <h3 id="modalPeriodoTitle">Nuevo período</h3>
+
+    <div class="form-2col">
+      <div class="form-row">
+        <label>Mes</label>
+        <select id="pMes">
+          <option value="0">Enero</option><option value="1">Febrero</option><option value="2">Marzo</option>
+          <option value="3">Abril</option><option value="4">Mayo</option><option value="5">Junio</option>
+          <option value="6">Julio</option><option value="7">Agosto</option><option value="8">Septiembre</option>
+          <option value="9">Octubre</option><option value="10">Noviembre</option><option value="11">Diciembre</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label>Año</label>
+        <input type="number" id="pAnio" value="2025" min="2020" max="2030" />
+      </div>
+    </div>
+
+    <div class="form-row">
+      <label>Tipo</label>
+      <select id="pTipo" onchange="onTipoChange()">
+        <option value="normal">Período normal</option>
+        <option value="sac">SAC (aguinaldo)</option>
+      </select>
+    </div>
+
+    <div id="camposNormal">
+      <div class="form-2col">
+        <div class="form-row">
+          <label>Horas trabajadas</label>
+          <input type="number" id="pHoras" value="" placeholder="ej: 310.5" step="0.5" oninput="calcSueldo()" />
+        </div>
+        <div class="form-row">
+          <label>Valor hora ($)</label>
+          <input type="number" id="pValorHora" value="" placeholder="" oninput="calcSueldo()" />
+        </div>
+      </div>
+      <div class="form-row">
+        <label>No remunerativo ($)</label>
+        <input type="number" id="pNoRem" value="0" placeholder="0" oninput="calcSueldo()" />
+        <div class="hint">Dejar en 0 si no aplica</div>
+      </div>
+    </div>
+
+    <div id="camposSAC" style="display:none">
+      <div class="form-row">
+        <label>Monto SAC ($)</label>
+        <input type="number" id="pSACMonto" value="" placeholder="Ej: 750000" />
+        <div class="hint">Podés calcularlo como: promedio sueldos semestre ÷ 2</div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <label>Total devengado</label>
+      <div class="computed" id="pSueldoDisplay">$0</div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('modalPeriodo')">Cancelar</button>
+      <button class="btn btn-success" onclick="guardarPeriodo()">Guardar período</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: NUEVO PAGO -->
+<div class="modal-overlay" id="modalPago">
+  <div class="modal">
+    <h3>Registrar pago</h3>
+    <div class="form-row">
+      <label>Fecha</label>
+      <input type="date" id="pagFecha" />
+    </div>
+    <div class="form-row">
+      <label>Concepto</label>
+      <input type="text" id="pagConcepto" placeholder="Ej: Transferencia Colgate / Efectivo" />
+    </div>
+    <div class="form-row">
+      <label>Monto ($)</label>
+      <input type="number" id="pagMonto" placeholder="Ej: 500000" />
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('modalPago')">Cancelar</button>
+      <button class="btn btn-success" onclick="guardarPago()">Registrar pago</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: CONFIGURACIÓN -->
+<div class="modal-overlay" id="modalConfig">
+  <div class="modal">
+    <h3>⚙ Configuración</h3>
+    <div class="form-row">
+      <label>Valor hora vigente ($)</label>
+      <input type="number" id="cfgValorHora" />
+      <div class="hint">Se usa como default al crear nuevos períodos</div>
+    </div>
+    <div class="form-row">
+      <label>Master Key JSONBin</label>
+      <input type="password" id="cfgKey" />
+    </div>
+    <div class="form-row">
+      <label>Bin ID</label>
+      <input type="text" id="cfgBinId" />
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('modalConfig')">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveConfig()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── STATE ────────────────────────────────────────────────────────────────────
+let API_KEY = '';
+let BIN_ID = '';
+const BASE_URL = 'https://api.jsonbin.io/v3';
+let data = { config: { valorHoraVigente: 350 }, periodos: [] };
+let activePeriodoId = null;
+let editingPeriodoId = null;
+let addingPagoFor = null;
+
+const MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+window.onload = function() {
+  API_KEY = localStorage.getItem('elda_key') || '';
+  BIN_ID = localStorage.getItem('elda_bin') || '';
+  if (!API_KEY) {
+    show('setupScreen');
+    hide('loadingScreen');
+  } else {
+    loadData();
+  }
+};
+
+async function setupApp() {
+  API_KEY = document.getElementById('setupKey').value.trim();
+  const binInput = document.getElementById('setupBin').value.trim();
+  if (!API_KEY) { toast('Ingresá la Master Key'); return; }
+  localStorage.setItem('elda_key', API_KEY);
+  if (binInput) {
+    BIN_ID = binInput;
+    localStorage.setItem('elda_bin', BIN_ID);
+    show('loadingScreen'); hide('setupScreen');
+    loadData();
+  } else {
+    // Create new bin
+    show('loadingScreen'); hide('setupScreen');
+    await createBin();
+  }
+}
+
+async function createBin() {
+  try {
+    const r = await fetch(`${BASE_URL}/b`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Master-Key': API_KEY, 'X-Bin-Name': 'Elda-CuentaCorriente' },
+      body: JSON.stringify({ config: { valorHoraVigente: 350 }, periodos: [] })
+    });
+    const j = await r.json();
+    BIN_ID = j.metadata.id;
+    localStorage.setItem('elda_bin', BIN_ID);
+    toast('✓ Bin creado correctamente');
+    loadData();
+  } catch(e) {
+    setStatus('error', 'Error al crear bin');
+    toast('Error al crear bin. Revisá la Master Key.');
+    show('setupScreen'); hide('loadingScreen');
+  }
+}
+
+async function loadData() {
+  setStatus('loading', 'Cargando…');
+  try {
+    const r = await fetch(`${BASE_URL}/b/${BIN_ID}/latest`, {
+      headers: { 'X-Master-Key': API_KEY }
+    });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const j = await r.json();
+    data = j.record;
+    if (!data.periodos) data.periodos = [];
+    if (!data.config) data.config = { valorHoraVigente: 350 };
+    setStatus('ok', 'Sincronizado');
+    renderApp();
+    show('appScreen'); hide('loadingScreen');
+  } catch(e) {
+    setStatus('error', 'Error de conexión');
+    toast('No se pudo cargar. Revisá la conexión.');
+    renderApp();
+    show('appScreen'); hide('loadingScreen');
+  }
+}
+
+async function saveData() {
+  setStatus('loading', 'Guardando…');
+  try {
+    await fetch(`${BASE_URL}/b/${BIN_ID}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'X-Master-Key': API_KEY },
+      body: JSON.stringify(data)
+    });
+    setStatus('ok', 'Guardado');
+  } catch(e) {
+    setStatus('error', 'Error al guardar');
+    toast('Error al guardar');
+  }
+}
+
+// ─── RENDER ───────────────────────────────────────────────────────────────────
+function renderApp() {
+  calcSaldos();
+  renderSummary();
+  renderPeriodos();
+  if (activePeriodoId) renderDetail(activePeriodoId);
+}
+
+function calcSaldos() {
+  let acum = 0;
+  // Sort periodos by date
+  data.periodos.sort((a,b) => {
+    const da = a.anio * 100 + a.mes + (a.esSAC ? 0.5 : 0);
+    const db = b.anio * 100 + b.mes + (b.esSAC ? 0.5 : 0);
+    return da - db;
+  });
+  data.periodos.forEach(p => {
+    const pagado = (p.pagos || []).reduce((s,pg) => s + Number(pg.monto), 0);
+    p.totalPagado = pagado;
+    p.saldoPeriodo = p.sueldo - pagado; // positive = owed to Elda
+    acum += p.saldoPeriodo;
+    p.saldoAcumulado = acum;
+  });
+}
+
+function renderSummary() {
+  const el = document.getElementById('summaryCards');
+  const ps = data.periodos;
+  const last = ps.length > 0 ? ps[ps.length - 1] : null;
+  const saldo = last ? last.saldoAcumulado : 0;
+  const totalDevengado = ps.reduce((s,p) => s + p.sueldo, 0);
+  const totalPagado = ps.reduce((s,p) => s + (p.totalPagado || 0), 0);
+  const periodosMes = ps.filter(p => !p.esSAC);
+  const ultimoValorHora = periodosMes.length > 0 ? periodosMes[periodosMes.length-1].valorHora : data.config.valorHoraVigente;
+
+  const saldoClass = saldo > 0 ? 'saldo-positive' : (saldo < 0 ? 'saldo-ok' : '');
+  const saldoLabel = saldo > 0 ? 'Le debemos a Elda' : (saldo < 0 ? 'Overpaid' : 'Saldo al día');
+
+  el.innerHTML = `
+    <div class="summary-card ${saldoClass}">
+      <div class="label">Saldo actual</div>
+      <div class="value">${fmt(Math.abs(saldo))}</div>
+      <div class="sub">${saldoLabel}</div>
+    </div>
+    <div class="summary-card">
+      <div class="label">Total devengado</div>
+      <div class="value">${fmt(totalDevengado)}</div>
+      <div class="sub">${ps.length} períodos registrados</div>
+    </div>
+    <div class="summary-card">
+      <div class="label">Total pagado</div>
+      <div class="value">${fmt(totalPagado)}</div>
+      <div class="sub">${ps.reduce((s,p)=>(s+(p.pagos||[]).length),0)} pagos registrados</div>
+    </div>
+    <div class="summary-card">
+      <div class="label">Valor hora vigente</div>
+      <div class="value">$${ultimoValorHora?.toLocaleString('es-AR') || '—'}</div>
+      <div class="sub">Último período</div>
+    </div>
+  `;
+}
+
+function renderPeriodos() {
+  const el = document.getElementById('periodosList');
+  if (data.periodos.length === 0) {
+    el.innerHTML = `
+      <div class="table-wrap">
+        <div class="empty-state">
+          <div class="es-icon">📋</div>
+          <h3>Sin períodos registrados</h3>
+          <p>Hacé clic en "+ Período" para agregar el primer mes.</p>
+        </div>
+      </div>`;
+    return;
+  }
+
+  // Group by year
+  const byYear = {};
+  data.periodos.forEach(p => {
+    if (!byYear[p.anio]) byYear[p.anio] = [];
+    byYear[p.anio].push(p);
+  });
+
+  let html = '';
+  Object.keys(byYear).sort((a,b) => b-a).forEach(yr => {
+    const ps = byYear[yr];
+    html += `<div class="year-group">
+      <div class="year-label">${yr}</div>
+      <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="text-align:left">Período</th>
+            <th>Horas</th>
+            <th>Valor/h</th>
+            <th>Sueldo</th>
+            <th>Pagado</th>
+            <th>Saldo período</th>
+            <th>Saldo acum.</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>`;
+    ps.forEach(p => {
+      const saldoP = p.saldoPeriodo || 0;
+      const saldoA = p.saldoAcumulado || 0;
+      const saldoPClass = saldoP > 0 ? 'saldo-deuda' : (saldoP < 0 ? 'saldo-ok' : 'saldo-zero');
+      const saldoAClass = saldoA > 0 ? 'saldo-deuda' : (saldoA < 0 ? 'saldo-ok' : 'saldo-zero');
+      const badge = p.esSAC ? `<span class="badge badge-sac">SAC</span> ` : '';
+      const rowClass = p.esSAC ? 'sac-row' : '';
+      const isActive = activePeriodoId === p.id;
+      html += `<tr class="${rowClass}${isActive?' style="background:#e8f0fc"':''}" id="row-${p.id}">
+        <td class="mes-name">${badge}${MESES[p.mes]} ${p.anio}</td>
+        <td class="num">${p.esSAC ? '—' : (p.horas || '—')}</td>
+        <td class="num">${p.esSAC ? '—' : (p.valorHora ? '$'+p.valorHora.toLocaleString('es-AR') : '—')}</td>
+        <td class="num">${fmt(p.sueldo)}</td>
+        <td class="num">${fmt(p.totalPagado || 0)}</td>
+        <td class="num ${saldoPClass}">${saldoP !== 0 ? (saldoP > 0 ? '+' : '') : ''}${fmt(saldoP)}</td>
+        <td class="num ${saldoAClass}">${fmt(saldoA)}</td>
+        <td>
+          <div class="row-actions">
+            <button class="btn btn-ghost btn-sm" onclick="toggleDetail('${p.id}')">Ver</button>
+            <button class="btn btn-ghost btn-sm" onclick="editPeriodo('${p.id}')">✏</button>
+            <button class="btn btn-danger btn-sm" onclick="deletePeriodo('${p.id}')">🗑</button>
+          </div>
+        </td>
+      </tr>`;
+    });
+    html += `</tbody></table></div></div>`;
+  });
+  el.innerHTML = html;
+}
+
+function renderDetail(id) {
+  const p = data.periodos.find(x => x.id === id);
+  if (!p) { document.getElementById('detailPanel').style.display = 'none'; return; }
+  const el = document.getElementById('detailPanel');
+  el.style.display = 'block';
+
+  const pagos = p.pagos || [];
+  const pagosHTML = pagos.length === 0
+    ? `<div class="no-pagos">No hay pagos registrados este período</div>`
+    : pagos.map(pg => `
+      <li class="pago-item">
+        <span class="pago-fecha">${pg.fecha || '—'}</span>
+        <span class="pago-concepto">${pg.concepto || 'Sin concepto'}</span>
+        <span class="pago-monto">${fmt(pg.monto)}</span>
+        <button class="pago-delete" onclick="deletePago('${p.id}','${pg.id}')" title="Eliminar">✕</button>
+      </li>`).join('');
+
+  const saldoClass = (p.saldoAcumulado || 0) > 0 ? 'saldo-deuda' : 'saldo-ok';
+  el.innerHTML = `
+    <div class="detail-panel">
+      <div class="detail-header">
+        <h3>${p.esSAC ? 'SAC · ' : ''}${MESES[p.mes]} ${p.anio}</h3>
+        <button class="close-btn" onclick="closeDetail()">✕</button>
+      </div>
+      <div class="detail-body">
+        <div class="detail-info">
+          ${!p.esSAC ? `
+          <div class="detail-info-item">
+            <div class="di-label">Horas</div>
+            <div class="di-val">${p.horas || '—'}</div>
+          </div>
+          <div class="detail-info-item">
+            <div class="di-label">Valor/hora</div>
+            <div class="di-val">$${(p.valorHora||0).toLocaleString('es-AR')}</div>
+          </div>
+          <div class="detail-info-item">
+            <div class="di-label">No remun.</div>
+            <div class="di-val">${fmt(p.noRemunerativo||0)}</div>
+          </div>` : ''}
+          <div class="detail-info-item">
+            <div class="di-label">Total sueldo</div>
+            <div class="di-val" style="color:var(--navy)">${fmt(p.sueldo)}</div>
+          </div>
+          <div class="detail-info-item">
+            <div class="di-label">Total pagado</div>
+            <div class="di-val" style="color:var(--green)">${fmt(p.totalPagado||0)}</div>
+          </div>
+          <div class="detail-info-item">
+            <div class="di-label">Saldo acumulado</div>
+            <div class="di-val ${saldoClass}">${fmt(p.saldoAcumulado||0)}</div>
+          </div>
+        </div>
+        <div class="pagos-section">
+          <h4>Pagos recibidos (${pagos.length})</h4>
+          <ul class="pagos-list">${pagosHTML}</ul>
+          <div class="add-pago-row" style="margin-top:14px">
+            <button class="btn btn-primary btn-sm" onclick="openNuevoPago('${p.id}')">+ Registrar pago</button>
+          </div>
+        </div>
+      </div>
+    </div>`;
+}
+
+// ─── ACTIONS ──────────────────────────────────────────────────────────────────
+function toggleDetail(id) {
+  if (activePeriodoId === id) { closeDetail(); return; }
+  activePeriodoId = id;
+  renderDetail(id);
+  renderPeriodos();
+  document.getElementById('detailPanel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+function closeDetail() {
+  activePeriodoId = null;
+  document.getElementById('detailPanel').style.display = 'none';
+  renderPeriodos();
+}
+
+function openNuevoPeriodo() {
+  editingPeriodoId = null;
+  document.getElementById('modalPeriodoTitle').textContent = 'Nuevo período';
+  const now = new Date();
+  document.getElementById('pMes').value = now.getMonth();
+  document.getElementById('pAnio').value = now.getFullYear();
+  document.getElementById('pTipo').value = 'normal';
+  document.getElementById('pHoras').value = '';
+  document.getElementById('pValorHora').value = data.config.valorHoraVigente || '';
+  document.getElementById('pNoRem').value = 0;
+  document.getElementById('pSACMonto').value = '';
+  onTipoChange();
+  calcSueldo();
+  openModal('modalPeriodo');
+}
+
+function editPeriodo(id) {
+  const p = data.periodos.find(x => x.id === id);
+  if (!p) return;
+  editingPeriodoId = id;
+  document.getElementById('modalPeriodoTitle').textContent = 'Editar período';
+  document.getElementById('pMes').value = p.mes;
+  document.getElementById('pAnio').value = p.anio;
+  document.getElementById('pTipo').value = p.esSAC ? 'sac' : 'normal';
+  document.getElementById('pHoras').value = p.horas || '';
+  document.getElementById('pValorHora').value = p.valorHora || '';
+  document.getElementById('pNoRem').value = p.noRemunerativo || 0;
+  document.getElementById('pSACMonto').value = p.sueldo || '';
+  onTipoChange();
+  calcSueldo();
+  openModal('modalPeriodo');
+}
+
+function onTipoChange() {
+  const tipo = document.getElementById('pTipo').value;
+  document.getElementById('camposNormal').style.display = tipo === 'normal' ? 'block' : 'none';
+  document.getElementById('camposSAC').style.display = tipo === 'sac' ? 'block' : 'none';
+  calcSueldo();
+}
+
+function calcSueldo() {
+  const tipo = document.getElementById('pTipo').value;
+  let sueldo = 0;
+  if (tipo === 'normal') {
+    const horas = parseFloat(document.getElementById('pHoras').value) || 0;
+    const vh = parseFloat(document.getElementById('pValorHora').value) || 0;
+    const nr = parseFloat(document.getElementById('pNoRem').value) || 0;
+    sueldo = horas * vh + nr;
+  } else {
+    sueldo = parseFloat(document.getElementById('pSACMonto').value) || 0;
+  }
+  document.getElementById('pSueldoDisplay').textContent = fmt(sueldo);
+}
+
+function guardarPeriodo() {
+  const tipo = document.getElementById('pTipo').value;
+  const mes = parseInt(document.getElementById('pMes').value);
+  const anio = parseInt(document.getElementById('pAnio').value);
+  let sueldo = 0, horas = null, valorHora = null, noRemunerativo = 0;
+
+  if (tipo === 'normal') {
+    horas = parseFloat(document.getElementById('pHoras').value);
+    valorHora = parseFloat(document.getElementById('pValorHora').value);
+    noRemunerativo = parseFloat(document.getElementById('pNoRem').value) || 0;
+    if (!horas || !valorHora) { toast('Completá horas y valor hora'); return; }
+    sueldo = horas * valorHora + noRemunerativo;
+  } else {
+    sueldo = parseFloat(document.getElementById('pSACMonto').value);
+    if (!sueldo) { toast('Ingresá el monto del SAC'); return; }
+  }
+
+  if (editingPeriodoId) {
+    const p = data.periodos.find(x => x.id === editingPeriodoId);
+    p.mes = mes; p.anio = anio; p.esSAC = tipo === 'sac';
+    p.horas = horas; p.valorHora = valorHora; p.noRemunerativo = noRemunerativo; p.sueldo = sueldo;
+    toast('✓ Período actualizado');
+  } else {
+    const id = `${anio}-${String(mes+1).padStart(2,'0')}${tipo==='sac'?'-SAC':''}-${Date.now()}`;
+    data.periodos.push({ id, mes, anio, esSAC: tipo==='sac', horas, valorHora, noRemunerativo, sueldo, pagos: [] });
+    toast('✓ Período agregado');
+  }
+  closeModal('modalPeriodo');
+  renderApp();
+  saveData();
+}
+
+async function deletePeriodo(id) {
+  if (!confirm('¿Eliminar este período y todos sus pagos?')) return;
+  data.periodos = data.periodos.filter(p => p.id !== id);
+  if (activePeriodoId === id) { activePeriodoId = null; document.getElementById('detailPanel').style.display = 'none'; }
+  renderApp();
+  await saveData();
+  toast('Período eliminado');
+}
+
+function openNuevoPago(periodoId) {
+  addingPagoFor = periodoId;
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('pagFecha').value = today;
+  document.getElementById('pagConcepto').value = '';
+  document.getElementById('pagMonto').value = '';
+  openModal('modalPago');
+}
+
+async function guardarPago() {
+  const monto = parseFloat(document.getElementById('pagMonto').value);
+  if (!monto || monto <= 0) { toast('Ingresá un monto válido'); return; }
+  const p = data.periodos.find(x => x.id === addingPagoFor);
+  if (!p) return;
+  if (!p.pagos) p.pagos = [];
+  p.pagos.push({
+    id: 'pg-' + Date.now(),
+    fecha: document.getElementById('pagFecha').value,
+    concepto: document.getElementById('pagConcepto').value || 'Sin concepto',
+    monto
+  });
+  closeModal('modalPago');
+  renderApp();
+  await saveData();
+  toast('✓ Pago registrado');
+}
+
+async function deletePago(periodoId, pagoId) {
+  const p = data.periodos.find(x => x.id === periodoId);
+  if (!p) return;
+  p.pagos = p.pagos.filter(pg => pg.id !== pagoId);
+  renderApp();
+  await saveData();
+  toast('Pago eliminado');
+}
+
+function openConfig() {
+  document.getElementById('cfgValorHora').value = data.config.valorHoraVigente || '';
+  document.getElementById('cfgKey').value = API_KEY;
+  document.getElementById('cfgBinId').value = BIN_ID;
+  openModal('modalConfig');
+}
+
+async function saveConfig() {
+  data.config.valorHoraVigente = parseFloat(document.getElementById('cfgValorHora').value) || data.config.valorHoraVigente;
+  API_KEY = document.getElementById('cfgKey').value.trim();
+  BIN_ID = document.getElementById('cfgBinId').value.trim();
+  localStorage.setItem('elda_key', API_KEY);
+  localStorage.setItem('elda_bin', BIN_ID);
+  closeModal('modalConfig');
+  renderApp();
+  await saveData();
+  toast('✓ Configuración guardada');
+}
+
+// ─── HELPERS ──────────────────────────────────────────────────────────────────
+function fmt(n) {
+  const v = Number(n) || 0;
+  return '$' + Math.round(v).toLocaleString('es-AR');
+}
+function show(id) { document.getElementById(id).style.display = ''; }
+function hide(id) { document.getElementById(id).style.display = 'none'; }
+function openModal(id) { document.getElementById(id).classList.add('active'); }
+function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+function setStatus(type, msg) {
+  const dot = document.getElementById('statusDot');
+  const txt = document.getElementById('statusText');
+  dot.className = 'status-dot ' + type;
+  txt.textContent = msg;
+}
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2600);
+}
+// Close modals on overlay click
+document.querySelectorAll('.modal-overlay').forEach(o => {
+  o.addEventListener('click', e => { if (e.target === o) o.classList.remove('active'); });
+});
+</script>
+</body>
+</html>
