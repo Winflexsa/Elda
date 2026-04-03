@@ -4,144 +4,175 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cuenta Corriente · Elda</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #0f1117;
-  --bg2: #161b27;
-  --card: #1c2333;
-  --card2: #212840;
-  --border: #2d3650;
-  --text: #e8eaf0;
-  --text2: #8b92a8;
-  --text3: #555e7a;
-  --green: #22c55e;
-  --green-bg: rgba(34,197,94,0.12);
-  --red: #f87171;
-  --red-bg: rgba(248,113,113,0.12);
-  --blue: #60a5fa;
-  --blue-bg: rgba(96,165,250,0.12);
-  --gold: #fbbf24;
-  --gold-bg: rgba(251,191,36,0.12);
-  --r: 10px;
+  --bg:       #f0f2f5;
+  --bg2:      #e8eaed;
+  --white:    #ffffff;
+  --border:   #d1d5db;
+  --border2:  #e5e7eb;
+  --ink:      #111827;
+  --ink2:     #374151;
+  --ink3:     #6b7280;
+  --ink4:     #9ca3af;
+  --blue:     #2563eb;
+  --blue-lt:  #eff6ff;
+  --blue-md:  #bfdbfe;
+  --green:    #16a34a;
+  --green-lt: #f0fdf4;
+  --green-md: #bbf7d0;
+  --red:      #dc2626;
+  --red-lt:   #fef2f2;
+  --red-md:   #fecaca;
+  --amber:    #d97706;
+  --amber-lt: #fffbeb;
+  --amber-md: #fde68a;
+  --r:        10px;
+  --shadow:   0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+  --shadow-lg:0 4px 16px rgba(0,0,0,.10);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;font-size:14px}
+
 /* ── SETUP ── */
-#setup{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
-.setup-box{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:40px;width:100%;max-width:420px}
-.setup-box h1{font-size:22px;font-weight:700;margin-bottom:4px}
-.setup-box p{color:var(--text2);font-size:13px;margin-bottom:28px}
-/* ── APP ── */
-#app{display:none}
-.topbar{background:var(--bg2);border-bottom:1px solid var(--border);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
-.topbar-left{display:flex;align-items:center;gap:12px}
-.topbar h1{font-size:17px;font-weight:600}
-.topbar-sub{font-size:12px;color:var(--text3)}
-.topbar-right{display:flex;gap:8px;align-items:center}
-/* ── SUMMARY STRIP ── */
-.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:16px 20px;background:var(--bg2);border-bottom:1px solid var(--border)}
-.scard{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px}
-.scard .label{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
-.scard .val{font-size:20px;font-weight:700;font-variant-numeric:tabular-nums}
-.scard .sub{font-size:11px;color:var(--text2);margin-top:3px}
-.scard.deuda .val{color:var(--red)}
-.scard.ok .val{color:var(--green)}
-.scard.blue .val{color:var(--blue)}
-.scard.gold .val{color:var(--gold)}
-/* ── MAIN AREA ── */
-.main{display:grid;grid-template-columns:1fr 380px;height:calc(100vh - 140px)}
-.timeline{overflow-y:auto;padding:16px 20px}
-.detail-panel{border-left:1px solid var(--border);overflow-y:auto;background:var(--bg2)}
-/* ── YEAR GROUP ── */
-.year-group{margin-bottom:8px}
-.year-header{font-size:12px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:1px;padding:8px 0;margin-bottom:6px;display:flex;align-items:center;gap:8px}
-.year-header::after{content:'';flex:1;height:1px;background:var(--border)}
-/* ── PERIOD ROW ── */
-.prow{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;margin-bottom:6px;cursor:pointer;transition:border-color .15s,background .15s;display:grid;grid-template-columns:130px 1fr 110px 110px 110px;align-items:center;gap:8px}
-.prow:hover{border-color:var(--blue);background:var(--card2)}
-.prow.active{border-color:var(--blue);background:var(--card2)}
-.prow.sac-row{opacity:.85}
-.prow .pname{font-weight:600;font-size:14px;display:flex;align-items:center;gap:6px}
-.prow .pname .badge-sac{background:var(--gold-bg);color:var(--gold);font-size:10px;padding:2px 6px;border-radius:4px;font-weight:600}
-.prow .pdet{font-size:12px;color:var(--text2)}
-.prow .pmonto{font-size:14px;font-weight:600;font-variant-numeric:tabular-nums;text-align:right}
-.prow .ppagado{font-size:13px;font-variant-numeric:tabular-nums;text-align:right;color:var(--text2)}
-.prow .psaldo{font-size:14px;font-weight:700;font-variant-numeric:tabular-nums;text-align:right}
-.psaldo.pos{color:var(--red)}
-.psaldo.neg{color:var(--green)}
-.psaldo.zero{color:var(--text3)}
-/* ── COL HEADERS ── */
-.col-headers{display:grid;grid-template-columns:130px 1fr 110px 110px 110px;gap:8px;padding:4px 14px 6px;font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px}
-.col-headers span:nth-child(n+3){text-align:right}
-/* ── DETAIL PANEL ── */
-.dp-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:var(--text3);font-size:13px;gap:8px}
-.dp-empty .icon{font-size:32px}
-.dp-content{padding:20px}
-.dp-header{margin-bottom:20px}
-.dp-header h2{font-size:20px;font-weight:700;margin-bottom:4px}
-.dp-header .dp-saldo{font-size:13px}
-.dp-section{margin-bottom:20px}
-.dp-section h3{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--text3);margin-bottom:10px}
-.dp-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.dp-item{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:10px 12px}
-.dp-item .di-label{font-size:10px;color:var(--text3);margin-bottom:3px}
-.dp-item .di-val{font-size:15px;font-weight:600}
-.pago-item{display:flex;justify-content:space-between;align-items:center;padding:9px 12px;background:var(--card);border:1px solid var(--border);border-radius:8px;margin-bottom:6px}
-.pago-item .pi-left .pi-concepto{font-size:13px;font-weight:500}
-.pago-item .pi-left .pi-fecha{font-size:11px;color:var(--text3)}
-.pago-item .pi-monto{font-size:14px;font-weight:700;color:var(--green)}
-.pago-item .pi-del{background:none;border:none;color:var(--text3);cursor:pointer;font-size:16px;padding:2px 6px;border-radius:4px;transition:color .15s}
-.pago-item .pi-del:hover{color:var(--red)}
-/* ── BUTTONS ── */
-.btn{padding:8px 16px;border-radius:8px;border:none;cursor:pointer;font-size:13px;font-weight:500;font-family:inherit;transition:opacity .15s}
-.btn:hover{opacity:.85}
-.btn-primary{background:var(--blue);color:#0a0f1e}
-.btn-green{background:var(--green);color:#0a1a0d}
-.btn-ghost{background:var(--card2);color:var(--text);border:1px solid var(--border)}
-.btn-danger{background:var(--red-bg);color:var(--red);border:1px solid rgba(248,113,113,.25)}
-.btn-gold{background:var(--gold-bg);color:var(--gold);border:1px solid rgba(251,191,36,.25)}
-.btn-sm{padding:5px 10px;font-size:12px}
-/* ── FORMS ── */
-label{font-size:12px;color:var(--text2);display:block;margin-bottom:5px}
-input,select{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:9px 12px;color:var(--text);font-size:14px;font-family:inherit;outline:none;transition:border-color .15s}
+#setup{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;background:linear-gradient(135deg,#eff6ff 0%,#f0fdf4 100%)}
+.setup-card{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:36px;width:100%;max-width:400px;box-shadow:var(--shadow-lg)}
+.setup-card h1{font-size:20px;font-weight:700;margin-bottom:4px;color:var(--ink)}
+.setup-card .sub{color:var(--ink3);font-size:13px;margin-bottom:24px}
+label{display:block;font-size:12px;font-weight:500;color:var(--ink2);margin-bottom:5px}
+input,select,textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:9px 12px;color:var(--ink);font-size:14px;font-family:inherit;background:var(--white);outline:none;transition:border-color .15s}
 input:focus,select:focus{border-color:var(--blue)}
 .form-row{margin-bottom:14px}
-.form-hint{font-size:11px;color:var(--text3);margin-top:4px}
-.preview-box{background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:13px;margin-top:8px}
-.preview-box .pv-main{font-size:18px;font-weight:700;color:var(--blue);margin-bottom:4px}
-.preview-box .pv-line{color:var(--text2);margin-bottom:2px}
+.hint{font-size:11px;color:var(--ink4);margin-top:4px}
+.err{color:var(--red);font-size:12px;margin-top:8px;display:none}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;border:none;cursor:pointer;font-size:13px;font-weight:500;font-family:inherit;transition:all .15s;white-space:nowrap}
+.btn:hover{filter:brightness(.93)}
+.btn-primary{background:var(--blue);color:#fff}
+.btn-green{background:var(--green);color:#fff}
+.btn-ghost{background:var(--white);color:var(--ink2);border:1.5px solid var(--border)}
+.btn-ghost:hover{background:var(--bg)}
+.btn-amber{background:var(--amber-lt);color:var(--amber);border:1.5px solid var(--amber-md)}
+.btn-danger{background:var(--red-lt);color:var(--red);border:1.5px solid var(--red-md)}
+.btn-sm{padding:5px 10px;font-size:12px}
+
+/* ── APP SHELL ── */
+#app{display:none}
+.topbar{background:var(--white);border-bottom:1.5px solid var(--border);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:var(--shadow)}
+.topbar-title{font-size:16px;font-weight:700;color:var(--ink)}
+.topbar-sub{font-size:11px;color:var(--ink3)}
+.topbar-right{display:flex;gap:8px;align-items:center}
+
+/* ── SUMMARY CARDS ── */
+.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:16px 20px;background:var(--white);border-bottom:1.5px solid var(--border)}
+.sc{background:var(--bg);border:1.5px solid var(--border2);border-radius:var(--r);padding:14px 16px}
+.sc .sc-label{font-size:11px;font-weight:500;color:var(--ink3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px}
+.sc .sc-val{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.5px}
+.sc .sc-sub{font-size:11px;color:var(--ink4);margin-top:2px}
+.sc.red{background:var(--red-lt);border-color:var(--red-md)} .sc.red .sc-val{color:var(--red)}
+.sc.blue{background:var(--blue-lt);border-color:var(--blue-md)} .sc.blue .sc-val{color:var(--blue)}
+.sc.green{background:var(--green-lt);border-color:var(--green-md)} .sc.green .sc-val{color:var(--green)}
+.sc.amber{background:var(--amber-lt);border-color:var(--amber-md)} .sc.amber .sc-val{color:var(--amber)}
+
+/* ── MAIN LAYOUT ── */
+.main{display:grid;grid-template-columns:1fr 360px;min-height:calc(100vh - 130px)}
+.left-col{overflow-y:auto;padding:16px 20px}
+.right-col{border-left:1.5px solid var(--border);background:var(--white);overflow-y:auto}
+
+/* ── BANNER ── */
+.banner{background:var(--amber-lt);border:1.5px solid var(--amber-md);border-radius:var(--r);padding:14px 16px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.banner p{font-size:13px;color:var(--amber);font-weight:500}
+.banner small{font-size:11px;color:var(--ink3);display:block;margin-top:2px;font-weight:400}
+
+/* ── TABLA PERÍODOS ── */
+.year-section{margin-bottom:4px}
+.year-label{font-size:11px;font-weight:600;color:var(--ink4);text-transform:uppercase;letter-spacing:.6px;padding:10px 0 6px;display:flex;align-items:center;gap:8px}
+.year-label::after{content:'';flex:1;height:1px;background:var(--border2)}
+.col-head{display:grid;grid-template-columns:140px 1fr 100px 100px 110px 28px;gap:8px;padding:4px 10px 6px;font-size:10px;font-weight:600;color:var(--ink4);text-transform:uppercase;letter-spacing:.4px}
+.col-head span:nth-child(n+3){text-align:right}
+.prow{display:grid;grid-template-columns:140px 1fr 100px 100px 110px 28px;gap:8px;align-items:center;padding:10px 10px;background:var(--white);border:1.5px solid var(--border2);border-radius:8px;margin-bottom:5px;cursor:pointer;transition:all .12s}
+.prow:hover{border-color:var(--blue);background:var(--blue-lt)}
+.prow.selected{border-color:var(--blue);background:var(--blue-lt)}
+.prow.sac{background:var(--amber-lt);border-color:var(--amber-md)}
+.prow.sac:hover,.prow.sac.selected{border-color:var(--amber);background:var(--amber-lt)}
+.prow .pname{font-weight:600;font-size:13px;display:flex;align-items:center;gap:5px}
+.badge{font-size:10px;padding:1px 5px;border-radius:4px;font-weight:600;background:var(--amber-md);color:var(--amber)}
+.pdet{font-size:11px;color:var(--ink3);font-family:'DM Mono',monospace}
+.pnum{font-size:13px;font-variant-numeric:tabular-nums;text-align:right;font-family:'DM Mono',monospace}
+.pnum.dim{color:var(--ink3)}
+.saldo-pos{color:var(--red);font-weight:700}
+.saldo-neg{color:var(--green);font-weight:700}
+.saldo-zero{color:var(--ink4);font-weight:700}
+.prow-del{background:none;border:none;cursor:pointer;color:var(--ink4);font-size:14px;padding:2px;border-radius:4px;opacity:0;transition:opacity .12s}
+.prow:hover .prow-del{opacity:1}
+.prow-del:hover{color:var(--red);background:var(--red-lt)}
+
+/* ── DETAIL PANEL ── */
+.dp-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:var(--ink4);gap:8px;padding:40px}
+.dp-empty .icon{font-size:36px}
+.dp-body{padding:20px}
+.dp-title{font-size:20px;font-weight:700;margin-bottom:4px}
+.dp-saldo{font-size:13px;font-weight:500;margin-bottom:20px}
+.dp-section{margin-bottom:20px}
+.dp-section h4{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--ink4);margin-bottom:10px}
+.mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.mini-item{background:var(--bg);border:1.5px solid var(--border2);border-radius:8px;padding:10px 12px}
+.mi-label{font-size:10px;color:var(--ink4);margin-bottom:3px}
+.mi-val{font-size:15px;font-weight:600}
+.total-bar{background:var(--blue-lt);border:1.5px solid var(--blue-md);border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center}
+.total-bar .tb-label{font-size:13px;color:var(--blue);font-weight:500}
+.total-bar .tb-val{font-size:20px;font-weight:700;color:var(--blue);font-family:'DM Mono',monospace}
+.pago-row{display:flex;justify-content:space-between;align-items:center;padding:9px 12px;background:var(--bg);border:1.5px solid var(--border2);border-radius:8px;margin-bottom:6px}
+.pr-left .pr-concepto{font-size:13px;font-weight:500}
+.pr-left .pr-fecha{font-size:11px;color:var(--ink4)}
+.pr-right{display:flex;align-items:center;gap:8px}
+.pr-monto{font-size:14px;font-weight:700;color:var(--green);font-family:'DM Mono',monospace}
+.pr-del{background:none;border:none;cursor:pointer;color:var(--ink4);font-size:15px;border-radius:4px;padding:2px 5px}
+.pr-del:hover{color:var(--red);background:var(--red-lt)}
+.no-pagos{color:var(--ink4);font-size:13px;padding:8px 0}
+.dp-actions{display:flex;gap:8px;margin-top:16px;padding-top:14px;border-top:1.5px solid var(--border2)}
+
 /* ── MODALS ── */
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
 .overlay.open{display:flex}
-.modal{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:28px;width:100%;max-width:440px;max-height:90vh;overflow-y:auto}
+.modal{background:var(--white);border:1.5px solid var(--border);border-radius:14px;padding:28px;width:100%;max-width:450px;max-height:92vh;overflow-y:auto;box-shadow:var(--shadow-lg)}
 .modal h2{font-size:17px;font-weight:700;margin-bottom:20px}
-.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:20px;padding-top:16px;border-top:1px solid var(--border)}
+.modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:20px;padding-top:16px;border-top:1.5px solid var(--border2)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.preview{background:var(--blue-lt);border:1.5px solid var(--blue-md);border-radius:8px;padding:12px 14px;margin-top:8px}
+.preview .pv-val{font-size:22px;font-weight:700;color:var(--blue);font-family:'DM Mono',monospace}
+.preview .pv-det{font-size:12px;color:var(--ink3);margin-top:3px}
+.sac-preview{background:var(--amber-lt);border:1.5px solid var(--amber-md);border-radius:8px;padding:12px 14px}
+.sac-preview .sv-val{font-size:20px;font-weight:700;color:var(--amber)}
+.sac-preview .sv-det{font-size:11px;color:var(--ink3);margin-top:2px}
+.vh-box{background:var(--bg);border:1.5px solid var(--border2);border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;margin-top:6px}
+.vh-box .vh-label{font-size:12px;color:var(--ink3)}
+.vh-box .vh-val{font-size:18px;font-weight:700;color:var(--blue);font-family:'DM Mono',monospace}
+.divider{height:1px;background:var(--border2);margin:16px 0}
+
 /* ── STATUS / TOAST ── */
-.status{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2)}
-.dot{width:7px;height:7px;border-radius:50%;background:var(--text3)}
-.dot.ok{background:var(--green);box-shadow:0 0 6px var(--green)}
-.dot.saving{background:var(--gold);animation:pulse 1s infinite}
+.status{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--ink3)}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--ink4)}
+.dot.ok{background:var(--green)}
+.dot.saving{background:var(--amber);animation:pulse 1s infinite}
 .dot.err{background:var(--red)}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:10px 18px;font-size:13px;opacity:0;transition:all .25s;z-index:999;white-space:nowrap}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(16px);background:var(--ink);color:#fff;border-radius:8px;padding:10px 18px;font-size:13px;opacity:0;transition:all .2s;z-index:999;white-space:nowrap;pointer-events:none}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-/* ── IMPORT BANNER ── */
-.import-banner{background:var(--gold-bg);border:1px solid rgba(251,191,36,.3);border-radius:var(--r);padding:14px 18px;margin:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.import-banner .ib-text{font-size:13px;color:var(--gold)}
-.import-banner .ib-text strong{display:block;margin-bottom:2px}
-/* ── RESPONSIVE ── */
+
 @media(max-width:900px){
-  .summary{grid-template-columns:repeat(2,1fr)}
-  .main{grid-template-columns:1fr;height:auto}
-  .detail-panel{border-left:none;border-top:1px solid var(--border);max-height:500px}
-  .prow{grid-template-columns:120px 1fr 100px 100px}
-}
-@media(max-width:600px){
-  .prow{grid-template-columns:1fr 1fr;row-gap:4px}
-  .prow .pdet{display:none}
-  .col-headers{display:none}
   .summary{grid-template-columns:1fr 1fr}
+  .main{grid-template-columns:1fr;min-height:auto}
+  .right-col{border-left:none;border-top:1.5px solid var(--border);max-height:480px}
+  .prow{grid-template-columns:120px 1fr 95px 110px 24px}
+  .prow .pdet{display:none}
+}
+@media(max-width:580px){
+  .summary{grid-template-columns:1fr 1fr}
+  .col-head{display:none}
+  .prow{grid-template-columns:1fr 95px 110px 24px}
 }
 </style>
 </head>
@@ -149,211 +180,160 @@ input:focus,select:focus{border-color:var(--blue)}
 
 <!-- SETUP -->
 <div id="setup">
-  <div class="setup-box">
+  <div class="setup-card">
     <h1>💼 Cuenta Corriente · Elda</h1>
-    <p>Ingresá las credenciales para conectar con la nube.</p>
+    <p class="sub">Ingresá las credenciales para conectar con JSONBin.</p>
     <div class="form-row">
       <label>Master Key JSONBin</label>
-      <input type="password" id="sKey" placeholder="$2a$10$..." />
+      <input type="password" id="sKey" placeholder="$2a$10$..." autocomplete="off"/>
     </div>
     <div class="form-row">
-      <label>Bin ID <span style="color:var(--text3)">(dejar vacío para crear nuevo)</span></label>
-      <input type="text" id="sBin" placeholder="68..." />
+      <label>Bin ID <span style="color:var(--ink4);font-weight:400">(vacío = crear nuevo)</span></label>
+      <input type="text" id="sBin" placeholder="68..."/>
     </div>
-    <button class="btn btn-primary" style="width:100%" onclick="doSetup()">Conectar →</button>
-    <p id="setupErr" style="color:var(--red);font-size:12px;margin-top:10px;display:none"></p>
+    <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="doSetup()">Conectar →</button>
+    <p class="err" id="setupErr"></p>
   </div>
 </div>
 
 <!-- APP -->
 <div id="app">
-  <!-- TOPBAR -->
   <div class="topbar">
-    <div class="topbar-left">
-      <div>
-        <div class="topbar h1">💼 Cuenta Corriente · Elda</div>
-        <div class="topbar-sub">Winflex S.A.</div>
-      </div>
+    <div>
+      <div class="topbar-title">💼 Cuenta Corriente · Elda</div>
+      <div class="topbar-sub">Winflex S.A.</div>
     </div>
     <div class="topbar-right">
       <div class="status"><div class="dot" id="dot"></div><span id="statusTxt">—</span></div>
-      <button class="btn btn-ghost btn-sm" onclick="openModal('modalPeriodo')">+ Período</button>
-      <button class="btn btn-ghost btn-sm" onclick="openModal('modalConfig')">⚙</button>
+      <button class="btn btn-ghost btn-sm" onclick="abrirNuevoPeriodo()">+ Período</button>
+      <button class="btn btn-ghost btn-sm" onclick="abrirConfig()">⚙ Config</button>
     </div>
   </div>
 
   <!-- SUMMARY -->
   <div class="summary">
-    <div class="scard deuda" id="sc-saldo">
-      <div class="label">Saldo actual</div>
-      <div class="val">—</div>
-      <div class="sub">—</div>
-    </div>
-    <div class="scard blue" id="sc-vh">
-      <div class="label">Valor hora vigente</div>
-      <div class="val">—</div>
-      <div class="sub">por hora</div>
-    </div>
-    <div class="scard gold" id="sc-devengado">
-      <div class="label">Total devengado</div>
-      <div class="val">—</div>
-      <div class="sub">histórico</div>
-    </div>
-    <div class="scard ok" id="sc-pagado">
-      <div class="label">Total pagado</div>
-      <div class="val">—</div>
-      <div class="sub">histórico</div>
-    </div>
+    <div class="sc red" id="sc-saldo"><div class="sc-label">Saldo actual</div><div class="sc-val">—</div><div class="sc-sub">—</div></div>
+    <div class="sc blue" id="sc-vh"><div class="sc-label">Valor hora vigente</div><div class="sc-val">—</div><div class="sc-sub">por hora</div></div>
+    <div class="sc amber" id="sc-dev"><div class="sc-label">Total devengado</div><div class="sc-val">—</div><div class="sc-sub">histórico</div></div>
+    <div class="sc green" id="sc-pag"><div class="sc-label">Total pagado</div><div class="sc-val">—</div><div class="sc-sub">histórico</div></div>
   </div>
 
   <!-- MAIN -->
   <div class="main">
-    <!-- TIMELINE -->
-    <div class="timeline" id="timeline">
-      <!-- import banner goes here if needed -->
-      <div id="timelineContent"></div>
-    </div>
-
-    <!-- DETAIL PANEL -->
-    <div class="detail-panel" id="detailPanel">
-      <div class="dp-empty">
-        <div class="icon">👆</div>
-        <div>Seleccioná un período para ver el detalle</div>
+    <div class="left-col" id="leftCol">
+      <div id="banner" style="display:none" class="banner">
+        <div><p>📂 Sin datos cargados</p><small>Importá el histórico del Excel para arrancar</small></div>
+        <button class="btn btn-amber btn-sm" onclick="importarHistorico()">📥 Importar historial</button>
       </div>
+      <div id="tablaWrapper"></div>
+    </div>
+    <div class="right-col" id="rightCol">
+      <div class="dp-empty"><div class="icon">👆</div><div>Seleccioná un período para ver el detalle</div></div>
     </div>
   </div>
 </div>
 
-<!-- MODAL: NUEVO/EDITAR PERÍODO -->
-<div class="overlay" id="modalPeriodo">
-  <div class="modal">
-    <h2 id="modalPeriodoTitle">➕ Nuevo período</h2>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-      <div class="form-row">
-        <label>Mes</label>
-        <select id="pMes">
-          <option value="0">Enero</option><option value="1">Febrero</option>
-          <option value="2">Marzo</option><option value="3">Abril</option>
-          <option value="4">Mayo</option><option value="5">Junio</option>
-          <option value="6">Julio</option><option value="7">Agosto</option>
-          <option value="8">Septiembre</option><option value="9">Octubre</option>
-          <option value="10">Noviembre</option><option value="11">Diciembre</option>
-        </select>
-      </div>
-      <div class="form-row">
-        <label>Año</label>
-        <input type="number" id="pAnio" value="2026" min="2020" max="2035"/>
-      </div>
-    </div>
-    <div class="form-row">
-      <label>Tipo</label>
-      <select id="pTipo" onchange="onTipoChange()">
-        <option value="normal">Mes normal</option>
-        <option value="sac">SAC (Aguinaldo)</option>
+<!-- MODAL PERÍODO -->
+<div class="overlay" id="ovPeriodo">
+<div class="modal">
+  <h2 id="titPeriodo">➕ Nuevo período</h2>
+  <div class="grid2">
+    <div class="form-row"><label>Mes</label>
+      <select id="pMes" onchange="onCambiaTipo()">
+        <option value="0">Enero</option><option value="1">Febrero</option><option value="2">Marzo</option>
+        <option value="3">Abril</option><option value="4">Mayo</option><option value="5">Junio</option>
+        <option value="6">Julio</option><option value="7">Agosto</option><option value="8">Septiembre</option>
+        <option value="9">Octubre</option><option value="10">Noviembre</option><option value="11">Diciembre</option>
       </select>
     </div>
+    <div class="form-row"><label>Año</label>
+      <input type="number" id="pAnio" value="2026" min="2020" max="2035" onchange="onCambiaTipo()"/>
+    </div>
+  </div>
+  <div class="form-row"><label>Tipo</label>
+    <select id="pTipo" onchange="onCambiaTipo()">
+      <option value="normal">Mes normal</option>
+      <option value="sac">SAC (Aguinaldo)</option>
+    </select>
+  </div>
 
-    <!-- CAMPOS NORMAL -->
-    <div id="camposNormal">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-        <div class="form-row">
-          <label>Horas trabajadas</label>
-          <input type="number" id="pHoras" placeholder="ej: 320" oninput="calcPreview()"/>
-        </div>
-        <div class="form-row">
-          <label>Valor hora anterior ($)</label>
-          <input type="number" id="pVHAnterior" placeholder="auto" readonly style="background:var(--card2);color:var(--text3)"/>
-        </div>
+  <!-- NORMAL -->
+  <div id="secNormal">
+    <div class="form-row"><label>Horas trabajadas</label>
+      <input type="number" id="pHoras" placeholder="ej: 320" oninput="calcPreview()"/>
+    </div>
+    <div class="divider"></div>
+    <p style="font-size:12px;color:var(--ink3);margin-bottom:10px;font-weight:500">Valor hora</p>
+    <div class="grid2">
+      <div class="form-row"><label>Mes anterior ($)</label>
+        <input type="number" id="pVHPrev" readonly style="background:var(--bg);color:var(--ink3)"/>
+        <div class="hint">Último valor registrado</div>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-        <div class="form-row">
-          <label>Aumento este mes ($)</label>
-          <input type="number" id="pAumento" placeholder="0" oninput="calcVH()"/>
-          <div class="form-hint">Se suma al valor hora anterior</div>
-        </div>
-        <div class="form-row">
-          <label>Valor hora resultante ($)</label>
-          <input type="number" id="pVH" placeholder="ej: 8500" oninput="calcPreview()"/>
-        </div>
-      </div>
-      <div class="form-row">
-        <label>No remunerativo ($)</label>
-        <input type="number" id="pNoRem" placeholder="0" oninput="calcPreview()"/>
-      </div>
-      <!-- PREVIEW -->
-      <div class="preview-box" id="previewBox" style="display:none">
-        <div class="pv-main" id="pvSueldo">—</div>
-        <div class="pv-line" id="pvCalc">—</div>
+      <div class="form-row"><label>Aumento este mes ($)</label>
+        <input type="number" id="pAumento" placeholder="0" oninput="calcVH()"/>
+        <div class="hint">Se suma al anterior</div>
       </div>
     </div>
-
-    <!-- CAMPOS SAC -->
-    <div id="camposSAC" style="display:none">
-      <div class="form-row">
-        <label>SAC calculado automáticamente</label>
-        <div class="preview-box">
-          <div class="pv-main" id="pvSAC">—</div>
-          <div class="pv-line" id="pvSACDetalle">Promedio sueldos del semestre ÷ 2</div>
-        </div>
-      </div>
-      <div class="form-row" style="margin-top:12px">
-        <label>O ingresá monto manual ($) — opcional</label>
-        <input type="number" id="pSACManual" placeholder="dejar vacío para usar el calculado" oninput="calcSAC()"/>
-      </div>
+    <div class="vh-box"><span class="vh-label">Valor hora resultante</span><span class="vh-val" id="vhResultado">$0</span></div>
+    <input type="hidden" id="pVH"/>
+    <div class="divider"></div>
+    <div class="form-row" style="margin-top:4px"><label>No remunerativo ($)</label>
+      <input type="number" id="pNoRem" placeholder="0" oninput="calcPreview()"/>
     </div>
-
-    <div class="modal-actions">
-      <button class="btn btn-ghost" onclick="closeModal('modalPeriodo')">Cancelar</button>
-      <button class="btn btn-primary" onclick="savePeriodo()">Guardar</button>
+    <div class="preview" id="prevBox" style="display:none">
+      <div class="pv-val" id="pvVal">—</div>
+      <div class="pv-det" id="pvDet">—</div>
     </div>
+  </div>
+
+  <!-- SAC -->
+  <div id="secSAC" style="display:none">
+    <div class="sac-preview" id="sacPrev">
+      <div class="sv-val" id="sacVal">—</div>
+      <div class="sv-det" id="sacDet">Calculado automáticamente</div>
+    </div>
+    <div class="form-row" style="margin-top:14px">
+      <label>Monto manual (opcional, sobreescribe el cálculo)</label>
+      <input type="number" id="pSACManual" placeholder="dejar vacío para usar el calculado" oninput="calcSAC()"/>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-ghost" onclick="cerrarModal('ovPeriodo')">Cancelar</button>
+    <button class="btn btn-primary" onclick="guardarPeriodo()">Guardar período</button>
   </div>
 </div>
-
-<!-- MODAL: REGISTRAR PAGO -->
-<div class="overlay" id="modalPago">
-  <div class="modal">
-    <h2>💸 Registrar pago</h2>
-    <div class="form-row">
-      <label>Fecha</label>
-      <input type="date" id="pgFecha"/>
-    </div>
-    <div class="form-row">
-      <label>Concepto</label>
-      <input type="text" id="pgConcepto" placeholder="ej: Transferencia, Efectivo..."/>
-    </div>
-    <div class="form-row">
-      <label>Monto ($)</label>
-      <input type="number" id="pgMonto" placeholder="0"/>
-    </div>
-    <div class="modal-actions">
-      <button class="btn btn-ghost" onclick="closeModal('modalPago')">Cancelar</button>
-      <button class="btn btn-green" onclick="savePago()">Registrar pago</button>
-    </div>
-  </div>
 </div>
 
-<!-- MODAL: CONFIG -->
-<div class="overlay" id="modalConfig">
-  <div class="modal">
-    <h2>⚙ Configuración</h2>
-    <div class="form-row">
-      <label>Master Key JSONBin</label>
-      <input type="password" id="cfgKey"/>
-    </div>
-    <div class="form-row">
-      <label>Bin ID</label>
-      <input type="text" id="cfgBin"/>
-    </div>
-    <div style="border-top:1px solid var(--border);margin-top:8px;padding-top:16px">
-      <p style="font-size:12px;color:var(--text3);margin-bottom:10px">⚠ Zona peligrosa</p>
-      <button class="btn btn-gold" style="width:100%;margin-bottom:8px" onclick="importarHistorico()">📥 Importar histórico del Excel (51 períodos)</button>
-      <p style="font-size:11px;color:var(--text3)">Reemplaza todos los datos. Usá solo la primera vez.</p>
-    </div>
-    <div class="modal-actions">
-      <button class="btn btn-ghost" onclick="closeModal('modalConfig')">Cancelar</button>
-      <button class="btn btn-primary" onclick="saveConfig()">Guardar</button>
-    </div>
+<!-- MODAL PAGO -->
+<div class="overlay" id="ovPago">
+<div class="modal">
+  <h2>💸 Registrar pago</h2>
+  <div class="form-row"><label>Fecha</label><input type="date" id="pgFecha"/></div>
+  <div class="form-row"><label>Concepto</label><input type="text" id="pgConcepto" placeholder="Transferencia, Efectivo..."/></div>
+  <div class="form-row"><label>Monto ($)</label><input type="number" id="pgMonto" placeholder="0"/></div>
+  <div class="modal-footer">
+    <button class="btn btn-ghost" onclick="cerrarModal('ovPago')">Cancelar</button>
+    <button class="btn btn-green" onclick="guardarPago()">Registrar</button>
   </div>
+</div>
+</div>
+
+<!-- MODAL CONFIG -->
+<div class="overlay" id="ovConfig">
+<div class="modal">
+  <h2>⚙ Configuración</h2>
+  <div class="form-row"><label>Master Key JSONBin</label><input type="password" id="cfgKey"/></div>
+  <div class="form-row"><label>Bin ID</label><input type="text" id="cfgBin"/></div>
+  <div class="divider"></div>
+  <p style="font-size:12px;color:var(--ink3);margin-bottom:10px">Importar datos históricos</p>
+  <button class="btn btn-amber" style="width:100%;justify-content:center" onclick="importarHistorico()">📥 Importar historial del Excel (51 períodos)</button>
+  <p style="font-size:11px;color:var(--ink4);margin-top:6px">Reemplaza todos los datos. Usar solo la primera vez.</p>
+  <div class="modal-footer">
+    <button class="btn btn-ghost" onclick="cerrarModal('ovConfig')">Cancelar</button>
+    <button class="btn btn-primary" onclick="guardarConfig()">Guardar</button>
+  </div>
+</div>
 </div>
 
 <div id="toast"></div>
@@ -361,438 +341,362 @@ input:focus,select:focus{border-color:var(--blue)}
 <script>
 const MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 const BASE = 'https://api.jsonbin.io/v3';
-let API_KEY = '', BIN_ID = '';
-let data = { config: { valorHoraVigente: 8131.23 }, periodos: [] };
-let selectedId = null;
-let editingId = null;
-let addingPagoFor = null;
+let KEY='', BIN='';
+let data = { config:{valorHoraVigente:8131.23}, periodos:[] };
+let selId = null, editId = null, pagoParaId = null;
 
-// ── SETUP ──────────────────────────────────────────────────────────────────────
+// ── INICIO ────────────────────────────────────────────────────────────────────
 window.onload = () => {
-  API_KEY = localStorage.getItem('elda_key') || '';
-  BIN_ID  = localStorage.getItem('elda_bin') || '';
-  if (API_KEY && BIN_ID) { showApp(); loadData(); }
-  else { document.getElementById('setup').style.display = 'flex'; }
+  KEY = localStorage.getItem('elda_key')||'';
+  BIN = localStorage.getItem('elda_bin')||'';
+  if (KEY && BIN) { mostrarApp(); cargarDatos(); }
+  else show('setup');
 };
 
-async function doSetup() {
-  API_KEY = document.getElementById('sKey').value.trim();
-  BIN_ID  = document.getElementById('sBin').value.trim();
-  const err = document.getElementById('setupErr');
-  err.style.display = 'none';
-  if (!API_KEY) { err.textContent = 'Ingresá la master key'; err.style.display = 'block'; return; }
-  setStatus('saving', 'Conectando...');
+function mostrarApp(){ hide('setup'); show('app'); }
+
+async function doSetup(){
+  KEY = id('sKey').value.trim();
+  BIN = id('sBin').value.trim();
+  const err = id('setupErr');
+  err.style.display='none';
+  if(!KEY){ err.textContent='Ingresá la master key'; err.style.display='block'; return; }
+  setStatus('saving','Conectando...');
   try {
-    if (!BIN_ID) {
-      const r = await fetch(`${BASE}/b`, { method:'POST', headers:{ 'Content-Type':'application/json','X-Master-Key':API_KEY,'X-Bin-Name':'elda-cc' }, body:JSON.stringify(data) });
+    if(!BIN){
+      const r = await fetch(`${BASE}/b`,{method:'POST',headers:{'Content-Type':'application/json','X-Master-Key':KEY,'X-Bin-Name':'elda-cc'},body:JSON.stringify(data)});
       const j = await r.json();
-      BIN_ID = j.metadata.id;
+      if(!j.metadata) throw new Error(j.message||'Error creando bin');
+      BIN = j.metadata.id;
     }
-    localStorage.setItem('elda_key', API_KEY);
-    localStorage.setItem('elda_bin', BIN_ID);
-    showApp();
-    await loadData();
-  } catch(e) { err.textContent = 'Error: ' + e.message; err.style.display = 'block'; setStatus('err', 'Error'); }
+    localStorage.setItem('elda_key',KEY);
+    localStorage.setItem('elda_bin',BIN);
+    mostrarApp();
+    await cargarDatos();
+  } catch(e){ err.textContent='Error: '+e.message; err.style.display='block'; setStatus('err','Error'); }
 }
 
-function showApp() {
-  document.getElementById('setup').style.display = 'none';
-  document.getElementById('app').style.display = 'block';
-}
-
-// ── DATA ───────────────────────────────────────────────────────────────────────
-async function loadData() {
-  setStatus('saving', 'Cargando...');
+// ── DATOS ─────────────────────────────────────────────────────────────────────
+async function cargarDatos(){
+  setStatus('saving','Cargando...');
   try {
-    const r = await fetch(`${BASE}/b/${BIN_ID}/latest`, { headers:{ 'X-Master-Key':API_KEY } });
+    const r = await fetch(`${BASE}/b/${BIN}/latest`,{headers:{'X-Master-Key':KEY}});
     const j = await r.json();
-    data = j.record;
-    if (!data.periodos) data.periodos = [];
-    if (!data.config) data.config = { valorHoraVigente: 8131.23 };
-    setStatus('ok', 'Sincronizado');
-    renderAll();
-    // Show import banner if empty
-    if (data.periodos.length === 0) showImportBanner();
-  } catch(e) { setStatus('err', 'Sin conexión'); toast('Error cargando datos'); }
+    data = j.record || {config:{valorHoraVigente:8131.23},periodos:[]};
+    if(!data.periodos) data.periodos=[];
+    if(!data.config) data.config={valorHoraVigente:8131.23};
+    setStatus('ok','Sincronizado');
+    // Si no hay períodos, importar automáticamente
+    if(data.periodos.length === 0){
+      importarHistorico(true); // true = silencioso (sin confirm)
+    } else {
+      renderTodo();
+    }
+  } catch(e){ setStatus('err','Sin conexión'); toast('Error al cargar'); }
 }
 
-async function saveData() {
-  setStatus('saving', 'Guardando...');
+async function guardarDatos(){
+  setStatus('saving','Guardando...');
   try {
-    await fetch(`${BASE}/b/${BIN_ID}`, { method:'PUT', headers:{ 'Content-Type':'application/json','X-Master-Key':API_KEY }, body:JSON.stringify(data) });
-    setStatus('ok', 'Guardado');
-  } catch(e) { setStatus('err', 'Error al guardar'); }
+    await fetch(`${BASE}/b/${BIN}`,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':KEY},body:JSON.stringify(data)});
+    setStatus('ok','Guardado');
+  } catch(e){ setStatus('err','Error al guardar'); toast('Error al guardar'); }
 }
 
-// ── RENDER ─────────────────────────────────────────────────────────────────────
-function computeSaldos() {
-  data.periodos.sort((a,b) => {
-    const da = a.anio*1000 + a.mes*2 + (a.esSAC ? 1 : 0);
-    const db = b.anio*1000 + b.mes*2 + (b.esSAC ? 1 : 0);
-    return da - db;
+// ── RENDER ────────────────────────────────────────────────────────────────────
+function calcSaldos(){
+  data.periodos.sort((a,b)=>{
+    const da=a.anio*1000+a.mes*2+(a.esSAC?1:0);
+    const db=b.anio*1000+b.mes*2+(b.esSAC?1:0);
+    return da-db;
   });
-  let acum = 0;
-  for (const p of data.periodos) {
-    const pagado = (p.pagos||[]).reduce((s,pg) => s + Number(pg.monto), 0);
-    p.saldoPeriodo = p.sueldo - pagado;
-    acum += p.saldoPeriodo;
-    p.saldoAcumulado = acum;
+  let acum=0;
+  for(const p of data.periodos){
+    const pagado=(p.pagos||[]).reduce((s,pg)=>s+Number(pg.monto),0);
+    p.saldoPeriodo=p.sueldo-pagado;
+    acum+=p.saldoPeriodo;
+    p.saldoAcumulado=acum;
   }
 }
 
-function renderAll() {
-  computeSaldos();
-  renderSummary();
-  renderTimeline();
-  if (selectedId) renderDetail(selectedId);
+function renderTodo(){ calcSaldos(); renderSummary(); renderTabla(); if(selId) renderDetalle(selId); }
+
+function renderSummary(){
+  const ps=data.periodos, last=ps.length?ps[ps.length-1]:null;
+  const saldo=last?last.saldoAcumulado:0;
+  const dev=ps.reduce((s,p)=>s+p.sueldo,0);
+  const pag=ps.reduce((s,p)=>s+(p.pagos||[]).reduce((a,pg)=>a+pg.monto,0),0);
+  const vh=data.config.valorHoraVigente||0;
+  const scS=id('sc-saldo');
+  scS.className='sc '+(saldo>0?'red':saldo<0?'green':'blue');
+  scS.querySelector('.sc-val').textContent=fmtM(Math.abs(saldo));
+  scS.querySelector('.sc-sub').textContent=saldo>0?'Le debemos a Elda':saldo<0?'Pagado de más':'Al día ✓';
+  id('sc-vh').querySelector('.sc-val').textContent='$'+fmtN(vh);
+  id('sc-dev').querySelector('.sc-val').textContent=fmtM(dev);
+  id('sc-pag').querySelector('.sc-val').textContent=fmtM(pag);
 }
 
-function renderSummary() {
-  const ps = data.periodos;
-  const last = ps.length ? ps[ps.length-1] : null;
-  const saldo = last ? last.saldoAcumulado : 0;
-  const devengado = ps.reduce((s,p) => s + p.sueldo, 0);
-  const pagado = ps.reduce((s,p) => s + (p.pagos||[]).reduce((a,pg) => a + pg.monto, 0), 0);
-  const vh = data.config.valorHoraVigente || 0;
-
-  const sc = document.getElementById('sc-saldo');
-  sc.querySelector('.val').textContent = fmt(Math.abs(saldo));
-  sc.querySelector('.sub').textContent = saldo > 0 ? 'Le debemos a Elda' : saldo < 0 ? 'Pagado de más' : 'Al día';
-  sc.className = 'scard ' + (saldo > 0 ? 'deuda' : saldo < 0 ? 'ok' : 'blue');
-
-  document.getElementById('sc-vh').querySelector('.val').textContent = fmt(vh);
-  document.getElementById('sc-devengado').querySelector('.val').textContent = fmtM(devengado);
-  document.getElementById('sc-pagado').querySelector('.val').textContent = fmtM(pagado);
-}
-
-function renderTimeline() {
-  const el = document.getElementById('timelineContent');
-  if (data.periodos.length === 0) {
-    el.innerHTML = '';
-    return;
-  }
-  // Group by year
-  const byYear = {};
-  for (const p of data.periodos) {
-    if (!byYear[p.anio]) byYear[p.anio] = [];
-    byYear[p.anio].push(p);
-  }
-  const years = Object.keys(byYear).map(Number).sort((a,b) => b-a);
-  let html = '<div class="col-headers"><span>Período</span><span>Detalle</span><span>Sueldo</span><span>Pagado</span><span>Saldo acum.</span></div>';
-  for (const yr of years) {
-    html += `<div class="year-group"><div class="year-header">${yr}</div>`;
-    const rows = byYear[yr].slice().reverse();
-    for (const p of rows) {
-      const pagado = (p.pagos||[]).reduce((s,pg) => s + pg.monto, 0);
-      const sc = p.saldoAcumulado > 0 ? 'pos' : p.saldoAcumulado < 0 ? 'neg' : 'zero';
-      const det = p.esSAC ? 'Aguinaldo semestral' : (p.horas ? `${p.horas}h × ${fmtN(p.valorHora||0)}` : '—');
-      const rowClass = `prow${p.esSAC?' sac-row':''}${selectedId===p.id?' active':''}`;
-      const sac = p.esSAC ? '<span class="badge-sac">SAC</span> ' : '';
-      html += `<div class="${rowClass}" onclick="selectPeriodo('${p.id}')">
-        <div class="pname">${sac}${MESES[p.mes]}</div>
+function renderTabla(){
+  const wrap=id('tablaWrapper');
+  if(!data.periodos.length){ id('banner').style.display='flex'; wrap.innerHTML=''; return; }
+  id('banner').style.display='none';
+  const byYear={};
+  for(const p of data.periodos){ if(!byYear[p.anio]) byYear[p.anio]=[]; byYear[p.anio].push(p); }
+  const years=Object.keys(byYear).map(Number).sort((a,b)=>b-a);
+  let h='<div class="col-head"><span>Período</span><span>Detalle</span><span style="text-align:right">Sueldo</span><span style="text-align:right">Pagado</span><span style="text-align:right">Saldo acum.</span><span></span></div>';
+  for(const yr of years){
+    h+=`<div class="year-section"><div class="year-label">${yr}</div>`;
+    for(const p of [...byYear[yr]].reverse()){
+      const pag=(p.pagos||[]).reduce((s,pg)=>s+pg.monto,0);
+      const sc=p.saldoAcumulado>0?'saldo-pos':p.saldoAcumulado<0?'saldo-neg':'saldo-zero';
+      const det=p.esSAC?'Aguinaldo semestral':(p.horas&&p.valorHora?`${p.horas}h × $${fmtN(p.valorHora)}`:'—');
+      const badge=p.esSAC?'<span class="badge">SAC</span>':'';
+      const sel=selId===p.id?' selected':'';
+      const sacCls=p.esSAC?' sac':'';
+      h+=`<div class="prow${sacCls}${sel}" onclick="seleccionarPeriodo('${p.id}')">
+        <div class="pname">${badge}${MESES[p.mes]}</div>
         <div class="pdet">${det}</div>
-        <div class="pmonto">${fmt(p.sueldo)}</div>
-        <div class="ppagado">${pagado ? fmt(pagado) : '—'}</div>
-        <div class="psaldo ${sc}">${fmt(p.saldoAcumulado)}</div>
+        <div class="pnum">${fmt(p.sueldo)}</div>
+        <div class="pnum dim">${pag?fmt(pag):'—'}</div>
+        <div class="pnum ${sc}">${fmt(p.saldoAcumulado)}</div>
+        <button class="prow-del" onclick="event.stopPropagation();borrarPeriodo('${p.id}')" title="Eliminar">✕</button>
       </div>`;
     }
-    html += '</div>';
+    h+='</div>';
   }
-  el.innerHTML = html;
+  wrap.innerHTML=h;
 }
 
-function renderDetail(id) {
-  const p = data.periodos.find(x => x.id === id);
-  const panel = document.getElementById('detailPanel');
-  if (!p) { panel.innerHTML = '<div class="dp-empty"><div class="icon">👆</div><div>Seleccioná un período</div></div>'; return; }
-  const pagado = (p.pagos||[]).reduce((s,pg) => s + pg.monto, 0);
-  const sc = p.saldoAcumulado > 0 ? 'color:var(--red)' : 'color:var(--green)';
+function renderDetalle(pid){
+  const p=data.periodos.find(x=>x.id===pid);
+  const panel=id('rightCol');
+  if(!p){ panel.innerHTML='<div class="dp-empty"><div class="icon">👆</div><div>Seleccioná un período</div></div>'; return; }
+  const pagado=(p.pagos||[]).reduce((s,pg)=>s+pg.monto,0);
+  const scColor=p.saldoAcumulado>0?'var(--red)':p.saldoAcumulado<0?'var(--green)':'var(--ink3)';
 
-  let pagosHTML = '';
-  for (const pg of (p.pagos||[])) {
-    pagosHTML += `<div class="pago-item">
-      <div class="pi-left">
-        <div class="pi-concepto">${pg.concepto || 'Pago'}</div>
-        <div class="pi-fecha">${pg.fecha || 'Sin fecha'}</div>
-      </div>
-      <div style="display:flex;align-items:center;gap:8px">
-        <div class="pi-monto">${fmt(pg.monto)}</div>
-        <button class="pi-del" onclick="deletePago('${p.id}','${pg.id}')" title="Eliminar">×</button>
-      </div>
+  let detGrid='';
+  if(!p.esSAC){
+    detGrid=`<div class="mini-grid">
+      <div class="mini-item"><div class="mi-label">Horas</div><div class="mi-val">${p.horas||'—'}</div></div>
+      <div class="mini-item"><div class="mi-label">Valor hora</div><div class="mi-val">${p.valorHora?'$'+fmtN(p.valorHora):'—'}</div></div>
+      <div class="mini-item"><div class="mi-label">Remunerativo</div><div class="mi-val">${fmt((p.horas||0)*(p.valorHora||0))}</div></div>
+      <div class="mini-item"><div class="mi-label">No remunerativo</div><div class="mi-val">${fmt(p.noRemunerativo||0)}</div></div>
     </div>`;
-  }
-  if (!pagosHTML) pagosHTML = '<div style="color:var(--text3);font-size:13px;padding:8px 0">Sin pagos registrados</div>';
-
-  let detalleGrid = '';
-  if (!p.esSAC) {
-    detalleGrid = `
-      <div class="dp-grid">
-        <div class="dp-item"><div class="di-label">Horas</div><div class="di-val">${p.horas || '—'}</div></div>
-        <div class="dp-item"><div class="di-label">Valor hora</div><div class="di-val">${p.valorHora ? '$'+fmtN(p.valorHora) : '—'}</div></div>
-        <div class="dp-item"><div class="di-label">Remunerativo</div><div class="di-val">${fmt(p.horas && p.valorHora ? p.horas*p.valorHora : 0)}</div></div>
-        <div class="dp-item"><div class="di-label">No remunerativo</div><div class="di-val">${fmt(p.noRemunerativo||0)}</div></div>
-      </div>`;
   } else {
-    detalleGrid = `<div class="dp-item" style="margin-bottom:8px"><div class="di-label">SAC / Aguinaldo semestral</div><div class="di-val">${fmt(p.sueldo)}</div></div>`;
+    detGrid=`<div class="mini-item" style="margin-bottom:10px"><div class="mi-label">SAC / Aguinaldo</div><div class="mi-val" style="font-size:20px">${fmt(p.sueldo)}</div></div>`;
   }
 
-  panel.innerHTML = `<div class="dp-content">
-    <div class="dp-header">
-      <h2>${p.esSAC?'SAC · ':''}${MESES[p.mes]} ${p.anio}</h2>
-      <div class="dp-saldo" style="${sc}">Saldo acumulado: ${fmt(p.saldoAcumulado)}</div>
-    </div>
-    <div class="dp-section">
-      <h3>Devengado este período</h3>
-      ${detalleGrid}
-      <div style="background:var(--blue-bg);border-radius:8px;padding:10px 14px;margin-top:8px;display:flex;justify-content:space-between;align-items:center">
-        <span style="font-size:13px;color:var(--text2)">Total sueldo</span>
-        <span style="font-size:18px;font-weight:700;color:var(--blue)">${fmt(p.sueldo)}</span>
+  let pagosH=(p.pagos||[]).map(pg=>`
+    <div class="pago-row">
+      <div class="pr-left"><div class="pr-concepto">${pg.concepto||'Pago'}</div><div class="pr-fecha">${pg.fecha||'Sin fecha'}</div></div>
+      <div class="pr-right">
+        <div class="pr-monto">${fmt(pg.monto)}</div>
+        <button class="pr-del" onclick="borrarPago('${p.id}','${pg.id}')">✕</button>
       </div>
+    </div>`).join('');
+  if(!pagosH) pagosH='<div class="no-pagos">Sin pagos registrados</div>';
+
+  panel.innerHTML=`<div class="dp-body">
+    <div class="dp-title">${p.esSAC?'SAC · ':''}${MESES[p.mes]} ${p.anio}</div>
+    <div class="dp-saldo" style="color:${scColor}">Saldo acumulado: ${fmt(p.saldoAcumulado)}</div>
+    <div class="dp-section"><h4>Devengado</h4>
+      ${detGrid}
+      <div class="total-bar"><span class="tb-label">Total sueldo</span><span class="tb-val">${fmt(p.sueldo)}</span></div>
     </div>
     <div class="dp-section">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-        <h3 style="margin-bottom:0">Pagos (${(p.pagos||[]).length}) · ${fmt(pagado)}</h3>
-        <button class="btn btn-green btn-sm" onclick="openAddPago('${p.id}')">+ Pago</button>
+        <h4 style="margin-bottom:0">Pagos recibidos · ${fmt(pagado)}</h4>
+        <button class="btn btn-green btn-sm" onclick="abrirAgregarPago('${p.id}')">+ Pago</button>
       </div>
-      ${pagosHTML}
+      ${pagosH}
     </div>
-    <div style="display:flex;gap:8px;margin-top:8px">
-      <button class="btn btn-ghost btn-sm" onclick="editPeriodo('${p.id}')">✏ Editar</button>
-      <button class="btn btn-danger btn-sm" onclick="deletePeriodo('${p.id}')">🗑 Eliminar</button>
+    <div class="dp-actions">
+      <button class="btn btn-ghost btn-sm" onclick="editarPeriodo('${p.id}')">✏ Editar</button>
+      <button class="btn btn-danger btn-sm" onclick="borrarPeriodo('${p.id}')">🗑 Eliminar</button>
     </div>
   </div>`;
 }
 
-function selectPeriodo(id) {
-  selectedId = id;
-  renderTimeline();
-  renderDetail(id);
+function seleccionarPeriodo(pid){ selId=pid; renderTabla(); renderDetalle(pid); }
+
+// ── PERÍODO MODAL ─────────────────────────────────────────────────────────────
+function abrirNuevoPeriodo(){
+  editId=null;
+  id('titPeriodo').textContent='➕ Nuevo período';
+  const hoy=new Date();
+  id('pMes').value=hoy.getMonth();
+  id('pAnio').value=hoy.getFullYear();
+  id('pTipo').value='normal';
+  id('pSACManual').value='';
+  id('pHoras').value='';
+  id('pNoRem').value='';
+  id('pAumento').value='';
+  // Auto VH
+  const last=[...data.periodos].filter(p=>!p.esSAC&&p.valorHora).pop();
+  const prevVH=last?last.valorHora:(data.config.valorHoraVigente||0);
+  id('pVHPrev').value=prevVH;
+  id('pVH').value=prevVH;
+  id('vhResultado').textContent='$'+fmtN(prevVH);
+  onCambiaTipo();
+  abrirModal('ovPeriodo');
 }
 
-// ── SHOW IMPORT BANNER ─────────────────────────────────────────────────────────
-function showImportBanner() {
-  const tl = document.getElementById('timelineContent');
-  tl.innerHTML = `<div class="import-banner">
-    <div class="ib-text"><strong>📂 App sin datos</strong>Importá el histórico completo del Excel para empezar.</div>
-    <button class="btn btn-gold" onclick="importarHistorico()">📥 Importar histórico</button>
-  </div>`;
+function editarPeriodo(pid){
+  const p=data.periodos.find(x=>x.id===pid);
+  editId=pid;
+  id('titPeriodo').textContent='✏ Editar período';
+  id('pMes').value=p.mes;
+  id('pAnio').value=p.anio;
+  id('pTipo').value=p.esSAC?'sac':'normal';
+  id('pHoras').value=p.horas||'';
+  id('pNoRem').value=p.noRemunerativo||'';
+  id('pAumento').value='';
+  const prevVH=(()=>{const last=[...data.periodos].filter(q=>!q.esSAC&&q.valorHora&&q.id!==pid).pop();return last?last.valorHora:(data.config.valorHoraVigente||0);})();
+  id('pVHPrev').value=prevVH;
+  id('pVH').value=p.valorHora||prevVH;
+  id('vhResultado').textContent='$'+fmtN(p.valorHora||prevVH);
+  id('pSACManual').value='';
+  onCambiaTipo();
+  abrirModal('ovPeriodo');
 }
 
-// ── PERIODO MODAL ──────────────────────────────────────────────────────────────
-function openModal(id) { document.getElementById(id).classList.add('open'); }
-function closeModal(id) { document.getElementById(id).classList.remove('open'); editingId = null; }
-
-// Pre-fill with last period data when opening new período
-const origOpenModal = openModal;
-function openNuevoPeriodo() {
-  editingId = null;
-  document.getElementById('modalPeriodoTitle').textContent = '➕ Nuevo período';
-  // Default to next month
-  const hoy = new Date();
-  document.getElementById('pMes').value = hoy.getMonth();
-  document.getElementById('pAnio').value = hoy.getFullYear();
-  document.getElementById('pTipo').value = 'normal';
-  document.getElementById('pSACManual').value = '';
-  // Auto-fill VH from last normal período
-  const lastNormal = [...data.periodos].filter(p => !p.esSAC && p.valorHora).pop();
-  const lastVH = lastNormal ? lastNormal.valorHora : (data.config.valorHoraVigente || 0);
-  document.getElementById('pVHAnterior').value = lastVH;
-  document.getElementById('pAumento').value = '';
-  document.getElementById('pVH').value = lastVH;
-  document.getElementById('pHoras').value = '';
-  document.getElementById('pNoRem').value = '';
-  onTipoChange();
-  openModal('modalPeriodo');
+function onCambiaTipo(){
+  const t=id('pTipo').value;
+  id('secNormal').style.display=t==='normal'?'block':'none';
+  id('secSAC').style.display=t==='sac'?'block':'none';
+  if(t==='sac') calcSAC(); else calcPreview();
 }
 
-document.querySelector('[onclick="openModal(\'modalPeriodo\')"]').setAttribute('onclick','openNuevoPeriodo()');
-
-function onTipoChange() {
-  const t = document.getElementById('pTipo').value;
-  document.getElementById('camposNormal').style.display = t === 'normal' ? 'block' : 'none';
-  document.getElementById('camposSAC').style.display = t === 'sac' ? 'block' : 'none';
-  if (t === 'sac') calcSAC();
-  else calcPreview();
-}
-
-function calcVH() {
-  const prev = parseFloat(document.getElementById('pVHAnterior').value) || 0;
-  const aum  = parseFloat(document.getElementById('pAumento').value) || 0;
-  document.getElementById('pVH').value = (prev + aum).toFixed(2);
+function calcVH(){
+  const prev=parseFloat(id('pVHPrev').value)||0;
+  const aum=parseFloat(id('pAumento').value)||0;
+  const resultado=prev+aum;
+  id('pVH').value=resultado.toFixed(2);
+  id('vhResultado').textContent='$'+fmtN(resultado);
   calcPreview();
 }
 
-function calcPreview() {
-  const h  = parseFloat(document.getElementById('pHoras').value) || 0;
-  const vh = parseFloat(document.getElementById('pVH').value) || 0;
-  const nr = parseFloat(document.getElementById('pNoRem').value) || 0;
-  const box = document.getElementById('previewBox');
-  if (h && vh) {
-    const rem = h * vh;
-    const tot = rem + nr;
-    document.getElementById('pvSueldo').textContent = fmt(tot);
-    document.getElementById('pvCalc').textContent = `${h}h × ${fmtN(vh)} = ${fmt(rem)}` + (nr ? ` + NR ${fmt(nr)}` : '');
-    box.style.display = 'block';
-  } else { box.style.display = 'none'; }
+function calcPreview(){
+  const h=parseFloat(id('pHoras').value)||0;
+  const vh=parseFloat(id('pVH').value)||0;
+  const nr=parseFloat(id('pNoRem').value)||0;
+  const box=id('prevBox');
+  if(h&&vh){
+    const rem=h*vh, tot=rem+nr;
+    id('pvVal').textContent=fmt(tot);
+    id('pvDet').textContent=`${h}h × $${fmtN(vh)} = ${fmt(rem)}`+(nr?` + NR ${fmt(nr)}`:'');
+    box.style.display='block';
+  } else box.style.display='none';
 }
 
-function calcSAC() {
-  // Get the semester: if mes <= 5 → Jan-Jun, else Jul-Dic
-  const mes = parseInt(document.getElementById('pMes').value);
-  const anio = parseInt(document.getElementById('pAnio').value);
-  const semStart = mes <= 5 ? 0 : 6;
-  const semEnd   = mes <= 5 ? 5 : 11;
-  const sueldosSem = data.periodos
-    .filter(p => !p.esSAC && p.anio === anio && p.mes >= semStart && p.mes <= semEnd)
-    .map(p => p.sueldo);
-  let sacAuto = 0;
-  if (sueldosSem.length) {
-    sacAuto = Math.round(sueldosSem.reduce((a,b)=>a+b,0) / sueldosSem.length / 2);
-  }
-  document.getElementById('pvSAC').textContent = fmt(sacAuto);
-  document.getElementById('pvSACDetalle').textContent = sueldosSem.length
-    ? `Prom. ${sueldosSem.length} meses del semestre ÷ 2`
-    : 'No hay meses del semestre cargados';
-  document.getElementById('pvSAC').dataset.valor = sacAuto;
+function calcSAC(){
+  const mes=parseInt(id('pMes').value);
+  const anio=parseInt(id('pAnio').value);
+  const semS=mes<=5?0:6, semE=mes<=5?5:11;
+  const sueldos=data.periodos.filter(p=>!p.esSAC&&p.anio===anio&&p.mes>=semS&&p.mes<=semE).map(p=>p.sueldo);
+  let sacAuto=0;
+  if(sueldos.length) sacAuto=Math.round(sueldos.reduce((a,b)=>a+b,0)/sueldos.length/2);
+  id('sacVal').textContent=sacAuto?fmt(sacAuto):'Sin datos del semestre';
+  id('sacDet').textContent=sueldos.length?`Promedio ${sueldos.length} meses del semestre ÷ 2`:'No hay meses cargados para este semestre';
+  id('sacVal').dataset.auto=sacAuto;
 }
 
-function savePeriodo() {
-  const mes  = parseInt(document.getElementById('pMes').value);
-  const anio = parseInt(document.getElementById('pAnio').value);
-  const tipo = document.getElementById('pTipo').value;
-  let sueldo = 0, horas = null, valorHora = null, noRem = 0;
-
-  if (tipo === 'normal') {
-    horas    = parseFloat(document.getElementById('pHoras').value) || 0;
-    valorHora = parseFloat(document.getElementById('pVH').value) || 0;
-    noRem    = parseFloat(document.getElementById('pNoRem').value) || 0;
-    if (!horas || !valorHora) { toast('⚠ Completá horas y valor hora'); return; }
-    sueldo = Math.round(horas * valorHora + noRem);
-    // Update VH vigente
-    data.config.valorHoraVigente = valorHora;
+function guardarPeriodo(){
+  const mes=parseInt(id('pMes').value);
+  const anio=parseInt(id('pAnio').value);
+  const tipo=id('pTipo').value;
+  let sueldo=0, horas=null, valorHora=null, noRem=0;
+  if(tipo==='normal'){
+    horas=parseFloat(id('pHoras').value)||0;
+    valorHora=parseFloat(id('pVH').value)||0;
+    noRem=parseFloat(id('pNoRem').value)||0;
+    if(!horas||!valorHora){ toast('⚠ Completá horas y valor hora'); return; }
+    sueldo=Math.round(horas*valorHora+noRem);
+    data.config.valorHoraVigente=valorHora;
   } else {
-    const manual = parseFloat(document.getElementById('pSACManual').value) || 0;
-    const auto = parseInt(document.getElementById('pvSAC').dataset.valor) || 0;
-    sueldo = manual || auto;
-    if (!sueldo) { toast('⚠ No se pudo calcular el SAC'); return; }
+    const manual=parseFloat(id('pSACManual').value)||0;
+    const auto=parseInt(id('sacVal').dataset.auto)||0;
+    sueldo=manual||auto;
+    if(!sueldo){ toast('⚠ No se pudo calcular el SAC'); return; }
   }
-
-  if (editingId) {
-    const p = data.periodos.find(x => x.id === editingId);
-    p.mes = mes; p.anio = anio; p.esSAC = tipo === 'sac';
-    p.horas = horas; p.valorHora = valorHora; p.noRemunerativo = noRem; p.sueldo = sueldo;
+  if(editId){
+    const p=data.periodos.find(x=>x.id===editId);
+    Object.assign(p,{mes,anio,esSAC:tipo==='sac',horas,valorHora,noRemunerativo:noRem,sueldo});
   } else {
-    const id = `${anio}-${String(mes+1).padStart(2,'0')}${tipo==='sac'?'SAC':''}-${Date.now()}`;
-    data.periodos.push({ id, mes, anio, esSAC: tipo==='sac', horas, valorHora, noRemunerativo:noRem, sueldo, pagos:[] });
+    const pid=`${anio}-${String(mes+1).padStart(2,'0')}${tipo==='sac'?'SAC':''}-${Date.now()}`;
+    data.periodos.push({id:pid,mes,anio,esSAC:tipo==='sac',horas,valorHora,noRemunerativo:noRem,sueldo,pagos:[]});
   }
-  closeModal('modalPeriodo');
-  saveData().then(() => { renderAll(); toast('✓ Período guardado'); });
+  cerrarModal('ovPeriodo');
+  guardarDatos().then(()=>{ renderTodo(); toast('✓ Período guardado'); });
 }
 
-function editPeriodo(id) {
-  const p = data.periodos.find(x => x.id === id);
-  editingId = id;
-  document.getElementById('modalPeriodoTitle').textContent = '✏ Editar período';
-  document.getElementById('pMes').value = p.mes;
-  document.getElementById('pAnio').value = p.anio;
-  document.getElementById('pTipo').value = p.esSAC ? 'sac' : 'normal';
-  document.getElementById('pHoras').value = p.horas || '';
-  const lastNormal = [...data.periodos].filter(q => !q.esSAC && q.valorHora && q.id !== id).pop();
-  document.getElementById('pVHAnterior').value = lastNormal ? lastNormal.valorHora : 0;
-  document.getElementById('pAumento').value = '';
-  document.getElementById('pVH').value = p.valorHora || '';
-  document.getElementById('pNoRem').value = p.noRemunerativo || '';
-  onTipoChange();
-  openModal('modalPeriodo');
+function borrarPeriodo(pid){
+  if(!confirm('¿Eliminar este período y sus pagos?')) return;
+  data.periodos=data.periodos.filter(p=>p.id!==pid);
+  if(selId===pid){ selId=null; id('rightCol').innerHTML='<div class="dp-empty"><div class="icon">👆</div><div>Seleccioná un período</div></div>'; }
+  guardarDatos().then(()=>{ renderTodo(); toast('Período eliminado'); });
 }
 
-function deletePeriodo(id) {
-  if (!confirm('¿Eliminar este período?')) return;
-  data.periodos = data.periodos.filter(p => p.id !== id);
-  selectedId = null;
-  document.getElementById('detailPanel').innerHTML = '<div class="dp-empty"><div class="icon">👆</div><div>Seleccioná un período</div></div>';
-  saveData().then(() => { renderAll(); toast('Período eliminado'); });
+// ── PAGOS ─────────────────────────────────────────────────────────────────────
+function abrirAgregarPago(pid){
+  pagoParaId=pid;
+  id('pgFecha').value=new Date().toISOString().split('T')[0];
+  id('pgConcepto').value='';
+  id('pgMonto').value='';
+  abrirModal('ovPago');
 }
 
-// ── PAGOS ──────────────────────────────────────────────────────────────────────
-function openAddPago(periodoId) {
-  addingPagoFor = periodoId;
-  const hoy = new Date().toISOString().split('T')[0];
-  document.getElementById('pgFecha').value = hoy;
-  document.getElementById('pgConcepto').value = '';
-  document.getElementById('pgMonto').value = '';
-  openModal('modalPago');
+function guardarPago(){
+  const p=data.periodos.find(x=>x.id===pagoParaId);
+  if(!p) return;
+  const monto=parseFloat(id('pgMonto').value)||0;
+  if(!monto){ toast('⚠ Ingresá un monto'); return; }
+  (p.pagos=p.pagos||[]).push({id:'pg-'+Date.now(),fecha:id('pgFecha').value,concepto:id('pgConcepto').value||'Pago',monto});
+  cerrarModal('ovPago');
+  guardarDatos().then(()=>{ renderTodo(); toast('✓ Pago registrado'); });
 }
 
-function savePago() {
-  const p = data.periodos.find(x => x.id === addingPagoFor);
-  if (!p) return;
-  const monto = parseFloat(document.getElementById('pgMonto').value) || 0;
-  if (!monto) { toast('⚠ Ingresá un monto'); return; }
-  p.pagos = p.pagos || [];
-  p.pagos.push({
-    id: 'pg-' + Date.now(),
-    fecha: document.getElementById('pgFecha').value,
-    concepto: document.getElementById('pgConcepto').value || 'Pago',
-    monto
-  });
-  closeModal('modalPago');
-  saveData().then(() => { renderAll(); toast('✓ Pago registrado'); });
+function borrarPago(pid,pgid){
+  const p=data.periodos.find(x=>x.id===pid);
+  if(!p) return;
+  p.pagos=p.pagos.filter(pg=>pg.id!==pgid);
+  guardarDatos().then(()=>{ renderTodo(); toast('Pago eliminado'); });
 }
 
-function deletePago(periodoId, pagoId) {
-  const p = data.periodos.find(x => x.id === periodoId);
-  if (!p) return;
-  p.pagos = p.pagos.filter(pg => pg.id !== pagoId);
-  saveData().then(() => { renderAll(); toast('Pago eliminado'); });
-}
-
-// ── CONFIG ─────────────────────────────────────────────────────────────────────
-function openConfig() {
-  document.getElementById('cfgKey').value = API_KEY;
-  document.getElementById('cfgBin').value = BIN_ID;
-  openModal('modalConfig');
-}
-document.querySelector('[onclick="openModal(\'modalConfig\')"]').setAttribute('onclick','openConfig()');
-
-async function saveConfig() {
-  const newKey = document.getElementById('cfgKey').value.trim();
-  const newBin = document.getElementById('cfgBin').value.trim();
-  if (newKey) { API_KEY = newKey; localStorage.setItem('elda_key', API_KEY); }
-  if (newBin) { BIN_ID  = newBin; localStorage.setItem('elda_bin', BIN_ID); }
-  closeModal('modalConfig');
-  await saveData();
+// ── CONFIG ────────────────────────────────────────────────────────────────────
+function abrirConfig(){ id('cfgKey').value=KEY; id('cfgBin').value=BIN; abrirModal('ovConfig'); }
+async function guardarConfig(){
+  const k=id('cfgKey').value.trim(), b=id('cfgBin').value.trim();
+  if(k){ KEY=k; localStorage.setItem('elda_key',KEY); }
+  if(b){ BIN=b; localStorage.setItem('elda_bin',BIN); }
+  cerrarModal('ovConfig');
+  await guardarDatos();
   toast('✓ Configuración guardada');
 }
 
-// ── IMPORTAR HISTÓRICO ─────────────────────────────────────────────────────────
-function importarHistorico() {
-  if (!confirm('⚠ Esto reemplaza TODOS los datos actuales con el histórico del Excel (51 períodos hasta Abr 2026). ¿Confirmar?')) return;
-  const H = HISTORICO_DATA;
-  data = H;
-  closeModal('modalConfig');
-  saveData().then(() => { renderAll(); toast('✓ ' + data.periodos.length + ' períodos importados'); });
+// ── IMPORTAR HISTÓRICO ────────────────────────────────────────────────────────
+function importarHistorico(silencioso=false){
+  if(!silencioso && !confirm('⚠ Esto reemplaza TODOS los datos con el histórico del Excel (51 períodos). ¿Confirmar?')) return;
+  cerrarModal('ovConfig');
+  data = JSON.parse(JSON.stringify(HISTORICO));
+  guardarDatos().then(()=>{ renderTodo(); toast('✓ '+data.periodos.length+' períodos importados'); });
 }
 
-// ── HELPERS ────────────────────────────────────────────────────────────────────
-function fmt(n) { return '$' + Math.round(Number(n)||0).toLocaleString('es-AR'); }
-function fmtM(n) { const v=Math.round(Number(n)||0); return v>=1e6 ? '$'+(v/1e6).toFixed(1)+'M' : '$'+v.toLocaleString('es-AR'); }
-function fmtN(n) { return Number(n).toLocaleString('es-AR', {minimumFractionDigits:2,maximumFractionDigits:2}); }
-function setStatus(type, msg) {
-  document.getElementById('dot').className = 'dot ' + type;
-  document.getElementById('statusTxt').textContent = msg;
-}
-function toast(msg) {
-  const el = document.getElementById('toast');
-  el.textContent = msg; el.classList.add('show');
-  setTimeout(() => el.classList.remove('show'), 2600);
-}
-document.querySelectorAll('.overlay').forEach(o => {
-  o.addEventListener('click', e => { if (e.target === o) o.classList.remove('open'); });
-});
+// ── UTILS ─────────────────────────────────────────────────────────────────────
+function fmt(n){ return '$'+Math.round(Number(n)||0).toLocaleString('es-AR'); }
+function fmtM(n){ const v=Math.round(Number(n)||0); return v>=1e9?'$'+(v/1e9).toFixed(1)+'B':v>=1e6?'$'+(v/1e6).toFixed(1)+'M':'$'+v.toLocaleString('es-AR'); }
+function fmtN(n){ return Number(n).toLocaleString('es-AR',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function id(x){ return document.getElementById(x); }
+function show(x){ id(x).style.display='flex'; }
+function hide(x){ id(x).style.display='none'; }
+function setStatus(t,m){ id('dot').className='dot '+t; id('statusTxt').textContent=m; }
+function toast(msg){ const el=id('toast'); el.textContent=msg; el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),2600); }
+function abrirModal(x){ id(x).classList.add('open'); }
+function cerrarModal(x){ id(x).classList.remove('open'); editId=null; }
+document.querySelectorAll('.overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');}));
 
-// ── DATOS HISTÓRICOS ───────────────────────────────────────────────────────────
-const HISTORICO_DATA = {"config":{"valorHoraVigente":8131.23},"periodos":[{"id":"2022-09-h1001","mes":8,"anio":2022,"esSAC":false,"horas":null,"valorHora":null,"noRemunerativo":0,"sueldo":570166,"pagos":[{"id":"pg-h1001-0","fecha":"","concepto":"Pago inicial","monto":390000}],"saldoPeriodo":180166,"saldoAcumulado":180166},{"id":"2022-10-h1002","mes":9,"anio":2022,"esSAC":false,"horas":null,"valorHora":null,"noRemunerativo":0,"sueldo":150975,"pagos":[],"saldoPeriodo":150975,"saldoAcumulado":331141},{"id":"2022-11-h1003","mes":10,"anio":2022,"esSAC":false,"horas":318.5,"valorHora":495,"noRemunerativo":9000,"sueldo":166658,"pagos":[{"id":"pg-h1003-0","fecha":"","concepto":"Pago","monto":120000}],"saldoPeriodo":46658,"saldoAcumulado":377799},{"id":"2022-12-h1004","mes":11,"anio":2022,"esSAC":false,"horas":330,"valorHora":496,"noRemunerativo":9000,"sueldo":172680,"pagos":[{"id":"pg-h1004-0","fecha":"","concepto":"Pago","monto":90000}],"saldoPeriodo":82680,"saldoAcumulado":460479},{"id":"2022-12SAC-h1005","mes":11,"anio":2022,"esSAC":true,"horas":null,"valorHora":null,"noRemunerativo":0,"sueldo":81840,"pagos":[],"saldoPeriodo":81840,"saldoAcumulado":542319},{"id":"2023-01-h1006","mes":0,"anio":2023,"esSAC":false,"horas":286,"valorHora":524.7,"noRemunerativo":4500,"sueldo":154564,"pagos":[{"id":"pg-h1006-0","fecha":"","concepto":"Pago","monto":150000}],"saldoPeriodo":4564,"saldoAcumulado":546883},{"id":"2023-02-h1007","mes":1,"anio":2023,"esSAC":false,"horas":293,"valorHora":556.18,"noRemunerativo":0,"sueldo":162961,"pagos":[{"id":"pg-h1007-0","fecha":"","concepto":"Pago","monto":120000}],"saldoPeriodo":42961,"saldoAcumulado":589844},{"id":"2023-03-h1008","mes":2,"anio":2023,"esSAC":false,"horas":344,"valorHora":556.18,"noRemunerativo":0,"sueldo":191326,"pagos":[{"id":"pg-h1008-0","fecha":"","concepto":"Pago","monto":60000}],"saldoPeriodo":131326,"saldoAcumulado":721170},{"id":"2023-04-h1009","mes":3,"anio":2023,"esSAC":false,"horas":367,"valorHora":556.18,"noRemunerativo":14000,"sueldo":218118,"pagos":[{"id":"pg-h1009-0","fecha":"","concepto":"Pago","monto":210000}],"saldoPeriodo":8118,"saldoAcumulado":729288},{"id":"2023-05-h1010","mes":4,"anio":2023,"esSAC":false,"horas":329.5,"valorHora":556.18,"noRemunerativo":17000,"sueldo":200261,"pagos":[{"id":"pg-h1010-0","fecha":"","concepto":"Pago","monto":120000}],"saldoPeriodo":80261,"saldoAcumulado":809549},{"id":"2023-06-h1011","mes":5,"anio":2023,"esSAC":false,"horas":311.5,"valorHora":556.18,"noRemunerativo":20000,"sueldo":193250,"pagos":[{"id":"pg-h1011-0","fecha":"","concepto":"Pago","monto":210000}],"saldoPeriodo":-16750,"saldoAcumulado":792799},{"id":"2023-07-h1012","mes":6,"anio":2023,"esSAC":false,"horas":253,"valorHora":716.92,"noRemunerativo":20001,"sueldo":201381,"pagos":[{"id":"pg-h1012-0","fecha":"","concepto":"Pago","monto":200000}],"saldoPeriodo":1381,"saldoAcumulado":794180},{"id":"2023-06SAC-h1013","mes":5,"anio":2023,"esSAC":true,"horas":null,"valorHora":null,"noRemunerativo":0,"sueldo":91630,"pagos":[],"saldoPeriodo":91630,"saldoAcumulado":885810},{"id":"2023-08-h1014","mes":7,"anio":2023,"esSAC":false,"horas":338,"valorHora":716.92,"noRemunerativo":15000,"sueldo":257317,"pagos":[{"id":"pg-h1014-0","fecha":"","concepto":"Pago","monto":965811}],"saldoPeriodo":-708494,"saldoAcumulado":177316},{"id":"2023-09-h1015","mes":8,"anio":2023,"esSAC":false,"horas":317.5,"valorHora":783.66,"noRemunerativo":0,"sueldo":248812,"pagos":[{"id":"pg-h1015-0","fecha":"","concepto":"Pago","monto":120000}],"saldoPeriodo":128812,"saldoAcumulado":306128},{"id":"2023-10-h1016","mes":9,"anio":2023,"esSAC":false,"horas":330,"valorHora":783.66,"noRemunerativo":15000,"sueldo":273607,"pagos":[{"id":"pg-h1016-0","fecha":"","concepto":"Pago","monto":50000}],"saldoPeriodo":223607,"saldoAcumulado":529735},{"id":"2023-11-h1017","mes":10,"anio":2023,"esSAC":false,"horas":321,"valorHora":783.66,"noRemunerativo":18000,"sueldo":269554,"pagos":[{"id":"pg-h1017-0","fecha":"","concepto":"Pago","monto":800000}],"saldoPeriodo":-530446,"saldoAcumulado":-711},{"id":"2023-12-h1018","mes":11,"anio":2023,"esSAC":false,"horas":345,"valorHora":862.03,"noRemunerativo":18000,"sueldo":315400,"pagos":[],"saldoPeriodo":315400,"saldoAcumulado":314689},{"id":"2023-12SAC-h1019","mes":11,"anio":2023,"esSAC":true,"horas":null,"valorHora":null,"noRemunerativo":0,"sueldo":148700,"pagos":[],"saldoPeriodo":148700,"saldoAcumulado":463389},{"id":"2024-01-h1020","mes":0,"anio":2024,"esSAC":false,"horas":344,"valorHora":862.03,"noRemunerativo":25000,"sueldo":321538,"pagos":[{"id":"pg-h1020-0","fecha":"","concepto":"Pago","monto":75000}],"saldoPeriodo":246538,"saldoAcumulado":709927},{"id":"2024-02-h1021","mes":1,"anio":2024,"esSAC":false,"horas":null,"valorHora":null,"noRemunerativo":0,"sueldo":334508,"pagos":[{"id":"pg-h1021-0","fecha":"","concepto":"Pago","monto":709931}],"saldoPeriodo":-375423,"saldoAcumulado":334504},{"id":"2024-03-h1022","mes":2,"anio":2024,"esSAC":false,"horas":353,"valorHora":1101.34,"noRemunerativo":15000,"sueldo":403773,"pagos":[],"saldoPeriodo":403773,"saldoAcumulado":738277},{"id":"2024-04-h1023","mes":3,"anio":2024,"esSAC":false,"horas":310,"valorHora":1168,"noRemunerativo":0,"sueldo":362080,"pagos":[{"id":"pg-h1023-0","fecha":"","concepto":"Pago","monto":50000}],"saldoPeriodo":312080,"saldoAcumulado":1050357},{"id":"2024-05-h1024","mes":4,"anio":2024,"esSAC":false,"horas":315,"valorHora":1168,"noRemunerativo":35000,"sueldo":402920,"pagos":[{"id":"pg-h1024-0","fecha":"","concepto":"Pago","monto":550000},{"id":"pg-h1024-1","fecha":"","concepto":"Mayo Pago extraordinario","monto":903281}],"saldoPeriodo":-1050361,"saldoAcumulado":-4},{"id":"2024-06-h1025","mes":5,"anio":2024,"esSAC":false,"horas":310.5,"valorHora":1168,"noRemunerativo":55000,"sueldo":417664,"pagos":[],"saldoPeriodo":417664,"saldoAcumulado":417660},{"id":"2024-06SAC-h1026","mes":5,"anio":2024,"esSAC":true,"horas":null,"valorHora":null,"noRemunerativo":0,"sueldo":194386,"pagos":[],"saldoPeriodo":194386,"saldoAcumulado":612046},{"id":"2024-07-h1027","mes":6,"anio":2024,"esSAC":false,"horas":226.5,"valorHora":1401.6,"noRemunerativo":20000,"sueldo":337462,"pagos":[{"id":"pg-h1027-0","fecha":"","concepto":"Pago","monto":200000},{"id":"pg-h1027-1","fecha":"","concepto":"JULIO Pago USD 1500 × $730","monto":1095000}],"saldoPeriodo":-957538,"saldoAcumulado":-345492},{"id":"2024-08-h1028","mes":7,"anio":2024,"esSAC":false,"horas":339.5,"valorHora":1541.76,"noRemunerativo":15000,"sueldo":538427,"pagos":[{"id":"pg-h1028-0","fecha":"","concepto":"Pago","monto":151000}],"saldoPeriodo":387427,"saldoAcumulado":41935},{"id":"2024-09-h1029","mes":8,"anio":2024,"esSAC":false,"horas":318,"valorHora":1773.02,"noRemunerativo":15000,"sueldo":578821,"pagos":[],"saldoPeriodo":578821,"saldoAcumulado":620756},{"id":"2024-10-h1030","mes":9,"anio":2024,"esSAC":false,"horas":316,"valorHora":1950.33,"noRemunerativo":40000,"sueldo":656303,"pagos":[{"id":"pg-h1030-0","fecha":"","concepto":"Pago","monto":300000},{"id":"pg-h1030-1","fecha":"","concepto":"Liquidación cierre ejercicio anterior","monto":977054}],"saldoPeriodo":-620751,"saldoAcumulado":5},{"id":"2024-11-h1031","mes":10,"anio":2024,"esSAC":false,"horas":281,"valorHora":1950.33,"noRemunerativo":70000,"sueldo":618042,"pagos":[],"saldoPeriodo":618042,"saldoAcumulado":618047},{"id":"2024-12-h1032","mes":11,"anio":2024,"esSAC":false,"horas":274.5,"valorHora":2242.88,"noRemunerativo":65000,"sueldo":680670,"pagos":[{"id":"pg-h1032-0","fecha":"","concepto":"Pago","monto":300000}],"saldoPeriodo":380670,"saldoAcumulado":998717},{"id":"2024-12SAC-h1033","mes":11,"anio":2024,"esSAC":true,"horas":null,"valorHora":null,"noRemunerativo":0,"sueldo":308151,"pagos":[],"saldoPeriodo":308151,"saldoAcumulado":1306868},{"id":"2025-01-h1034","mes":0,"anio":2025,"esSAC":false,"horas":303,"valorHora":2781.17,"noRemunerativo":70000,"sueldo":912694,"pagos":[{"id":"pg-h1034-0","fecha":"","concepto":"Pago","monto":400000}],"saldoPeriodo":512694,"saldoAcumulado":1819562},{"id":"2025-02-h1035","mes":1,"anio":2025,"esSAC":false,"horas":301,"valorHora":3476.46,"noRemunerativo":85000,"sueldo":1131415,"pagos":[{"id":"pg-h1035-0","fecha":"","concepto":"Pago","monto":1000000}],"saldoPeriodo":131415,"saldoAcumulado":1950977},{"id":"2025-03-h1036","mes":2,"anio":2025,"esSAC":false,"horas":301,"valorHora":3997.93,"noRemunerativo":100000,"sueldo":1303377,"pagos":[{"id":"pg-h1036-0","fecha":"","concepto":"Pago","monto":3254351}],"saldoPeriodo":-1950974,"saldoAcumulado":3},{"id":"2025-04-h1037","mes":3,"anio":2025,"esSAC":false,"horas":316,"valorHora":4277.79,"noRemunerativo":107000,"sueldo":1458781,"pagos":[],"saldoPeriodo":1458781,"saldoAcumulado":1458784},{"id":"2025-05-h1038","mes":4,"anio":2025,"esSAC":false,"horas":334.5,"valorHora":4534.46,"noRemunerativo":113420,"sueldo":1630195,"pagos":[{"id":"pg-h1038-0","fecha":"","concepto":"Pago","monto":306000}],"saldoPeriodo":1324195,"saldoAcumulado":2782979},{"id":"2025-06-h1039","mes":5,"anio":2025,"esSAC":false,"horas":270.5,"valorHora":4761.18,"noRemunerativo":119091,"sueldo":1406989,"pagos":[{"id":"pg-h1039-0","fecha":"","concepto":"Pago","monto":241500}],"saldoPeriodo":1165489,"saldoAcumulado":3948468},{"id":"2025-06SAC-h1040","mes":5,"anio":2025,"esSAC":true,"horas":null,"valorHora":null,"noRemunerativo":0,"sueldo":758387,"pagos":[],"saldoPeriodo":758387,"saldoAcumulado":4706855},{"id":"2025-07-h1041","mes":6,"anio":2025,"esSAC":false,"horas":335,"valorHora":4951.63,"noRemunerativo":123855,"sueldo":1782649,"pagos":[{"id":"pg-h1041-0","fecha":"","concepto":"Pago","monto":2628749}],"saldoPeriodo":-846100,"saldoAcumulado":3860755},{"id":"2025-08-h1042","mes":7,"anio":2025,"esSAC":false,"horas":286,"valorHora":5100.17,"noRemunerativo":127570,"sueldo":1586219,"pagos":[{"id":"pg-h1042-0","fecha":"","concepto":"Pago","monto":3666000}],"saldoPeriodo":-2079781,"saldoAcumulado":1780974},{"id":"2025-09-h1043","mes":8,"anio":2025,"esSAC":false,"horas":315,"valorHora":5304.18,"noRemunerativo":132673,"sueldo":1803489,"pagos":[{"id":"pg-h1043-0","fecha":"","concepto":"Pago","monto":3142972}],"saldoPeriodo":-1339483,"saldoAcumulado":441491},{"id":"2025-10-h1044","mes":9,"anio":2025,"esSAC":false,"horas":346,"valorHora":5516.35,"noRemunerativo":137980,"sueldo":2046636,"pagos":[{"id":"pg-h1044-0","fecha":"","concepto":"Pago","monto":1154219}],"saldoPeriodo":892417,"saldoAcumulado":1333908},{"id":"2025-11-h1045","mes":10,"anio":2025,"esSAC":false,"horas":315,"valorHora":5681.84,"noRemunerativo":142119,"sueldo":1931898,"pagos":[{"id":"pg-h1045-0","fecha":"","concepto":"Pago","monto":1394000}],"saldoPeriodo":537898,"saldoAcumulado":1871806},{"id":"2025-12-h1046","mes":11,"anio":2025,"esSAC":false,"horas":300,"valorHora":5852.29,"noRemunerativo":146383,"sueldo":1902071,"pagos":[{"id":"pg-h1046-0","fecha":"","concepto":"Pago","monto":1093000}],"saldoPeriodo":809071,"saldoAcumulado":2680877},{"id":"2025-12SAC-h1047","mes":11,"anio":2025,"esSAC":true,"horas":null,"valorHora":null,"noRemunerativo":0,"sueldo":954328,"pagos":[],"saldoPeriodo":954328,"saldoAcumulado":3635205},{"id":"2026-01-h1048","mes":0,"anio":2026,"esSAC":false,"horas":338,"valorHora":6386.02,"noRemunerativo":99540,"sueldo":2258015,"pagos":[{"id":"pg-h1048-0","fecha":"","concepto":"Pago","monto":2606000}],"saldoPeriodo":-347985,"saldoAcumulado":3287220},{"id":"2026-02-h1049","mes":1,"anio":2026,"esSAC":false,"horas":300,"valorHora":6939.05,"noRemunerativo":50766,"sueldo":2132481,"pagos":[{"id":"pg-h1049-0","fecha":"","concepto":"Pago","monto":4165219}],"saldoPeriodo":-2032738,"saldoAcumulado":1254482},{"id":"2026-03-h1050","mes":2,"anio":2026,"esSAC":false,"horas":294,"valorHora":7511.52,"noRemunerativo":0,"sueldo":2208388,"pagos":[{"id":"pg-h1050-0","fecha":"","concepto":"Pago","monto":210000}],"saldoPeriodo":1998388,"saldoAcumulado":3252870},{"id":"2026-04-h1051","mes":3,"anio":2026,"esSAC":false,"horas":319,"valorHora":8131.23,"noRemunerativo":25000,"sueldo":2618860,"pagos":[{"id":"pg-h1051-0","fecha":"","concepto":"Pago","monto":1126000}],"saldoPeriodo":1492860,"saldoAcumulado":4745730}]}
+// ── DATOS HISTÓRICOS ──────────────────────────────────────────────────────────
+const HISTORICO = {"config":{"valorHoraVigente":8131.23},"periodos":[{"id":"2022-09-h1001","mes":8,"anio":2022,"esSAC":false,"horas":null,"valorHora":null,"noRemunerativo":0,"sueldo":570166,"pagos":[{"id":"pg-h1001-0","fecha":"","concepto":"Pago inicial","monto":390000}],"saldoPeriodo":180166,"saldoAcumulado":180166},{"id":"2022-10-h1002","mes":9,"anio":2022,"esSAC":false,"horas":null,"valorHora":null,"noRemunerativo":0,"sueldo":150975,"pagos":[],"saldoPeriodo":150975,"saldoAcumulado":331141},{"id":"2022-11-h1003","mes":10,"anio":2022,"esSAC":false,"horas":318.5,"valorHora":495,"noRemunerativo":9000,"sueldo":166658,"pagos":[{"id":"pg-h1003-0","fecha":"","concepto":"Pago","monto":120000}],"saldoPeriodo":46658,"saldoAcumulado":377799},{"id":"2022-12-h1004","mes":11,"anio":2022,"esSAC":false,"horas":330,"valorHora":496,"noRemunerativo":9000,"sueldo":172680,"pagos":[{"id":"pg-h1004-0","fecha":"","concepto":"Pago","monto":90000}],"saldoPeriodo":82680,"saldoAcumulado":460479},{"id":"2022-12SAC-h1005","mes":11,"anio":2022,"esSAC":true,"horas":null,"valorHora":null,"noRemunerativo":0,"sueldo":81840,"pagos":[],"saldoPeriodo":81840,"saldoAcumulado":542319},{"id":"2023-01-h1006","mes":0,"anio":2023,"esSAC":false,"horas":286,"valorHora":524.7,"noRemunerativo":4500,"sueldo":154564,"pagos":[{"id":"pg-h1006-0","fecha":"","concepto":"Pago","monto":150000}],"saldoPeriodo":4564,"saldoAcumulado":546883},{"id":"2023-02-h1007","mes":1,"anio":2023,"esSAC":false,"horas":293,"valorHora":556.18,"noRemunerativo":0,"sueldo":162961,"pagos":[{"id":"pg-h1007-0","fecha":"","concepto":"Pago","monto":120000}],"saldoPeriodo":42961,"saldoAcumulado":589844},{"id":"2023-03-h1008","mes":2,"anio":2023,"esSAC":false,"horas":344,"valorHora":556.18,"noRemunerativo":0,"sueldo":191326,"pagos":[{"id":"pg-h1008-0","fecha":"","concepto":"Pago","monto":60000}],"saldoPeriodo":131326,"saldoAcumulado":721170},{"id":"2023-04-h1009","mes":3,"anio":2023,"esSAC":false,"horas":367,"valorHora":556.18,"noRemunerativo":14000,"sueldo":218118,"pagos":[{"id":"pg-h1009-0","fecha":"","concepto":"Pago","monto":210000}],"saldoPeriodo":8118,"saldoAcumulado":729288},{"id":"2023-05-h1010","mes":4,"anio":2023,"esSAC":false,"horas":329.5,"valorHora":556.18,"noRemunerativo":17000,"sueldo":200261,"pagos":[{"id":"pg-h1010-0","fecha":"","concepto":"Pago","monto":120000}],"saldoPeriodo":80261,"saldoAcumulado":809549},{"id":"2023-06-h1011","mes":5,"anio":2023,"esSAC":false,"horas":311.5,"valorHora":556.18,"noRemunerativo":20000,"sueldo":193250,"pagos":[{"id":"pg-h1011-0","fecha":"","concepto":"Pago","monto":210000}],"saldoPeriodo":-16750,"saldoAcumulado":792799},{"id":"2023-07-h1012","mes":6,"anio":2023,"esSAC":false,"horas":253,"valorHora":716.92,"noRemunerativo":20001,"sueldo":201381,"pagos":[{"id":"pg-h1012-0","fecha":"","concepto":"Pago","monto":200000}],"saldoPeriodo":1381,"saldoAcumulado":794180},{"id":"2023-06SAC-h1013","mes":5,"anio":2023,"esSAC":true,"horas":null,"valorHora":null,"noRemunerativo":0,"sueldo":91630,"pagos":[],"saldoPeriodo":91630,"saldoAcumulado":885810},{"id":"2023-08-h1014","mes":7,"anio":2023,"esSAC":false,"horas":338,"valorHora":716.92,"noRemunerativo":15000,"sueldo":257317,"pagos":[{"id":"pg-h1014-0","fecha":"","concepto":"Pago","monto":965811}],"saldoPeriodo":-708494,"saldoAcumulado":177316},{"id":"2023-09-h1015","mes":8,"anio":2023,"esSAC":false,"horas":317.5,"valorHora":783.66,"noRemunerativo":0,"sueldo":248812,"pagos":[{"id":"pg-h1015-0","fecha":"","concepto":"Pago","monto":120000}],"saldoPeriodo":128812,"saldoAcumulado":306128},{"id":"2023-10-h1016","mes":9,"anio":2023,"esSAC":false,"horas":330,"valorHora":783.66,"noRemunerativo":15000,"sueldo":273607,"pagos":[{"id":"pg-h1016-0","fecha":"","concepto":"Pago","monto":50000}],"saldoPeriodo":223607,"saldoAcumulado":529735},{"id":"2023-11-h1017","mes":10,"anio":2023,"esSAC":false,"horas":321,"valorHora":783.66,"noRemunerativo":18000,"sueldo":269554,"pagos":[{"id":"pg-h1017-0","fecha":"","concepto":"Pago","monto":800000}],"saldoPeriodo":-530446,"saldoAcumulado":-711},{"id":"2023-12-h1018","mes":11,"anio":2023,"esSAC":false,"horas":345,"valorHora":862.03,"noRemunerativo":18000,"sueldo":315400,"pagos":[],"saldoPeriodo":315400,"saldoAcumulado":314689},{"id":"2023-12SAC-h1019","mes":11,"anio":2023,"esSAC":true,"horas":null,"valorHora":null,"noRemunerativo":0,"sueldo":148700,"pagos":[],"saldoPeriodo":148700,"saldoAcumulado":463389},{"id":"2024-01-h1020","mes":0,"anio":2024,"esSAC":false,"horas":344,"valorHora":862.03,"noRemunerativo":25000,"sueldo":321538,"pagos":[{"id":"pg-h1020-0","fecha":"","concepto":"Pago","monto":75000}],"saldoPeriodo":246538,"saldoAcumulado":709927},{"id":"2024-02-h1021","mes":1,"anio":2024,"esSAC":false,"horas":null,"valorHora":null,"noRemunerativo":0,"sueldo":334508,"pagos":[{"id":"pg-h1021-0","fecha":"","concepto":"Pago","monto":709931}],"saldoPeriodo":-375423,"saldoAcumulado":334504},{"id":"2024-03-h1022","mes":2,"anio":2024,"esSAC":false,"horas":353,"valorHora":1101.34,"noRemunerativo":15000,"sueldo":403773,"pagos":[],"saldoPeriodo":403773,"saldoAcumulado":738277},{"id":"2024-04-h1023","mes":3,"anio":2024,"esSAC":false,"horas":310,"valorHora":1168,"noRemunerativo":0,"sueldo":362080,"pagos":[{"id":"pg-h1023-0","fecha":"","concepto":"Pago","monto":50000}],"saldoPeriodo":312080,"saldoAcumulado":1050357},{"id":"2024-05-h1024","mes":4,"anio":2024,"esSAC":false,"horas":315,"valorHora":1168,"noRemunerativo":35000,"sueldo":402920,"pagos":[{"id":"pg-h1024-0","fecha":"","concepto":"Pago","monto":550000},{"id":"pg-h1024-1","fecha":"","concepto":"Mayo Pago extraordinario","monto":903281}],"saldoPeriodo":-1050361,"saldoAcumulado":-4},{"id":"2024-06-h1025","mes":5,"anio":2024,"esSAC":false,"horas":310.5,"valorHora":1168,"noRemunerativo":55000,"sueldo":417664,"pagos":[],"saldoPeriodo":417664,"saldoAcumulado":417660},{"id":"2024-06SAC-h1026","mes":5,"anio":2024,"esSAC":true,"horas":null,"valorHora":null,"noRemunerativo":0,"sueldo":194386,"pagos":[],"saldoPeriodo":194386,"saldoAcumulado":612046},{"id":"2024-07-h1027","mes":6,"anio":2024,"esSAC":false,"horas":226.5,"valorHora":1401.6,"noRemunerativo":20000,"sueldo":337462,"pagos":[{"id":"pg-h1027-0","fecha":"","concepto":"Pago","monto":200000},{"id":"pg-h1027-1","fecha":"","concepto":"JULIO Pago USD 1500 × $730","monto":1095000}],"saldoPeriodo":-957538,"saldoAcumulado":-345492},{"id":"2024-08-h1028","mes":7,"anio":2024,"esSAC":false,"horas":339.5,"valorHora":1541.76,"noRemunerativo":15000,"sueldo":538427,"pagos":[{"id":"pg-h1028-0","fecha":"","concepto":"Pago","monto":151000}],"saldoPeriodo":387427,"saldoAcumulado":41935},{"id":"2024-09-h1029","mes":8,"anio":2024,"esSAC":false,"horas":318,"valorHora":1773.02,"noRemunerativo":15000,"sueldo":578821,"pagos":[],"saldoPeriodo":578821,"saldoAcumulado":620756},{"id":"2024-10-h1030","mes":9,"anio":2024,"esSAC":false,"horas":316,"valorHora":1950.33,"noRemunerativo":40000,"sueldo":656303,"pagos":[{"id":"pg-h1030-0","fecha":"","concepto":"Pago","monto":300000},{"id":"pg-h1030-1","fecha":"","concepto":"Liquidación cierre ejercicio anterior","monto":977054}],"saldoPeriodo":-620751,"saldoAcumulado":5},{"id":"2024-11-h1031","mes":10,"anio":2024,"esSAC":false,"horas":281,"valorHora":1950.33,"noRemunerativo":70000,"sueldo":618042,"pagos":[],"saldoPeriodo":618042,"saldoAcumulado":618047},{"id":"2024-12-h1032","mes":11,"anio":2024,"esSAC":false,"horas":274.5,"valorHora":2242.88,"noRemunerativo":65000,"sueldo":680670,"pagos":[{"id":"pg-h1032-0","fecha":"","concepto":"Pago","monto":300000}],"saldoPeriodo":380670,"saldoAcumulado":998717},{"id":"2024-12SAC-h1033","mes":11,"anio":2024,"esSAC":true,"horas":null,"valorHora":null,"noRemunerativo":0,"sueldo":308151,"pagos":[],"saldoPeriodo":308151,"saldoAcumulado":1306868},{"id":"2025-01-h1034","mes":0,"anio":2025,"esSAC":false,"horas":303,"valorHora":2781.17,"noRemunerativo":70000,"sueldo":912694,"pagos":[{"id":"pg-h1034-0","fecha":"","concepto":"Pago","monto":400000}],"saldoPeriodo":512694,"saldoAcumulado":1819562},{"id":"2025-02-h1035","mes":1,"anio":2025,"esSAC":false,"horas":301,"valorHora":3476.46,"noRemunerativo":85000,"sueldo":1131415,"pagos":[{"id":"pg-h1035-0","fecha":"","concepto":"Pago","monto":1000000}],"saldoPeriodo":131415,"saldoAcumulado":1950977},{"id":"2025-03-h1036","mes":2,"anio":2025,"esSAC":false,"horas":301,"valorHora":3997.93,"noRemunerativo":100000,"sueldo":1303377,"pagos":[{"id":"pg-h1036-0","fecha":"","concepto":"Pago","monto":3254351}],"saldoPeriodo":-1950974,"saldoAcumulado":3},{"id":"2025-04-h1037","mes":3,"anio":2025,"esSAC":false,"horas":316,"valorHora":4277.79,"noRemunerativo":107000,"sueldo":1458781,"pagos":[],"saldoPeriodo":1458781,"saldoAcumulado":1458784},{"id":"2025-05-h1038","mes":4,"anio":2025,"esSAC":false,"horas":334.5,"valorHora":4534.46,"noRemunerativo":113420,"sueldo":1630195,"pagos":[{"id":"pg-h1038-0","fecha":"","concepto":"Pago","monto":306000}],"saldoPeriodo":1324195,"saldoAcumulado":2782979},{"id":"2025-06-h1039","mes":5,"anio":2025,"esSAC":false,"horas":270.5,"valorHora":4761.18,"noRemunerativo":119091,"sueldo":1406989,"pagos":[{"id":"pg-h1039-0","fecha":"","concepto":"Pago","monto":241500}],"saldoPeriodo":1165489,"saldoAcumulado":3948468},{"id":"2025-06SAC-h1040","mes":5,"anio":2025,"esSAC":true,"horas":null,"valorHora":null,"noRemunerativo":0,"sueldo":758387,"pagos":[],"saldoPeriodo":758387,"saldoAcumulado":4706855},{"id":"2025-07-h1041","mes":6,"anio":2025,"esSAC":false,"horas":335,"valorHora":4951.63,"noRemunerativo":123855,"sueldo":1782649,"pagos":[{"id":"pg-h1041-0","fecha":"","concepto":"Pago","monto":2628749}],"saldoPeriodo":-846100,"saldoAcumulado":3860755},{"id":"2025-08-h1042","mes":7,"anio":2025,"esSAC":false,"horas":286,"valorHora":5100.17,"noRemunerativo":127570,"sueldo":1586219,"pagos":[{"id":"pg-h1042-0","fecha":"","concepto":"Pago","monto":3666000}],"saldoPeriodo":-2079781,"saldoAcumulado":1780974},{"id":"2025-09-h1043","mes":8,"anio":2025,"esSAC":false,"horas":315,"valorHora":5304.18,"noRemunerativo":132673,"sueldo":1803489,"pagos":[{"id":"pg-h1043-0","fecha":"","concepto":"Pago","monto":3142972}],"saldoPeriodo":-1339483,"saldoAcumulado":441491},{"id":"2025-10-h1044","mes":9,"anio":2025,"esSAC":false,"horas":346,"valorHora":5516.35,"noRemunerativo":137980,"sueldo":2046636,"pagos":[{"id":"pg-h1044-0","fecha":"","concepto":"Pago","monto":1154219}],"saldoPeriodo":892417,"saldoAcumulado":1333908},{"id":"2025-11-h1045","mes":10,"anio":2025,"esSAC":false,"horas":315,"valorHora":5681.84,"noRemunerativo":142119,"sueldo":1931898,"pagos":[{"id":"pg-h1045-0","fecha":"","concepto":"Pago","monto":1394000}],"saldoPeriodo":537898,"saldoAcumulado":1871806},{"id":"2025-12-h1046","mes":11,"anio":2025,"esSAC":false,"horas":300,"valorHora":5852.29,"noRemunerativo":146383,"sueldo":1902071,"pagos":[{"id":"pg-h1046-0","fecha":"","concepto":"Pago","monto":1093000}],"saldoPeriodo":809071,"saldoAcumulado":2680877},{"id":"2025-12SAC-h1047","mes":11,"anio":2025,"esSAC":true,"horas":null,"valorHora":null,"noRemunerativo":0,"sueldo":954328,"pagos":[],"saldoPeriodo":954328,"saldoAcumulado":3635205},{"id":"2026-01-h1048","mes":0,"anio":2026,"esSAC":false,"horas":338,"valorHora":6386.02,"noRemunerativo":99540,"sueldo":2258015,"pagos":[{"id":"pg-h1048-0","fecha":"","concepto":"Pago","monto":2606000}],"saldoPeriodo":-347985,"saldoAcumulado":3287220},{"id":"2026-02-h1049","mes":1,"anio":2026,"esSAC":false,"horas":300,"valorHora":6939.05,"noRemunerativo":50766,"sueldo":2132481,"pagos":[{"id":"pg-h1049-0","fecha":"","concepto":"Pago","monto":4165219}],"saldoPeriodo":-2032738,"saldoAcumulado":1254482},{"id":"2026-03-h1050","mes":2,"anio":2026,"esSAC":false,"horas":294,"valorHora":7511.52,"noRemunerativo":0,"sueldo":2208388,"pagos":[{"id":"pg-h1050-0","fecha":"","concepto":"Pago","monto":210000}],"saldoPeriodo":1998388,"saldoAcumulado":3252870},{"id":"2026-04-h1051","mes":3,"anio":2026,"esSAC":false,"horas":319,"valorHora":8131.23,"noRemunerativo":25000,"sueldo":2618860,"pagos":[{"id":"pg-h1051-0","fecha":"","concepto":"Pago","monto":1126000}],"saldoPeriodo":1492860,"saldoAcumulado":4745730}]}
 ;
 </script>
 </body>
