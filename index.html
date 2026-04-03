@@ -4,175 +4,293 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cuenta Corriente · Elda</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg:       #f0f2f5;
-  --bg2:      #e8eaed;
-  --white:    #ffffff;
-  --border:   #d1d5db;
-  --border2:  #e5e7eb;
-  --ink:      #111827;
-  --ink2:     #374151;
-  --ink3:     #6b7280;
-  --ink4:     #9ca3af;
-  --blue:     #2563eb;
-  --blue-lt:  #eff6ff;
-  --blue-md:  #bfdbfe;
-  --green:    #16a34a;
-  --green-lt: #f0fdf4;
-  --green-md: #bbf7d0;
-  --red:      #dc2626;
-  --red-lt:   #fef2f2;
-  --red-md:   #fecaca;
-  --amber:    #d97706;
-  --amber-lt: #fffbeb;
-  --amber-md: #fde68a;
-  --r:        10px;
-  --shadow:   0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
-  --shadow-lg:0 4px 16px rgba(0,0,0,.10);
+  --bg:       #fafafa;
+  --surface:  #ffffff;
+  --surface2: #f4f5f7;
+  --border:   #e2e5ea;
+  --border2:  #eceef2;
+  --ink:      #0d1117;
+  --ink2:     #3d4452;
+  --ink3:     #7a8194;
+  --ink4:     #b0b8c8;
+  --blue:     #1d6bf3;
+  --blue2:    #4d8ff7;
+  --blue-bg:  #f0f5ff;
+  --blue-bd:  #c7d9fd;
+  --green:    #0e9f6e;
+  --green-bg: #f0fdf6;
+  --green-bd: #a7f3d0;
+  --red:      #d7293d;
+  --red-bg:   #fff1f2;
+  --red-bd:   #fecdd3;
+  --amber:    #c27820;
+  --amber-bg: #fffbeb;
+  --amber-bd: #fde68a;
+  --r:        8px;
+  --r2:       12px;
+  --sh:       0 1px 2px rgba(0,0,0,.05);
+  --sh2:      0 4px 20px rgba(0,0,0,.08);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;font-size:14px}
+html,body{height:100%;font-family:'Sora',sans-serif;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.5}
+.mono{font-family:'JetBrains Mono',monospace}
 
-/* ── SETUP ── */
-#setup{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;background:linear-gradient(135deg,#eff6ff 0%,#f0fdf4 100%)}
-.setup-card{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:36px;width:100%;max-width:400px;box-shadow:var(--shadow-lg)}
-.setup-card h1{font-size:20px;font-weight:700;margin-bottom:4px;color:var(--ink)}
-.setup-card .sub{color:var(--ink3);font-size:13px;margin-bottom:24px}
-label{display:block;font-size:12px;font-weight:500;color:var(--ink2);margin-bottom:5px}
-input,select,textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:9px 12px;color:var(--ink);font-size:14px;font-family:inherit;background:var(--white);outline:none;transition:border-color .15s}
-input:focus,select:focus{border-color:var(--blue)}
-.form-row{margin-bottom:14px}
+/* ───── SETUP ───── */
+#setup{
+  display:none;min-height:100vh;align-items:center;justify-content:center;
+  padding:24px;
+  background:radial-gradient(ellipse 800px 500px at 50% -100px, #dbeafe 0%, transparent 70%), var(--bg);
+}
+.setup-card{
+  background:var(--surface);border:1.5px solid var(--border);
+  border-radius:20px;padding:40px;width:100%;max-width:420px;box-shadow:var(--sh2);
+}
+.setup-logo{width:44px;height:44px;background:var(--blue);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:20px}
+.setup-card h1{font-size:22px;font-weight:700;letter-spacing:-.4px;margin-bottom:4px}
+.setup-card .desc{color:var(--ink3);font-size:13px;margin-bottom:28px}
+
+/* ───── FORMS ───── */
+label{font-size:12px;font-weight:600;color:var(--ink2);display:block;margin-bottom:5px;letter-spacing:.2px}
+input,select{
+  width:100%;border:1.5px solid var(--border);border-radius:var(--r);
+  padding:10px 13px;color:var(--ink);font-size:14px;font-family:'Sora',sans-serif;
+  background:var(--surface);outline:none;transition:border-color .15s,box-shadow .15s
+}
+input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(29,107,243,.1)}
+input[readonly]{background:var(--surface2);color:var(--ink3);cursor:default}
+.frow{margin-bottom:16px}
 .hint{font-size:11px;color:var(--ink4);margin-top:4px}
-.err{color:var(--red);font-size:12px;margin-top:8px;display:none}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.err-msg{color:var(--red);font-size:12px;margin-top:10px;display:none;padding:8px 12px;background:var(--red-bg);border-radius:var(--r);border:1px solid var(--red-bd)}
 
-/* ── BUTTONS ── */
-.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;border:none;cursor:pointer;font-size:13px;font-weight:500;font-family:inherit;transition:all .15s;white-space:nowrap}
-.btn:hover{filter:brightness(.93)}
-.btn-primary{background:var(--blue);color:#fff}
-.btn-green{background:var(--green);color:#fff}
-.btn-ghost{background:var(--white);color:var(--ink2);border:1.5px solid var(--border)}
-.btn-ghost:hover{background:var(--bg)}
-.btn-amber{background:var(--amber-lt);color:var(--amber);border:1.5px solid var(--amber-md)}
-.btn-danger{background:var(--red-lt);color:var(--red);border:1.5px solid var(--red-md)}
-.btn-sm{padding:5px 10px;font-size:12px}
+/* ───── BUTTONS ───── */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  padding:9px 18px;border-radius:var(--r);border:1.5px solid transparent;
+  cursor:pointer;font-size:13px;font-weight:600;font-family:'Sora',sans-serif;
+  transition:all .15s;white-space:nowrap;letter-spacing:.1px
+}
+.btn-primary{background:var(--blue);color:#fff;border-color:var(--blue)}
+.btn-primary:hover{background:#1459d4;border-color:#1459d4}
+.btn-green{background:var(--green);color:#fff;border-color:var(--green)}
+.btn-green:hover{background:#0b876e}
+.btn-ghost{background:var(--surface);color:var(--ink2);border-color:var(--border)}
+.btn-ghost:hover{background:var(--surface2)}
+.btn-amber{background:var(--amber-bg);color:var(--amber);border-color:var(--amber-bd)}
+.btn-danger{background:var(--red-bg);color:var(--red);border-color:var(--red-bd)}
+.btn-sm{padding:6px 12px;font-size:12px;border-radius:6px}
+.btn-icon{padding:7px;border-radius:6px;width:30px;height:30px}
 
-/* ── APP SHELL ── */
-#app{display:none}
-.topbar{background:var(--white);border-bottom:1.5px solid var(--border);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:var(--shadow)}
-.topbar-title{font-size:16px;font-weight:700;color:var(--ink)}
-.topbar-sub{font-size:11px;color:var(--ink3)}
-.topbar-right{display:flex;gap:8px;align-items:center}
-
-/* ── SUMMARY CARDS ── */
-.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:16px 20px;background:var(--white);border-bottom:1.5px solid var(--border)}
-.sc{background:var(--bg);border:1.5px solid var(--border2);border-radius:var(--r);padding:14px 16px}
-.sc .sc-label{font-size:11px;font-weight:500;color:var(--ink3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px}
-.sc .sc-val{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.5px}
-.sc .sc-sub{font-size:11px;color:var(--ink4);margin-top:2px}
-.sc.red{background:var(--red-lt);border-color:var(--red-md)} .sc.red .sc-val{color:var(--red)}
-.sc.blue{background:var(--blue-lt);border-color:var(--blue-md)} .sc.blue .sc-val{color:var(--blue)}
-.sc.green{background:var(--green-lt);border-color:var(--green-md)} .sc.green .sc-val{color:var(--green)}
-.sc.amber{background:var(--amber-lt);border-color:var(--amber-md)} .sc.amber .sc-val{color:var(--amber)}
-
-/* ── MAIN LAYOUT ── */
-.main{display:grid;grid-template-columns:1fr 360px;min-height:calc(100vh - 130px)}
-.left-col{overflow-y:auto;padding:16px 20px}
-.right-col{border-left:1.5px solid var(--border);background:var(--white);overflow-y:auto}
-
-/* ── BANNER ── */
-.banner{background:var(--amber-lt);border:1.5px solid var(--amber-md);border-radius:var(--r);padding:14px 16px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.banner p{font-size:13px;color:var(--amber);font-weight:500}
-.banner small{font-size:11px;color:var(--ink3);display:block;margin-top:2px;font-weight:400}
-
-/* ── TABLA PERÍODOS ── */
-.year-section{margin-bottom:4px}
-.year-label{font-size:11px;font-weight:600;color:var(--ink4);text-transform:uppercase;letter-spacing:.6px;padding:10px 0 6px;display:flex;align-items:center;gap:8px}
-.year-label::after{content:'';flex:1;height:1px;background:var(--border2)}
-.col-head{display:grid;grid-template-columns:140px 1fr 100px 100px 110px 28px;gap:8px;padding:4px 10px 6px;font-size:10px;font-weight:600;color:var(--ink4);text-transform:uppercase;letter-spacing:.4px}
-.col-head span:nth-child(n+3){text-align:right}
-.prow{display:grid;grid-template-columns:140px 1fr 100px 100px 110px 28px;gap:8px;align-items:center;padding:10px 10px;background:var(--white);border:1.5px solid var(--border2);border-radius:8px;margin-bottom:5px;cursor:pointer;transition:all .12s}
-.prow:hover{border-color:var(--blue);background:var(--blue-lt)}
-.prow.selected{border-color:var(--blue);background:var(--blue-lt)}
-.prow.sac{background:var(--amber-lt);border-color:var(--amber-md)}
-.prow.sac:hover,.prow.sac.selected{border-color:var(--amber);background:var(--amber-lt)}
-.prow .pname{font-weight:600;font-size:13px;display:flex;align-items:center;gap:5px}
-.badge{font-size:10px;padding:1px 5px;border-radius:4px;font-weight:600;background:var(--amber-md);color:var(--amber)}
-.pdet{font-size:11px;color:var(--ink3);font-family:'DM Mono',monospace}
-.pnum{font-size:13px;font-variant-numeric:tabular-nums;text-align:right;font-family:'DM Mono',monospace}
-.pnum.dim{color:var(--ink3)}
-.saldo-pos{color:var(--red);font-weight:700}
-.saldo-neg{color:var(--green);font-weight:700}
-.saldo-zero{color:var(--ink4);font-weight:700}
-.prow-del{background:none;border:none;cursor:pointer;color:var(--ink4);font-size:14px;padding:2px;border-radius:4px;opacity:0;transition:opacity .12s}
-.prow:hover .prow-del{opacity:1}
-.prow-del:hover{color:var(--red);background:var(--red-lt)}
-
-/* ── DETAIL PANEL ── */
-.dp-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:var(--ink4);gap:8px;padding:40px}
-.dp-empty .icon{font-size:36px}
-.dp-body{padding:20px}
-.dp-title{font-size:20px;font-weight:700;margin-bottom:4px}
-.dp-saldo{font-size:13px;font-weight:500;margin-bottom:20px}
-.dp-section{margin-bottom:20px}
-.dp-section h4{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--ink4);margin-bottom:10px}
-.mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
-.mini-item{background:var(--bg);border:1.5px solid var(--border2);border-radius:8px;padding:10px 12px}
-.mi-label{font-size:10px;color:var(--ink4);margin-bottom:3px}
-.mi-val{font-size:15px;font-weight:600}
-.total-bar{background:var(--blue-lt);border:1.5px solid var(--blue-md);border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center}
-.total-bar .tb-label{font-size:13px;color:var(--blue);font-weight:500}
-.total-bar .tb-val{font-size:20px;font-weight:700;color:var(--blue);font-family:'DM Mono',monospace}
-.pago-row{display:flex;justify-content:space-between;align-items:center;padding:9px 12px;background:var(--bg);border:1.5px solid var(--border2);border-radius:8px;margin-bottom:6px}
-.pr-left .pr-concepto{font-size:13px;font-weight:500}
-.pr-left .pr-fecha{font-size:11px;color:var(--ink4)}
-.pr-right{display:flex;align-items:center;gap:8px}
-.pr-monto{font-size:14px;font-weight:700;color:var(--green);font-family:'DM Mono',monospace}
-.pr-del{background:none;border:none;cursor:pointer;color:var(--ink4);font-size:15px;border-radius:4px;padding:2px 5px}
-.pr-del:hover{color:var(--red);background:var(--red-lt)}
-.no-pagos{color:var(--ink4);font-size:13px;padding:8px 0}
-.dp-actions{display:flex;gap:8px;margin-top:16px;padding-top:14px;border-top:1.5px solid var(--border2)}
-
-/* ── MODALS ── */
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
-.overlay.open{display:flex}
-.modal{background:var(--white);border:1.5px solid var(--border);border-radius:14px;padding:28px;width:100%;max-width:450px;max-height:92vh;overflow-y:auto;box-shadow:var(--shadow-lg)}
-.modal h2{font-size:17px;font-weight:700;margin-bottom:20px}
-.modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:20px;padding-top:16px;border-top:1.5px solid var(--border2)}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.preview{background:var(--blue-lt);border:1.5px solid var(--blue-md);border-radius:8px;padding:12px 14px;margin-top:8px}
-.preview .pv-val{font-size:22px;font-weight:700;color:var(--blue);font-family:'DM Mono',monospace}
-.preview .pv-det{font-size:12px;color:var(--ink3);margin-top:3px}
-.sac-preview{background:var(--amber-lt);border:1.5px solid var(--amber-md);border-radius:8px;padding:12px 14px}
-.sac-preview .sv-val{font-size:20px;font-weight:700;color:var(--amber)}
-.sac-preview .sv-det{font-size:11px;color:var(--ink3);margin-top:2px}
-.vh-box{background:var(--bg);border:1.5px solid var(--border2);border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;margin-top:6px}
-.vh-box .vh-label{font-size:12px;color:var(--ink3)}
-.vh-box .vh-val{font-size:18px;font-weight:700;color:var(--blue);font-family:'DM Mono',monospace}
-.divider{height:1px;background:var(--border2);margin:16px 0}
-
-/* ── STATUS / TOAST ── */
-.status{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--ink3)}
-.dot{width:7px;height:7px;border-radius:50%;background:var(--ink4)}
+/* ───── TOPBAR ───── */
+.topbar{
+  background:var(--surface);border-bottom:1.5px solid var(--border);
+  padding:0 24px;height:58px;display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;box-shadow:var(--sh)
+}
+.tb-left{display:flex;align-items:center;gap:12px}
+.tb-logo{width:32px;height:32px;background:var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.tb-title{font-size:15px;font-weight:700;letter-spacing:-.2px}
+.tb-sub{font-size:11px;color:var(--ink3);margin-top:1px}
+.tb-right{display:flex;align-items:center;gap:8px}
+.status-pill{display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;background:var(--surface2);font-size:11px;color:var(--ink3)}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--ink4)}
 .dot.ok{background:var(--green)}
-.dot.saving{background:var(--amber);animation:pulse 1s infinite}
+.dot.saving{background:var(--amber);animation:spin 1.2s linear infinite}
 .dot.err{background:var(--red)}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(16px);background:var(--ink);color:#fff;border-radius:8px;padding:10px 18px;font-size:13px;opacity:0;transition:all .2s;z-index:999;white-space:nowrap;pointer-events:none}
+@keyframes spin{0%,100%{opacity:1}50%{opacity:.2}}
+
+/* ───── STATS BAR ───── */
+.statsbar{
+  background:var(--surface);border-bottom:1.5px solid var(--border);
+  padding:0 24px;display:grid;grid-template-columns:repeat(4,1fr);
+}
+.stat{padding:16px 0;border-right:1px solid var(--border2)}
+.stat:last-child{border-right:none}
+.stat:not(:first-child){padding-left:24px}
+.stat-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--ink4);margin-bottom:5px}
+.stat-val{font-size:24px;font-weight:700;letter-spacing:-.5px;font-family:'JetBrains Mono',monospace}
+.stat-val.red{color:var(--red)}
+.stat-val.green{color:var(--green)}
+.stat-val.blue{color:var(--blue)}
+.stat-val.amber{color:var(--amber)}
+.stat-sub{font-size:11px;color:var(--ink4);margin-top:2px}
+
+/* ───── LAYOUT ───── */
+.app-body{display:grid;grid-template-columns:1fr 380px;height:calc(100vh - 58px - 73px);overflow:hidden}
+.col-main{overflow-y:auto;padding:20px 24px}
+.col-detail{border-left:1.5px solid var(--border);background:var(--surface);overflow-y:auto}
+
+/* ───── BANNER ───── */
+.banner{
+  background:var(--amber-bg);border:1.5px solid var(--amber-bd);border-radius:var(--r2);
+  padding:16px 20px;margin-bottom:16px;display:flex;align-items:center;
+  justify-content:space-between;gap:16px
+}
+.banner-text strong{font-size:14px;color:var(--ink2);font-weight:600;display:block}
+.banner-text span{font-size:12px;color:var(--ink3)}
+
+/* ───── TABLE ───── */
+.section-header{
+  display:flex;align-items:center;gap:8px;margin-bottom:10px;padding-bottom:8px;
+  border-bottom:1.5px solid var(--border2)
+}
+.year-badge{
+  font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;
+  color:var(--ink3);background:var(--surface2);border:1px solid var(--border);
+  border-radius:20px;padding:3px 10px
+}
+.col-head{
+  display:grid;grid-template-columns:150px 1fr 115px 115px 120px 32px;
+  gap:0;padding:6px 12px;
+  font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--ink4)
+}
+.col-head span{padding:0 4px}
+.col-head span:nth-child(n+3){text-align:right}
+.prow{
+  display:grid;grid-template-columns:150px 1fr 115px 115px 120px 32px;
+  gap:0;align-items:center;
+  padding:12px 12px;margin-bottom:4px;
+  background:var(--surface);border:1.5px solid var(--border2);border-radius:var(--r2);
+  cursor:pointer;transition:border-color .12s,box-shadow .12s
+}
+.prow:hover{border-color:var(--blue-bd);box-shadow:0 2px 8px rgba(29,107,243,.07)}
+.prow.selected{border-color:var(--blue);background:var(--blue-bg);box-shadow:0 2px 8px rgba(29,107,243,.1)}
+.prow.issac{background:var(--amber-bg);border-color:var(--amber-bd)}
+.prow.issac:hover{border-color:var(--amber)}
+.prow.issac.selected{border-color:var(--amber);background:var(--amber-bg)}
+.prow > div{padding:0 4px}
+.pname{font-size:13px;font-weight:600;display:flex;align-items:center;gap:6px}
+.sac-badge{font-size:10px;font-weight:700;background:var(--amber-bd);color:var(--amber);padding:2px 6px;border-radius:4px;letter-spacing:.2px}
+.pdet{font-size:11.5px;color:var(--ink3);font-family:'JetBrains Mono',monospace}
+.pnum{font-size:13px;font-family:'JetBrains Mono',monospace;text-align:right;letter-spacing:-.3px}
+.pnum.muted{color:var(--ink3)}
+.pnum.bold{font-weight:700}
+.pnum.pos{color:var(--red);font-weight:700}
+.pnum.neg{color:var(--green);font-weight:700}
+.pnum.zero{color:var(--ink4)}
+.pdel{background:none;border:none;cursor:pointer;color:var(--ink4);width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;opacity:0;transition:all .12s}
+.prow:hover .pdel{opacity:1}
+.pdel:hover{background:var(--red-bg);color:var(--red)}
+.year-block{margin-bottom:8px}
+
+/* ───── DETAIL PANEL ───── */
+.dp-empty{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  height:100%;color:var(--ink4);gap:10px;padding:40px;text-align:center
+}
+.dp-empty-icon{font-size:40px;opacity:.4}
+.dp-empty-text{font-size:13px}
+.dp-wrap{padding:24px}
+.dp-kicker{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--ink4);margin-bottom:6px}
+.dp-title{font-size:22px;font-weight:700;letter-spacing:-.4px;margin-bottom:2px}
+.dp-saldo{font-size:13px;font-weight:600;margin-bottom:20px;display:flex;align-items:center;gap:6px}
+.dp-saldo-badge{padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700;font-family:'JetBrains Mono',monospace}
+.dp-saldo-badge.pos{background:var(--red-bg);color:var(--red)}
+.dp-saldo-badge.neg{background:var(--green-bg);color:var(--green)}
+.dp-saldo-badge.zero{background:var(--surface2);color:var(--ink3)}
+.dp-section{margin-bottom:20px}
+.dp-section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--ink4);margin-bottom:10px}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.info-cell{background:var(--surface2);border:1px solid var(--border2);border-radius:var(--r);padding:10px 13px}
+.ic-label{font-size:10px;color:var(--ink4);font-weight:600;text-transform:uppercase;letter-spacing:.3px;margin-bottom:4px}
+.ic-val{font-size:16px;font-weight:600;font-family:'JetBrains Mono',monospace;letter-spacing:-.3px}
+.total-highlight{
+  background:var(--blue-bg);border:1.5px solid var(--blue-bd);border-radius:var(--r);
+  padding:12px 16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:6px
+}
+.th-label{font-size:13px;color:var(--blue2);font-weight:500}
+.th-val{font-size:22px;font-weight:700;color:var(--blue);font-family:'JetBrains Mono',monospace;letter-spacing:-.5px}
+.pago-item{
+  display:flex;justify-content:space-between;align-items:center;
+  background:var(--surface2);border:1px solid var(--border2);border-radius:var(--r);
+  padding:10px 13px;margin-bottom:6px
+}
+.pi-meta .pi-name{font-size:13px;font-weight:500;color:var(--ink)}
+.pi-meta .pi-date{font-size:11px;color:var(--ink4);margin-top:1px}
+.pi-right{display:flex;align-items:center;gap:8px}
+.pi-amount{font-size:14px;font-weight:700;color:var(--green);font-family:'JetBrains Mono',monospace}
+.pi-del{background:none;border:none;cursor:pointer;color:var(--ink4);padding:4px 6px;border-radius:4px;font-size:13px}
+.pi-del:hover{background:var(--red-bg);color:var(--red)}
+.no-pagos{font-size:13px;color:var(--ink4);padding:12px 0;text-align:center}
+.dp-actions{display:flex;gap:8px;padding-top:16px;border-top:1.5px solid var(--border2)}
+.section-actions{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.section-actions .dp-section-title{margin-bottom:0}
+
+/* ───── MODALS ───── */
+.ovl{
+  position:fixed;inset:0;background:rgba(13,17,23,.5);z-index:200;
+  display:none;align-items:center;justify-content:center;padding:20px;
+  backdrop-filter:blur(2px)
+}
+.ovl.open{display:flex}
+.modal{
+  background:var(--surface);border:1.5px solid var(--border);
+  border-radius:16px;padding:28px;width:100%;max-width:460px;
+  max-height:92vh;overflow-y:auto;box-shadow:var(--sh2)
+}
+.modal-title{font-size:17px;font-weight:700;letter-spacing:-.2px;margin-bottom:20px}
+.modal-footer{
+  display:flex;gap:8px;justify-content:flex-end;
+  margin-top:24px;padding-top:18px;border-top:1.5px solid var(--border2)
+}
+.divider{height:1px;background:var(--border2);margin:18px 0}
+.section-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--ink3);margin-bottom:12px}
+
+/* VH visualizer */
+.vh-row{
+  background:var(--surface2);border:1.5px solid var(--border2);border-radius:var(--r);
+  padding:12px 16px;display:grid;grid-template-columns:1fr auto 1fr auto 1fr;
+  align-items:center;gap:12px;margin-bottom:14px
+}
+.vh-col{text-align:center}
+.vh-col .vc-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;color:var(--ink4);margin-bottom:3px}
+.vh-col .vc-val{font-size:17px;font-weight:700;font-family:'JetBrains Mono',monospace;letter-spacing:-.3px}
+.vh-col .vc-val.blue{color:var(--blue)}
+.vh-sep{font-size:18px;color:var(--ink4);font-weight:300}
+
+/* Preview */
+.calc-preview{
+  background:var(--blue-bg);border:1.5px solid var(--blue-bd);border-radius:var(--r);
+  padding:13px 16px;margin-top:10px;display:none
+}
+.cp-val{font-size:22px;font-weight:700;color:var(--blue);font-family:'JetBrains Mono',monospace;letter-spacing:-.5px;margin-bottom:2px}
+.cp-det{font-size:12px;color:var(--ink3)}
+.sac-calc{
+  background:var(--amber-bg);border:1.5px solid var(--amber-bd);border-radius:var(--r);
+  padding:14px 16px
+}
+.sc-val{font-size:22px;font-weight:700;color:var(--amber);font-family:'JetBrains Mono',monospace;letter-spacing:-.5px;margin-bottom:3px}
+.sc-det{font-size:12px;color:var(--ink3)}
+
+/* ───── TOAST ───── */
+#toast{
+  position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(12px);
+  background:var(--ink);color:#fff;border-radius:8px;padding:10px 20px;
+  font-size:13px;font-weight:500;opacity:0;transition:all .2s;
+  z-index:999;pointer-events:none;white-space:nowrap;box-shadow:var(--sh2)
+}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
-@media(max-width:900px){
-  .summary{grid-template-columns:1fr 1fr}
-  .main{grid-template-columns:1fr;min-height:auto}
-  .right-col{border-left:none;border-top:1.5px solid var(--border);max-height:480px}
-  .prow{grid-template-columns:120px 1fr 95px 110px 24px}
-  .prow .pdet{display:none}
+/* ───── RESPONSIVE ───── */
+@media(max-width:960px){
+  .app-body{grid-template-columns:1fr;height:auto;overflow:visible}
+  .col-detail{border-left:none;border-top:1.5px solid var(--border);max-height:480px}
+  .statsbar{grid-template-columns:1fr 1fr}
+  .stat:nth-child(2){border-right:none}
+  .prow,.col-head{grid-template-columns:140px 1fr 110px 120px 28px}
+  .prow>div:nth-child(4),.col-head span:nth-child(4){display:none}
 }
-@media(max-width:580px){
-  .summary{grid-template-columns:1fr 1fr}
-  .col-head{display:none}
-  .prow{grid-template-columns:1fr 95px 110px 24px}
+@media(max-width:600px){
+  .statsbar{grid-template-columns:1fr 1fr}
+  .prow,.col-head{grid-template-columns:1fr 110px 32px}
+  .prow>div:nth-child(2),.prow>div:nth-child(3),.prow>div:nth-child(4),
+  .col-head span:nth-child(2),.col-head span:nth-child(3),.col-head span:nth-child(4){display:none}
+  .topbar{padding:0 16px}
+  .col-main,.dp-wrap{padding:16px}
 }
 </style>
 </head>
@@ -181,157 +299,199 @@ input:focus,select:focus{border-color:var(--blue)}
 <!-- SETUP -->
 <div id="setup">
   <div class="setup-card">
-    <h1>💼 Cuenta Corriente · Elda</h1>
-    <p class="sub">Ingresá las credenciales para conectar con JSONBin.</p>
-    <div class="form-row">
+    <div class="setup-logo">💼</div>
+    <h1>Cuenta Corriente · Elda</h1>
+    <p class="desc">Ingresá las credenciales para sincronizar con la nube.</p>
+    <div class="frow">
       <label>Master Key JSONBin</label>
       <input type="password" id="sKey" placeholder="$2a$10$..." autocomplete="off"/>
     </div>
-    <div class="form-row">
-      <label>Bin ID <span style="color:var(--ink4);font-weight:400">(vacío = crear nuevo)</span></label>
+    <div class="frow">
+      <label>Bin ID <span style="color:var(--ink4);font-weight:400">(vacío = crear uno nuevo)</span></label>
       <input type="text" id="sBin" placeholder="68..."/>
     </div>
-    <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="doSetup()">Conectar →</button>
-    <p class="err" id="setupErr"></p>
+    <button class="btn btn-primary" style="width:100%" onclick="doSetup()">Conectar →</button>
+    <div class="err-msg" id="setupErr"></div>
   </div>
 </div>
 
 <!-- APP -->
-<div id="app">
+<div id="app" style="display:none">
+
+  <!-- TOPBAR -->
   <div class="topbar">
-    <div>
-      <div class="topbar-title">💼 Cuenta Corriente · Elda</div>
-      <div class="topbar-sub">Winflex S.A.</div>
-    </div>
-    <div class="topbar-right">
-      <div class="status"><div class="dot" id="dot"></div><span id="statusTxt">—</span></div>
-      <button class="btn btn-ghost btn-sm" onclick="abrirNuevoPeriodo()">+ Período</button>
-      <button class="btn btn-ghost btn-sm" onclick="abrirConfig()">⚙ Config</button>
-    </div>
-  </div>
-
-  <!-- SUMMARY -->
-  <div class="summary">
-    <div class="sc red" id="sc-saldo"><div class="sc-label">Saldo actual</div><div class="sc-val">—</div><div class="sc-sub">—</div></div>
-    <div class="sc blue" id="sc-vh"><div class="sc-label">Valor hora vigente</div><div class="sc-val">—</div><div class="sc-sub">por hora</div></div>
-    <div class="sc amber" id="sc-dev"><div class="sc-label">Total devengado</div><div class="sc-val">—</div><div class="sc-sub">histórico</div></div>
-    <div class="sc green" id="sc-pag"><div class="sc-label">Total pagado</div><div class="sc-val">—</div><div class="sc-sub">histórico</div></div>
-  </div>
-
-  <!-- MAIN -->
-  <div class="main">
-    <div class="left-col" id="leftCol">
-      <div id="banner" style="display:none" class="banner">
-        <div><p>📂 Sin datos cargados</p><small>Importá el histórico del Excel para arrancar</small></div>
-        <button class="btn btn-amber btn-sm" onclick="importarHistorico()">📥 Importar historial</button>
+    <div class="tb-left">
+      <div class="tb-logo">💼</div>
+      <div>
+        <div class="tb-title">Cuenta Corriente · Elda</div>
+        <div class="tb-sub">Winflex S.A.</div>
       </div>
-      <div id="tablaWrapper"></div>
     </div>
-    <div class="right-col" id="rightCol">
-      <div class="dp-empty"><div class="icon">👆</div><div>Seleccioná un período para ver el detalle</div></div>
+    <div class="tb-right">
+      <div class="status-pill"><div class="dot" id="dot"></div><span id="stxt">—</span></div>
+      <button class="btn btn-ghost btn-sm" onclick="abrirNuevo()">+ Período</button>
+      <button class="btn btn-ghost btn-sm" onclick="abrirConf()">⚙</button>
+    </div>
+  </div>
+
+  <!-- STATS BAR -->
+  <div class="statsbar">
+    <div class="stat" id="st-saldo">
+      <div class="stat-label">Saldo actual</div>
+      <div class="stat-val mono">—</div>
+      <div class="stat-sub" id="st-saldo-sub">—</div>
+    </div>
+    <div class="stat" id="st-vh">
+      <div class="stat-label">Valor hora</div>
+      <div class="stat-val blue mono">—</div>
+      <div class="stat-sub">por hora</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Total devengado</div>
+      <div class="stat-val amber mono" id="st-dev">—</div>
+      <div class="stat-sub">histórico</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Total pagado</div>
+      <div class="stat-val green mono" id="st-pag">—</div>
+      <div class="stat-sub">histórico</div>
+    </div>
+  </div>
+
+  <!-- BODY -->
+  <div class="app-body">
+    <div class="col-main" id="colMain">
+      <div id="banner" style="display:none" class="banner">
+        <div class="banner-text">
+          <strong>📂 No hay períodos cargados</strong>
+          <span>Importá el historial del Excel para comenzar</span>
+        </div>
+        <button class="btn btn-amber btn-sm" onclick="importarHistorico(true)">📥 Importar historial</button>
+      </div>
+      <div id="tabla"></div>
+    </div>
+    <div class="col-detail" id="colDetail">
+      <div class="dp-empty">
+        <div class="dp-empty-icon">←</div>
+        <div class="dp-empty-text">Seleccioná un período<br>para ver el detalle</div>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- MODAL PERÍODO -->
-<div class="overlay" id="ovPeriodo">
+<!-- MODAL: PERÍODO -->
+<div class="ovl" id="ovPer">
 <div class="modal">
-  <h2 id="titPeriodo">➕ Nuevo período</h2>
-  <div class="grid2">
-    <div class="form-row"><label>Mes</label>
-      <select id="pMes" onchange="onCambiaTipo()">
+  <div class="modal-title" id="per-title">Nuevo período</div>
+
+  <div class="g2">
+    <div class="frow"><label>Mes</label>
+      <select id="pMes" onchange="onTipo()">
         <option value="0">Enero</option><option value="1">Febrero</option><option value="2">Marzo</option>
         <option value="3">Abril</option><option value="4">Mayo</option><option value="5">Junio</option>
         <option value="6">Julio</option><option value="7">Agosto</option><option value="8">Septiembre</option>
         <option value="9">Octubre</option><option value="10">Noviembre</option><option value="11">Diciembre</option>
       </select>
     </div>
-    <div class="form-row"><label>Año</label>
-      <input type="number" id="pAnio" value="2026" min="2020" max="2035" onchange="onCambiaTipo()"/>
+    <div class="frow"><label>Año</label>
+      <input type="number" id="pAnio" value="2026" min="2020" max="2040" onchange="onTipo()"/>
     </div>
   </div>
-  <div class="form-row"><label>Tipo</label>
-    <select id="pTipo" onchange="onCambiaTipo()">
+
+  <div class="frow"><label>Tipo</label>
+    <select id="pTipo" onchange="onTipo()">
       <option value="normal">Mes normal</option>
-      <option value="sac">SAC (Aguinaldo)</option>
+      <option value="sac">SAC / Aguinaldo</option>
     </select>
   </div>
 
   <!-- NORMAL -->
-  <div id="secNormal">
-    <div class="form-row"><label>Horas trabajadas</label>
-      <input type="number" id="pHoras" placeholder="ej: 320" oninput="calcPreview()"/>
+  <div id="sec-normal">
+    <div class="divider"></div>
+    <div class="frow"><label>Horas trabajadas</label>
+      <input type="number" id="pHoras" placeholder="ej: 320" oninput="calcPrev()"/>
     </div>
     <div class="divider"></div>
-    <p style="font-size:12px;color:var(--ink3);margin-bottom:10px;font-weight:500">Valor hora</p>
-    <div class="grid2">
-      <div class="form-row"><label>Mes anterior ($)</label>
-        <input type="number" id="pVHPrev" readonly style="background:var(--bg);color:var(--ink3)"/>
-        <div class="hint">Último valor registrado</div>
+    <div class="section-label">Valor hora</div>
+
+    <!-- VH Row: anterior + aumento = resultante -->
+    <div class="vh-row">
+      <div class="vh-col">
+        <div class="vc-label">Mes anterior</div>
+        <div class="vc-val" id="vhPrev">$0</div>
       </div>
-      <div class="form-row"><label>Aumento este mes ($)</label>
-        <input type="number" id="pAumento" placeholder="0" oninput="calcVH()"/>
-        <div class="hint">Se suma al anterior</div>
+      <div class="vh-sep">+</div>
+      <div class="vh-col">
+        <div class="vc-label">Aumento ($)</div>
+        <input type="number" id="pAum" placeholder="0" oninput="calcVH()" style="text-align:center;padding:6px 8px;font-size:15px;font-weight:700;font-family:'JetBrains Mono',monospace"/>
+      </div>
+      <div class="vh-sep">=</div>
+      <div class="vh-col">
+        <div class="vc-label">Resultante</div>
+        <div class="vc-val blue" id="vhRes">$0</div>
       </div>
     </div>
-    <div class="vh-box"><span class="vh-label">Valor hora resultante</span><span class="vh-val" id="vhResultado">$0</span></div>
     <input type="hidden" id="pVH"/>
+
     <div class="divider"></div>
-    <div class="form-row" style="margin-top:4px"><label>No remunerativo ($)</label>
-      <input type="number" id="pNoRem" placeholder="0" oninput="calcPreview()"/>
+    <div class="frow"><label>No remunerativo ($)</label>
+      <input type="number" id="pNoRem" placeholder="0" oninput="calcPrev()"/>
     </div>
-    <div class="preview" id="prevBox" style="display:none">
-      <div class="pv-val" id="pvVal">—</div>
-      <div class="pv-det" id="pvDet">—</div>
+
+    <div class="calc-preview" id="cpBox">
+      <div class="cp-val" id="cpVal">—</div>
+      <div class="cp-det" id="cpDet">—</div>
     </div>
   </div>
 
   <!-- SAC -->
-  <div id="secSAC" style="display:none">
-    <div class="sac-preview" id="sacPrev">
-      <div class="sv-val" id="sacVal">—</div>
-      <div class="sv-det" id="sacDet">Calculado automáticamente</div>
+  <div id="sec-sac" style="display:none">
+    <div class="divider"></div>
+    <div class="sac-calc">
+      <div class="sc-val" id="sacVal" data-auto="0">—</div>
+      <div class="sc-det" id="sacDet">Calculado automáticamente</div>
     </div>
-    <div class="form-row" style="margin-top:14px">
-      <label>Monto manual (opcional, sobreescribe el cálculo)</label>
-      <input type="number" id="pSACManual" placeholder="dejar vacío para usar el calculado" oninput="calcSAC()"/>
+    <div class="frow" style="margin-top:14px">
+      <label>Monto manual (opcional)</label>
+      <input type="number" id="pSACm" placeholder="dejar vacío para usar el calculado" oninput="calcSAC()"/>
+      <div class="hint">Solo si el cálculo automático no es correcto</div>
     </div>
   </div>
 
   <div class="modal-footer">
-    <button class="btn btn-ghost" onclick="cerrarModal('ovPeriodo')">Cancelar</button>
-    <button class="btn btn-primary" onclick="guardarPeriodo()">Guardar período</button>
+    <button class="btn btn-ghost" onclick="cerrar('ovPer')">Cancelar</button>
+    <button class="btn btn-primary" onclick="guardar()">Guardar período</button>
   </div>
 </div>
 </div>
 
-<!-- MODAL PAGO -->
-<div class="overlay" id="ovPago">
+<!-- MODAL: PAGO -->
+<div class="ovl" id="ovPago">
 <div class="modal">
-  <h2>💸 Registrar pago</h2>
-  <div class="form-row"><label>Fecha</label><input type="date" id="pgFecha"/></div>
-  <div class="form-row"><label>Concepto</label><input type="text" id="pgConcepto" placeholder="Transferencia, Efectivo..."/></div>
-  <div class="form-row"><label>Monto ($)</label><input type="number" id="pgMonto" placeholder="0"/></div>
+  <div class="modal-title">Registrar pago</div>
+  <div class="frow"><label>Fecha</label><input type="date" id="pgF"/></div>
+  <div class="frow"><label>Concepto</label><input type="text" id="pgC" placeholder="Transferencia, efectivo, cheque..."/></div>
+  <div class="frow"><label>Monto ($)</label><input type="number" id="pgM" placeholder="0"/></div>
   <div class="modal-footer">
-    <button class="btn btn-ghost" onclick="cerrarModal('ovPago')">Cancelar</button>
-    <button class="btn btn-green" onclick="guardarPago()">Registrar</button>
+    <button class="btn btn-ghost" onclick="cerrar('ovPago')">Cancelar</button>
+    <button class="btn btn-green" onclick="guardarPago()">✓ Registrar</button>
   </div>
 </div>
 </div>
 
-<!-- MODAL CONFIG -->
-<div class="overlay" id="ovConfig">
+<!-- MODAL: CONFIG -->
+<div class="ovl" id="ovConf">
 <div class="modal">
-  <h2>⚙ Configuración</h2>
-  <div class="form-row"><label>Master Key JSONBin</label><input type="password" id="cfgKey"/></div>
-  <div class="form-row"><label>Bin ID</label><input type="text" id="cfgBin"/></div>
+  <div class="modal-title">Configuración</div>
+  <div class="frow"><label>Master Key JSONBin</label><input type="password" id="cfK"/></div>
+  <div class="frow"><label>Bin ID</label><input type="text" id="cfB"/></div>
   <div class="divider"></div>
-  <p style="font-size:12px;color:var(--ink3);margin-bottom:10px">Importar datos históricos</p>
-  <button class="btn btn-amber" style="width:100%;justify-content:center" onclick="importarHistorico()">📥 Importar historial del Excel (51 períodos)</button>
-  <p style="font-size:11px;color:var(--ink4);margin-top:6px">Reemplaza todos los datos. Usar solo la primera vez.</p>
+  <div class="section-label" style="margin-bottom:8px">Importar datos</div>
+  <button class="btn btn-amber" style="width:100%;margin-bottom:8px" onclick="importarHistorico(false)">📥 Importar historial del Excel (51 períodos)</button>
+  <p style="font-size:11px;color:var(--ink4)">Reemplaza todos los datos actuales. Solo para primera carga.</p>
   <div class="modal-footer">
-    <button class="btn btn-ghost" onclick="cerrarModal('ovConfig')">Cancelar</button>
-    <button class="btn btn-primary" onclick="guardarConfig()">Guardar</button>
+    <button class="btn btn-ghost" onclick="cerrar('ovConf')">Cancelar</button>
+    <button class="btn btn-primary" onclick="guardarConf()">Guardar</button>
   </div>
 </div>
 </div>
@@ -339,127 +499,110 @@ input:focus,select:focus{border-color:var(--blue)}
 <div id="toast"></div>
 
 <script>
-const MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-const BASE = 'https://api.jsonbin.io/v3';
-let KEY='', BIN='';
-let data = { config:{valorHoraVigente:8131.23}, periodos:[] };
-let selId = null, editId = null, pagoParaId = null;
+const MESES=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+const BASE='https://api.jsonbin.io/v3';
+let KEY='',BIN='';
+let data={config:{valorHoraVigente:8131.23},periodos:[]};
+let selId=null,editId=null,pagoId=null;
 
-// ── INICIO ────────────────────────────────────────────────────────────────────
-window.onload = () => {
-  KEY = localStorage.getItem('elda_key')||'';
-  BIN = localStorage.getItem('elda_bin')||'';
-  if (KEY && BIN) { mostrarApp(); cargarDatos(); }
+// ── INIT ──────────────────────────────────────────────────────────────────────
+window.onload=()=>{
+  KEY=localStorage.getItem('elda_key')||'';
+  BIN=localStorage.getItem('elda_bin')||'';
+  if(KEY&&BIN){show('app');cargar();}
   else show('setup');
 };
 
-function mostrarApp(){ hide('setup'); show('app'); }
-
 async function doSetup(){
-  KEY = id('sKey').value.trim();
-  BIN = id('sBin').value.trim();
-  const err = id('setupErr');
-  err.style.display='none';
-  if(!KEY){ err.textContent='Ingresá la master key'; err.style.display='block'; return; }
-  setStatus('saving','Conectando...');
-  try {
+  KEY=g('sKey').value.trim(); BIN=g('sBin').value.trim();
+  const err=g('setupErr');err.style.display='none';
+  if(!KEY){err.textContent='Ingresá la master key';err.style.display='block';return;}
+  st('saving','Conectando...');
+  try{
     if(!BIN){
-      const r = await fetch(`${BASE}/b`,{method:'POST',headers:{'Content-Type':'application/json','X-Master-Key':KEY,'X-Bin-Name':'elda-cc'},body:JSON.stringify(data)});
-      const j = await r.json();
-      if(!j.metadata) throw new Error(j.message||'Error creando bin');
-      BIN = j.metadata.id;
+      const r=await fetch(`${BASE}/b`,{method:'POST',headers:{'Content-Type':'application/json','X-Master-Key':KEY,'X-Bin-Name':'elda-cc'},body:JSON.stringify(data)});
+      const j=await r.json();
+      if(!j.metadata) throw new Error(j.message||'Error');
+      BIN=j.metadata.id;
     }
-    localStorage.setItem('elda_key',KEY);
-    localStorage.setItem('elda_bin',BIN);
-    mostrarApp();
-    await cargarDatos();
-  } catch(e){ err.textContent='Error: '+e.message; err.style.display='block'; setStatus('err','Error'); }
+    localStorage.setItem('elda_key',KEY);localStorage.setItem('elda_bin',BIN);
+    hide('setup');show('app');
+    await cargar();
+  }catch(e){err.textContent='Error: '+e.message;err.style.display='block';st('err','Error');}
 }
 
-// ── DATOS ─────────────────────────────────────────────────────────────────────
-async function cargarDatos(){
-  setStatus('saving','Cargando...');
-  try {
-    const r = await fetch(`${BASE}/b/${BIN}/latest`,{headers:{'X-Master-Key':KEY}});
-    const j = await r.json();
-    data = j.record || {config:{valorHoraVigente:8131.23},periodos:[]};
-    if(!data.periodos) data.periodos=[];
-    if(!data.config) data.config={valorHoraVigente:8131.23};
-    setStatus('ok','Sincronizado');
-    // Si no hay períodos, importar automáticamente
-    if(data.periodos.length === 0){
-      importarHistorico(true); // true = silencioso (sin confirm)
-    } else {
-      renderTodo();
-    }
-  } catch(e){ setStatus('err','Sin conexión'); toast('Error al cargar'); }
+// ── DATA ──────────────────────────────────────────────────────────────────────
+async function cargar(){
+  st('saving','Cargando...');
+  try{
+    const r=await fetch(`${BASE}/b/${BIN}/latest`,{headers:{'X-Master-Key':KEY}});
+    const j=await r.json();
+    data=j.record||{config:{valorHoraVigente:8131.23},periodos:[]};
+    if(!data.periodos)data.periodos=[];
+    if(!data.config)data.config={valorHoraVigente:8131.23};
+    st('ok','Sincronizado');
+    if(data.periodos.length===0)importarHistorico(true,true);
+    else renderAll();
+  }catch(e){st('err','Sin conexión');toast('Error al cargar');}
 }
 
 async function guardarDatos(){
-  setStatus('saving','Guardando...');
-  try {
+  st('saving','Guardando...');
+  try{
     await fetch(`${BASE}/b/${BIN}`,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':KEY},body:JSON.stringify(data)});
-    setStatus('ok','Guardado');
-  } catch(e){ setStatus('err','Error al guardar'); toast('Error al guardar'); }
+    st('ok','Guardado');
+  }catch(e){st('err','Error');toast('Error al guardar');}
 }
 
 // ── RENDER ────────────────────────────────────────────────────────────────────
 function calcSaldos(){
-  data.periodos.sort((a,b)=>{
-    const da=a.anio*1000+a.mes*2+(a.esSAC?1:0);
-    const db=b.anio*1000+b.mes*2+(b.esSAC?1:0);
-    return da-db;
-  });
-  let acum=0;
+  data.periodos.sort((a,b)=>(a.anio*1000+a.mes*2+(a.esSAC?1:0))-(b.anio*1000+b.mes*2+(b.esSAC?1:0)));
+  let ac=0;
   for(const p of data.periodos){
-    const pagado=(p.pagos||[]).reduce((s,pg)=>s+Number(pg.monto),0);
-    p.saldoPeriodo=p.sueldo-pagado;
-    acum+=p.saldoPeriodo;
-    p.saldoAcumulado=acum;
+    const pag=(p.pagos||[]).reduce((s,x)=>s+Number(x.monto),0);
+    p.saldoPeriodo=p.sueldo-pag; ac+=p.saldoPeriodo; p.saldoAcumulado=ac;
   }
 }
 
-function renderTodo(){ calcSaldos(); renderSummary(); renderTabla(); if(selId) renderDetalle(selId); }
+function renderAll(){calcSaldos();renderStats();renderTabla();if(selId)renderDetalle(selId);}
 
-function renderSummary(){
-  const ps=data.periodos, last=ps.length?ps[ps.length-1]:null;
+function renderStats(){
+  const ps=data.periodos,last=ps.length?ps[ps.length-1]:null;
   const saldo=last?last.saldoAcumulado:0;
   const dev=ps.reduce((s,p)=>s+p.sueldo,0);
-  const pag=ps.reduce((s,p)=>s+(p.pagos||[]).reduce((a,pg)=>a+pg.monto,0),0);
-  const vh=data.config.valorHoraVigente||0;
-  const scS=id('sc-saldo');
-  scS.className='sc '+(saldo>0?'red':saldo<0?'green':'blue');
-  scS.querySelector('.sc-val').textContent=fmtM(Math.abs(saldo));
-  scS.querySelector('.sc-sub').textContent=saldo>0?'Le debemos a Elda':saldo<0?'Pagado de más':'Al día ✓';
-  id('sc-vh').querySelector('.sc-val').textContent='$'+fmtN(vh);
-  id('sc-dev').querySelector('.sc-val').textContent=fmtM(dev);
-  id('sc-pag').querySelector('.sc-val').textContent=fmtM(pag);
+  const pag=ps.reduce((s,p)=>s+(p.pagos||[]).reduce((a,x)=>a+x.monto,0),0);
+  const stS=g('st-saldo');
+  stS.querySelector('.stat-val').textContent=fmtM(Math.abs(saldo));
+  stS.querySelector('.stat-val').className='stat-val mono '+(saldo>0?'red':saldo<0?'green':'blue');
+  g('st-saldo-sub').textContent=saldo>0?'⬆ Le debemos a Elda':saldo<0?'⬇ Pagado de más':'✓ Al día';
+  g('st-vh').querySelector('.stat-val').textContent='$'+fmtN(data.config.valorHoraVigente||0);
+  g('st-dev').textContent=fmtM(dev);
+  g('st-pag').textContent=fmtM(pag);
 }
 
 function renderTabla(){
-  const wrap=id('tablaWrapper');
-  if(!data.periodos.length){ id('banner').style.display='flex'; wrap.innerHTML=''; return; }
-  id('banner').style.display='none';
+  const wrap=g('tabla');
+  if(!data.periodos.length){g('banner').style.display='flex';wrap.innerHTML='';return;}
+  g('banner').style.display='none';
   const byYear={};
-  for(const p of data.periodos){ if(!byYear[p.anio]) byYear[p.anio]=[]; byYear[p.anio].push(p); }
-  const years=Object.keys(byYear).map(Number).sort((a,b)=>b-a);
+  for(const p of data.periodos){(byYear[p.anio]=byYear[p.anio]||[]).push(p);}
+  const yrs=Object.keys(byYear).map(Number).sort((a,b)=>b-a);
   let h='<div class="col-head"><span>Período</span><span>Detalle</span><span style="text-align:right">Sueldo</span><span style="text-align:right">Pagado</span><span style="text-align:right">Saldo acum.</span><span></span></div>';
-  for(const yr of years){
-    h+=`<div class="year-section"><div class="year-label">${yr}</div>`;
+  for(const yr of yrs){
+    h+=`<div class="year-block"><div class="section-header"><div class="year-badge">${yr}</div></div>`;
     for(const p of [...byYear[yr]].reverse()){
-      const pag=(p.pagos||[]).reduce((s,pg)=>s+pg.monto,0);
-      const sc=p.saldoAcumulado>0?'saldo-pos':p.saldoAcumulado<0?'saldo-neg':'saldo-zero';
+      const pag=(p.pagos||[]).reduce((s,x)=>s+x.monto,0);
+      const sc=p.saldoAcumulado>0?'pos':p.saldoAcumulado<0?'neg':'zero';
       const det=p.esSAC?'Aguinaldo semestral':(p.horas&&p.valorHora?`${p.horas}h × $${fmtN(p.valorHora)}`:'—');
-      const badge=p.esSAC?'<span class="badge">SAC</span>':'';
       const sel=selId===p.id?' selected':'';
-      const sacCls=p.esSAC?' sac':'';
-      h+=`<div class="prow${sacCls}${sel}" onclick="seleccionarPeriodo('${p.id}')">
-        <div class="pname">${badge}${MESES[p.mes]}</div>
+      const sac=p.esSAC?' issac':'';
+      h+=`<div class="prow${sac}${sel}" onclick="sel('${p.id}')">
+        <div class="pname">${p.esSAC?'<span class="sac-badge">SAC</span>':''} ${MESES[p.mes]}</div>
         <div class="pdet">${det}</div>
         <div class="pnum">${fmt(p.sueldo)}</div>
-        <div class="pnum dim">${pag?fmt(pag):'—'}</div>
-        <div class="pnum ${sc}">${fmt(p.saldoAcumulado)}</div>
-        <button class="prow-del" onclick="event.stopPropagation();borrarPeriodo('${p.id}')" title="Eliminar">✕</button>
+        <div class="pnum muted">${pag?fmt(pag):'—'}</div>
+        <div class="pnum bold ${sc}">${fmt(p.saldoAcumulado)}</div>
+        <button class="pdel" onclick="event.stopPropagation();borrar('${p.id}')">✕</button>
       </div>`;
     }
     h+='</div>';
@@ -469,233 +612,208 @@ function renderTabla(){
 
 function renderDetalle(pid){
   const p=data.periodos.find(x=>x.id===pid);
-  const panel=id('rightCol');
-  if(!p){ panel.innerHTML='<div class="dp-empty"><div class="icon">👆</div><div>Seleccioná un período</div></div>'; return; }
-  const pagado=(p.pagos||[]).reduce((s,pg)=>s+pg.monto,0);
-  const scColor=p.saldoAcumulado>0?'var(--red)':p.saldoAcumulado<0?'var(--green)':'var(--ink3)';
+  const panel=g('colDetail');
+  if(!p){panel.innerHTML='<div class="dp-empty"><div class="dp-empty-icon">←</div><div class="dp-empty-text">Seleccioná un período</div></div>';return;}
+  const pag=(p.pagos||[]).reduce((s,x)=>s+x.monto,0);
+  const sc=p.saldoAcumulado>0?'pos':p.saldoAcumulado<0?'neg':'zero';
+  const scTxt=p.saldoAcumulado>0?'Debe':'Pagado de más';
 
-  let detGrid='';
+  let detalle='';
   if(!p.esSAC){
-    detGrid=`<div class="mini-grid">
-      <div class="mini-item"><div class="mi-label">Horas</div><div class="mi-val">${p.horas||'—'}</div></div>
-      <div class="mini-item"><div class="mi-label">Valor hora</div><div class="mi-val">${p.valorHora?'$'+fmtN(p.valorHora):'—'}</div></div>
-      <div class="mini-item"><div class="mi-label">Remunerativo</div><div class="mi-val">${fmt((p.horas||0)*(p.valorHora||0))}</div></div>
-      <div class="mini-item"><div class="mi-label">No remunerativo</div><div class="mi-val">${fmt(p.noRemunerativo||0)}</div></div>
+    detalle=`<div class="info-grid">
+      <div class="info-cell"><div class="ic-label">Horas</div><div class="ic-val">${p.horas||'—'}</div></div>
+      <div class="info-cell"><div class="ic-label">Valor/hora</div><div class="ic-val">${p.valorHora?'$'+fmtN(p.valorHora):'—'}</div></div>
+      <div class="info-cell"><div class="ic-label">Remunerativo</div><div class="ic-val">${fmt((p.horas||0)*(p.valorHora||0))}</div></div>
+      <div class="info-cell"><div class="ic-label">No remunerativo</div><div class="ic-val">${fmt(p.noRemunerativo||0)}</div></div>
     </div>`;
   } else {
-    detGrid=`<div class="mini-item" style="margin-bottom:10px"><div class="mi-label">SAC / Aguinaldo</div><div class="mi-val" style="font-size:20px">${fmt(p.sueldo)}</div></div>`;
+    detalle=`<div class="info-cell" style="margin-bottom:10px"><div class="ic-label">SAC / Aguinaldo</div><div class="ic-val" style="font-size:22px">${fmt(p.sueldo)}</div></div>`;
   }
 
   let pagosH=(p.pagos||[]).map(pg=>`
-    <div class="pago-row">
-      <div class="pr-left"><div class="pr-concepto">${pg.concepto||'Pago'}</div><div class="pr-fecha">${pg.fecha||'Sin fecha'}</div></div>
-      <div class="pr-right">
-        <div class="pr-monto">${fmt(pg.monto)}</div>
-        <button class="pr-del" onclick="borrarPago('${p.id}','${pg.id}')">✕</button>
+    <div class="pago-item">
+      <div class="pi-meta"><div class="pi-name">${pg.concepto||'Pago'}</div><div class="pi-date">${pg.fecha||'Sin fecha'}</div></div>
+      <div class="pi-right">
+        <div class="pi-amount">${fmt(pg.monto)}</div>
+        <button class="pi-del" onclick="borrarPago('${p.id}','${pg.id}')">✕</button>
       </div>
     </div>`).join('');
-  if(!pagosH) pagosH='<div class="no-pagos">Sin pagos registrados</div>';
+  if(!pagosH)pagosH='<div class="no-pagos">Sin pagos registrados</div>';
 
-  panel.innerHTML=`<div class="dp-body">
-    <div class="dp-title">${p.esSAC?'SAC · ':''}${MESES[p.mes]} ${p.anio}</div>
-    <div class="dp-saldo" style="color:${scColor}">Saldo acumulado: ${fmt(p.saldoAcumulado)}</div>
-    <div class="dp-section"><h4>Devengado</h4>
-      ${detGrid}
-      <div class="total-bar"><span class="tb-label">Total sueldo</span><span class="tb-val">${fmt(p.sueldo)}</span></div>
+  panel.innerHTML=`<div class="dp-wrap">
+    <div class="dp-kicker">${p.anio}</div>
+    <div class="dp-title">${p.esSAC?'SAC · ':''}${MESES[p.mes]}</div>
+    <div class="dp-saldo">
+      <span style="font-size:13px;color:var(--ink3)">Saldo acumulado</span>
+      <span class="dp-saldo-badge ${sc}">${fmt(p.saldoAcumulado)}</span>
     </div>
+
     <div class="dp-section">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-        <h4 style="margin-bottom:0">Pagos recibidos · ${fmt(pagado)}</h4>
-        <button class="btn btn-green btn-sm" onclick="abrirAgregarPago('${p.id}')">+ Pago</button>
+      <div class="dp-section-title">Devengado</div>
+      ${detalle}
+      <div class="total-highlight">
+        <span class="th-label">Total sueldo</span>
+        <span class="th-val">${fmt(p.sueldo)}</span>
+      </div>
+    </div>
+
+    <div class="dp-section">
+      <div class="section-actions">
+        <div class="dp-section-title">Pagos recibidos · ${fmt(pag)}</div>
+        <button class="btn btn-green btn-sm" onclick="abrirPago('${p.id}')">+ Pago</button>
       </div>
       ${pagosH}
     </div>
+
     <div class="dp-actions">
-      <button class="btn btn-ghost btn-sm" onclick="editarPeriodo('${p.id}')">✏ Editar</button>
-      <button class="btn btn-danger btn-sm" onclick="borrarPeriodo('${p.id}')">🗑 Eliminar</button>
+      <button class="btn btn-ghost btn-sm" onclick="editar('${p.id}')">✏ Editar</button>
+      <button class="btn btn-danger btn-sm" onclick="borrar('${p.id}')">🗑 Eliminar</button>
     </div>
   </div>`;
 }
 
-function seleccionarPeriodo(pid){ selId=pid; renderTabla(); renderDetalle(pid); }
+function sel(pid){selId=pid;renderTabla();renderDetalle(pid);}
 
-// ── PERÍODO MODAL ─────────────────────────────────────────────────────────────
-function abrirNuevoPeriodo(){
-  editId=null;
-  id('titPeriodo').textContent='➕ Nuevo período';
+// ── PERÍODO ───────────────────────────────────────────────────────────────────
+function abrirNuevo(){
+  editId=null;g('per-title').textContent='Nuevo período';
   const hoy=new Date();
-  id('pMes').value=hoy.getMonth();
-  id('pAnio').value=hoy.getFullYear();
-  id('pTipo').value='normal';
-  id('pSACManual').value='';
-  id('pHoras').value='';
-  id('pNoRem').value='';
-  id('pAumento').value='';
-  // Auto VH
+  g('pMes').value=hoy.getMonth();g('pAnio').value=hoy.getFullYear();
+  g('pTipo').value='normal';g('pSACm').value='';g('pHoras').value='';
+  g('pNoRem').value='';g('pAum').value='';
   const last=[...data.periodos].filter(p=>!p.esSAC&&p.valorHora).pop();
-  const prevVH=last?last.valorHora:(data.config.valorHoraVigente||0);
-  id('pVHPrev').value=prevVH;
-  id('pVH').value=prevVH;
-  id('vhResultado').textContent='$'+fmtN(prevVH);
-  onCambiaTipo();
-  abrirModal('ovPeriodo');
+  const prev=last?last.valorHora:(data.config.valorHoraVigente||0);
+  g('vhPrev').textContent='$'+fmtN(prev);g('pVH').value=prev;
+  g('vhRes').textContent='$'+fmtN(prev);
+  onTipo();abrir('ovPer');
 }
 
-function editarPeriodo(pid){
-  const p=data.periodos.find(x=>x.id===pid);
-  editId=pid;
-  id('titPeriodo').textContent='✏ Editar período';
-  id('pMes').value=p.mes;
-  id('pAnio').value=p.anio;
-  id('pTipo').value=p.esSAC?'sac':'normal';
-  id('pHoras').value=p.horas||'';
-  id('pNoRem').value=p.noRemunerativo||'';
-  id('pAumento').value='';
-  const prevVH=(()=>{const last=[...data.periodos].filter(q=>!q.esSAC&&q.valorHora&&q.id!==pid).pop();return last?last.valorHora:(data.config.valorHoraVigente||0);})();
-  id('pVHPrev').value=prevVH;
-  id('pVH').value=p.valorHora||prevVH;
-  id('vhResultado').textContent='$'+fmtN(p.valorHora||prevVH);
-  id('pSACManual').value='';
-  onCambiaTipo();
-  abrirModal('ovPeriodo');
+function editar(pid){
+  const p=data.periodos.find(x=>x.id===pid);editId=pid;
+  g('per-title').textContent='Editar período';
+  g('pMes').value=p.mes;g('pAnio').value=p.anio;
+  g('pTipo').value=p.esSAC?'sac':'normal';
+  g('pHoras').value=p.horas||'';g('pNoRem').value=p.noRemunerativo||'';g('pAum').value='';
+  const last=[...data.periodos].filter(q=>!q.esSAC&&q.valorHora&&q.id!==pid).pop();
+  const prev=last?last.valorHora:(data.config.valorHoraVigente||0);
+  g('vhPrev').textContent='$'+fmtN(prev);
+  g('pVH').value=p.valorHora||prev;
+  g('vhRes').textContent='$'+fmtN(p.valorHora||prev);
+  g('pSACm').value='';onTipo();abrir('ovPer');
 }
 
-function onCambiaTipo(){
-  const t=id('pTipo').value;
-  id('secNormal').style.display=t==='normal'?'block':'none';
-  id('secSAC').style.display=t==='sac'?'block':'none';
-  if(t==='sac') calcSAC(); else calcPreview();
+function onTipo(){
+  const t=g('pTipo').value;
+  g('sec-normal').style.display=t==='normal'?'block':'none';
+  g('sec-sac').style.display=t==='sac'?'block':'none';
+  if(t==='sac')calcSAC();else calcPrev();
 }
 
 function calcVH(){
-  const prev=parseFloat(id('pVHPrev').value)||0;
-  const aum=parseFloat(id('pAumento').value)||0;
-  const resultado=prev+aum;
-  id('pVH').value=resultado.toFixed(2);
-  id('vhResultado').textContent='$'+fmtN(resultado);
-  calcPreview();
+  const prev=parseFloat(g('vhPrev').textContent.replace(/[^0-9,.]/g,'').replace(',','.'))||0;
+  const aum=parseFloat(g('pAum').value)||0;
+  const res=prev+aum;
+  g('pVH').value=res.toFixed(2);g('vhRes').textContent='$'+fmtN(res);calcPrev();
 }
 
-function calcPreview(){
-  const h=parseFloat(id('pHoras').value)||0;
-  const vh=parseFloat(id('pVH').value)||0;
-  const nr=parseFloat(id('pNoRem').value)||0;
-  const box=id('prevBox');
+function calcPrev(){
+  const h=parseFloat(g('pHoras').value)||0;
+  const vh=parseFloat(g('pVH').value)||0;
+  const nr=parseFloat(g('pNoRem').value)||0;
+  const box=g('cpBox');
   if(h&&vh){
-    const rem=h*vh, tot=rem+nr;
-    id('pvVal').textContent=fmt(tot);
-    id('pvDet').textContent=`${h}h × $${fmtN(vh)} = ${fmt(rem)}`+(nr?` + NR ${fmt(nr)}`:'');
+    const rem=h*vh,tot=rem+nr;
+    g('cpVal').textContent=fmt(tot);
+    g('cpDet').textContent=`${h}h × $${fmtN(vh)} = ${fmt(rem)}`+(nr?` + NR ${fmt(nr)}`:'');
     box.style.display='block';
-  } else box.style.display='none';
+  }else box.style.display='none';
 }
 
 function calcSAC(){
-  const mes=parseInt(id('pMes').value);
-  const anio=parseInt(id('pAnio').value);
-  const semS=mes<=5?0:6, semE=mes<=5?5:11;
-  const sueldos=data.periodos.filter(p=>!p.esSAC&&p.anio===anio&&p.mes>=semS&&p.mes<=semE).map(p=>p.sueldo);
-  let sacAuto=0;
-  if(sueldos.length) sacAuto=Math.round(sueldos.reduce((a,b)=>a+b,0)/sueldos.length/2);
-  id('sacVal').textContent=sacAuto?fmt(sacAuto):'Sin datos del semestre';
-  id('sacDet').textContent=sueldos.length?`Promedio ${sueldos.length} meses del semestre ÷ 2`:'No hay meses cargados para este semestre';
-  id('sacVal').dataset.auto=sacAuto;
+  const mes=parseInt(g('pMes').value),anio=parseInt(g('pAnio').value);
+  const s0=mes<=5?0:6,s1=mes<=5?5:11;
+  const ss=data.periodos.filter(p=>!p.esSAC&&p.anio===anio&&p.mes>=s0&&p.mes<=s1).map(p=>p.sueldo);
+  const auto=ss.length?Math.round(ss.reduce((a,b)=>a+b,0)/ss.length/2):0;
+  g('sacVal').textContent=auto?fmt(auto):'Sin datos del semestre';
+  g('sacVal').dataset.auto=auto;
+  g('sacDet').textContent=ss.length?`Promedio ${ss.length} meses del semestre ÷ 2`:'No hay meses del semestre cargados';
 }
 
-function guardarPeriodo(){
-  const mes=parseInt(id('pMes').value);
-  const anio=parseInt(id('pAnio').value);
-  const tipo=id('pTipo').value;
-  let sueldo=0, horas=null, valorHora=null, noRem=0;
+function guardar(){
+  const mes=parseInt(g('pMes').value),anio=parseInt(g('pAnio').value),tipo=g('pTipo').value;
+  let sueldo=0,horas=null,vh=null,noRem=0;
   if(tipo==='normal'){
-    horas=parseFloat(id('pHoras').value)||0;
-    valorHora=parseFloat(id('pVH').value)||0;
-    noRem=parseFloat(id('pNoRem').value)||0;
-    if(!horas||!valorHora){ toast('⚠ Completá horas y valor hora'); return; }
-    sueldo=Math.round(horas*valorHora+noRem);
-    data.config.valorHoraVigente=valorHora;
-  } else {
-    const manual=parseFloat(id('pSACManual').value)||0;
-    const auto=parseInt(id('sacVal').dataset.auto)||0;
-    sueldo=manual||auto;
-    if(!sueldo){ toast('⚠ No se pudo calcular el SAC'); return; }
+    horas=parseFloat(g('pHoras').value)||0;vh=parseFloat(g('pVH').value)||0;noRem=parseFloat(g('pNoRem').value)||0;
+    if(!horas||!vh){toast('⚠ Completá horas y valor hora');return;}
+    sueldo=Math.round(horas*vh+noRem);data.config.valorHoraVigente=vh;
+  }else{
+    const m=parseFloat(g('pSACm').value)||0,a=parseInt(g('sacVal').dataset.auto)||0;
+    sueldo=m||a;if(!sueldo){toast('⚠ Sin datos para calcular SAC');return;}
   }
   if(editId){
     const p=data.periodos.find(x=>x.id===editId);
-    Object.assign(p,{mes,anio,esSAC:tipo==='sac',horas,valorHora,noRemunerativo:noRem,sueldo});
-  } else {
+    Object.assign(p,{mes,anio,esSAC:tipo==='sac',horas,valorHora:vh,noRemunerativo:noRem,sueldo});
+  }else{
     const pid=`${anio}-${String(mes+1).padStart(2,'0')}${tipo==='sac'?'SAC':''}-${Date.now()}`;
-    data.periodos.push({id:pid,mes,anio,esSAC:tipo==='sac',horas,valorHora,noRemunerativo:noRem,sueldo,pagos:[]});
+    data.periodos.push({id:pid,mes,anio,esSAC:tipo==='sac',horas,valorHora:vh,noRemunerativo:noRem,sueldo,pagos:[]});
   }
-  cerrarModal('ovPeriodo');
-  guardarDatos().then(()=>{ renderTodo(); toast('✓ Período guardado'); });
+  cerrar('ovPer');guardarDatos().then(()=>{renderAll();toast('✓ Período guardado');});
 }
 
-function borrarPeriodo(pid){
-  if(!confirm('¿Eliminar este período y sus pagos?')) return;
+function borrar(pid){
+  if(!confirm('¿Eliminar este período?'))return;
   data.periodos=data.periodos.filter(p=>p.id!==pid);
-  if(selId===pid){ selId=null; id('rightCol').innerHTML='<div class="dp-empty"><div class="icon">👆</div><div>Seleccioná un período</div></div>'; }
-  guardarDatos().then(()=>{ renderTodo(); toast('Período eliminado'); });
+  if(selId===pid){selId=null;g('colDetail').innerHTML='<div class="dp-empty"><div class="dp-empty-icon">←</div><div class="dp-empty-text">Seleccioná un período</div></div>';}
+  guardarDatos().then(()=>{renderAll();toast('Período eliminado');});
 }
 
 // ── PAGOS ─────────────────────────────────────────────────────────────────────
-function abrirAgregarPago(pid){
-  pagoParaId=pid;
-  id('pgFecha').value=new Date().toISOString().split('T')[0];
-  id('pgConcepto').value='';
-  id('pgMonto').value='';
-  abrirModal('ovPago');
+function abrirPago(pid){
+  pagoId=pid;g('pgF').value=new Date().toISOString().split('T')[0];g('pgC').value='';g('pgM').value='';abrir('ovPago');
 }
-
 function guardarPago(){
-  const p=data.periodos.find(x=>x.id===pagoParaId);
-  if(!p) return;
-  const monto=parseFloat(id('pgMonto').value)||0;
-  if(!monto){ toast('⚠ Ingresá un monto'); return; }
-  (p.pagos=p.pagos||[]).push({id:'pg-'+Date.now(),fecha:id('pgFecha').value,concepto:id('pgConcepto').value||'Pago',monto});
-  cerrarModal('ovPago');
-  guardarDatos().then(()=>{ renderTodo(); toast('✓ Pago registrado'); });
+  const p=data.periodos.find(x=>x.id===pagoId);if(!p)return;
+  const m=parseFloat(g('pgM').value)||0;if(!m){toast('⚠ Ingresá un monto');return;}
+  (p.pagos=p.pagos||[]).push({id:'pg-'+Date.now(),fecha:g('pgF').value,concepto:g('pgC').value||'Pago',monto:m});
+  cerrar('ovPago');guardarDatos().then(()=>{renderAll();toast('✓ Pago registrado');});
 }
-
 function borrarPago(pid,pgid){
-  const p=data.periodos.find(x=>x.id===pid);
-  if(!p) return;
-  p.pagos=p.pagos.filter(pg=>pg.id!==pgid);
-  guardarDatos().then(()=>{ renderTodo(); toast('Pago eliminado'); });
+  const p=data.periodos.find(x=>x.id===pid);if(!p)return;
+  p.pagos=p.pagos.filter(x=>x.id!==pgid);
+  guardarDatos().then(()=>{renderAll();toast('Pago eliminado');});
 }
 
 // ── CONFIG ────────────────────────────────────────────────────────────────────
-function abrirConfig(){ id('cfgKey').value=KEY; id('cfgBin').value=BIN; abrirModal('ovConfig'); }
-async function guardarConfig(){
-  const k=id('cfgKey').value.trim(), b=id('cfgBin').value.trim();
-  if(k){ KEY=k; localStorage.setItem('elda_key',KEY); }
-  if(b){ BIN=b; localStorage.setItem('elda_bin',BIN); }
-  cerrarModal('ovConfig');
-  await guardarDatos();
-  toast('✓ Configuración guardada');
+function abrirConf(){g('cfK').value=KEY;g('cfB').value=BIN;abrir('ovConf');}
+async function guardarConf(){
+  const k=g('cfK').value.trim(),b=g('cfB').value.trim();
+  if(k){KEY=k;localStorage.setItem('elda_key',KEY);}
+  if(b){BIN=b;localStorage.setItem('elda_bin',BIN);}
+  cerrar('ovConf');await guardarDatos();toast('✓ Config guardada');
 }
 
-// ── IMPORTAR HISTÓRICO ────────────────────────────────────────────────────────
-function importarHistorico(silencioso=false){
-  if(!silencioso && !confirm('⚠ Esto reemplaza TODOS los datos con el histórico del Excel (51 períodos). ¿Confirmar?')) return;
-  cerrarModal('ovConfig');
-  data = JSON.parse(JSON.stringify(HISTORICO));
-  guardarDatos().then(()=>{ renderTodo(); toast('✓ '+data.periodos.length+' períodos importados'); });
+// ── IMPORTAR ──────────────────────────────────────────────────────────────────
+function importarHistorico(esBanner=false, silencioso=false){
+  if(!silencioso&&!confirm('⚠ Esto reemplaza todos los datos con el historial del Excel (51 períodos). ¿Confirmar?'))return;
+  cerrar('ovConf');
+  data=JSON.parse(JSON.stringify(HISTORICO));
+  guardarDatos().then(()=>{renderAll();toast(`✓ ${data.periodos.length} períodos importados`);});
 }
 
 // ── UTILS ─────────────────────────────────────────────────────────────────────
-function fmt(n){ return '$'+Math.round(Number(n)||0).toLocaleString('es-AR'); }
-function fmtM(n){ const v=Math.round(Number(n)||0); return v>=1e9?'$'+(v/1e9).toFixed(1)+'B':v>=1e6?'$'+(v/1e6).toFixed(1)+'M':'$'+v.toLocaleString('es-AR'); }
-function fmtN(n){ return Number(n).toLocaleString('es-AR',{minimumFractionDigits:2,maximumFractionDigits:2}); }
-function id(x){ return document.getElementById(x); }
-function show(x){ id(x).style.display='flex'; }
-function hide(x){ id(x).style.display='none'; }
-function setStatus(t,m){ id('dot').className='dot '+t; id('statusTxt').textContent=m; }
-function toast(msg){ const el=id('toast'); el.textContent=msg; el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),2600); }
-function abrirModal(x){ id(x).classList.add('open'); }
-function cerrarModal(x){ id(x).classList.remove('open'); editId=null; }
-document.querySelectorAll('.overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');}));
+function fmt(n){return '$'+Math.round(Number(n)||0).toLocaleString('es-AR');}
+function fmtM(n){const v=Math.round(Number(n)||0);return v>=1e9?'$'+(v/1e9).toFixed(1)+'B':v>=1e6?'$'+(v/1e6).toFixed(1)+'M':'$'+v.toLocaleString('es-AR');}
+function fmtN(n){return Number(n).toLocaleString('es-AR',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function g(x){return document.getElementById(x);}
+function show(x){g(x).style.display='flex';}
+function hide(x){g(x).style.display='none';}
+function st(t,m){g('dot').className='dot '+t;g('stxt').textContent=m;}
+function abrir(x){g(x).classList.add('open');}
+function cerrar(x){g(x).classList.remove('open');editId=null;}
+function toast(msg){const el=g('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2600);}
+document.querySelectorAll('.ovl').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');}));
 
-// ── DATOS HISTÓRICOS ──────────────────────────────────────────────────────────
+// ── HISTORIAL ─────────────────────────────────────────────────────────────────
 const HISTORICO = {"config":{"valorHoraVigente":8131.23},"periodos":[{"id":"2022-09-h1001","mes":8,"anio":2022,"esSAC":false,"horas":null,"valorHora":null,"noRemunerativo":0,"sueldo":570166,"pagos":[{"id":"pg-h1001-0","fecha":"","concepto":"Pago inicial","monto":390000}],"saldoPeriodo":180166,"saldoAcumulado":180166},{"id":"2022-10-h1002","mes":9,"anio":2022,"esSAC":false,"horas":null,"valorHora":null,"noRemunerativo":0,"sueldo":150975,"pagos":[],"saldoPeriodo":150975,"saldoAcumulado":331141},{"id":"2022-11-h1003","mes":10,"anio":2022,"esSAC":false,"horas":318.5,"valorHora":495,"noRemunerativo":9000,"sueldo":166658,"pagos":[{"id":"pg-h1003-0","fecha":"","concepto":"Pago","monto":120000}],"saldoPeriodo":46658,"saldoAcumulado":377799},{"id":"2022-12-h1004","mes":11,"anio":2022,"esSAC":false,"horas":330,"valorHora":496,"noRemunerativo":9000,"sueldo":172680,"pagos":[{"id":"pg-h1004-0","fecha":"","concepto":"Pago","monto":90000}],"saldoPeriodo":82680,"saldoAcumulado":460479},{"id":"2022-12SAC-h1005","mes":11,"anio":2022,"esSAC":true,"horas":null,"valorHora":null,"noRemunerativo":0,"sueldo":81840,"pagos":[],"saldoPeriodo":81840,"saldoAcumulado":542319},{"id":"2023-01-h1006","mes":0,"anio":2023,"esSAC":false,"horas":286,"valorHora":524.7,"noRemunerativo":4500,"sueldo":154564,"pagos":[{"id":"pg-h1006-0","fecha":"","concepto":"Pago","monto":150000}],"saldoPeriodo":4564,"saldoAcumulado":546883},{"id":"2023-02-h1007","mes":1,"anio":2023,"esSAC":false,"horas":293,"valorHora":556.18,"noRemunerativo":0,"sueldo":162961,"pagos":[{"id":"pg-h1007-0","fecha":"","concepto":"Pago","monto":120000}],"saldoPeriodo":42961,"saldoAcumulado":589844},{"id":"2023-03-h1008","mes":2,"anio":2023,"esSAC":false,"horas":344,"valorHora":556.18,"noRemunerativo":0,"sueldo":191326,"pagos":[{"id":"pg-h1008-0","fecha":"","concepto":"Pago","monto":60000}],"saldoPeriodo":131326,"saldoAcumulado":721170},{"id":"2023-04-h1009","mes":3,"anio":2023,"esSAC":false,"horas":367,"valorHora":556.18,"noRemunerativo":14000,"sueldo":218118,"pagos":[{"id":"pg-h1009-0","fecha":"","concepto":"Pago","monto":210000}],"saldoPeriodo":8118,"saldoAcumulado":729288},{"id":"2023-05-h1010","mes":4,"anio":2023,"esSAC":false,"horas":329.5,"valorHora":556.18,"noRemunerativo":17000,"sueldo":200261,"pagos":[{"id":"pg-h1010-0","fecha":"","concepto":"Pago","monto":120000}],"saldoPeriodo":80261,"saldoAcumulado":809549},{"id":"2023-06-h1011","mes":5,"anio":2023,"esSAC":false,"horas":311.5,"valorHora":556.18,"noRemunerativo":20000,"sueldo":193250,"pagos":[{"id":"pg-h1011-0","fecha":"","concepto":"Pago","monto":210000}],"saldoPeriodo":-16750,"saldoAcumulado":792799},{"id":"2023-07-h1012","mes":6,"anio":2023,"esSAC":false,"horas":253,"valorHora":716.92,"noRemunerativo":20001,"sueldo":201381,"pagos":[{"id":"pg-h1012-0","fecha":"","concepto":"Pago","monto":200000}],"saldoPeriodo":1381,"saldoAcumulado":794180},{"id":"2023-06SAC-h1013","mes":5,"anio":2023,"esSAC":true,"horas":null,"valorHora":null,"noRemunerativo":0,"sueldo":91630,"pagos":[],"saldoPeriodo":91630,"saldoAcumulado":885810},{"id":"2023-08-h1014","mes":7,"anio":2023,"esSAC":false,"horas":338,"valorHora":716.92,"noRemunerativo":15000,"sueldo":257317,"pagos":[{"id":"pg-h1014-0","fecha":"","concepto":"Pago","monto":965811}],"saldoPeriodo":-708494,"saldoAcumulado":177316},{"id":"2023-09-h1015","mes":8,"anio":2023,"esSAC":false,"horas":317.5,"valorHora":783.66,"noRemunerativo":0,"sueldo":248812,"pagos":[{"id":"pg-h1015-0","fecha":"","concepto":"Pago","monto":120000}],"saldoPeriodo":128812,"saldoAcumulado":306128},{"id":"2023-10-h1016","mes":9,"anio":2023,"esSAC":false,"horas":330,"valorHora":783.66,"noRemunerativo":15000,"sueldo":273607,"pagos":[{"id":"pg-h1016-0","fecha":"","concepto":"Pago","monto":50000}],"saldoPeriodo":223607,"saldoAcumulado":529735},{"id":"2023-11-h1017","mes":10,"anio":2023,"esSAC":false,"horas":321,"valorHora":783.66,"noRemunerativo":18000,"sueldo":269554,"pagos":[{"id":"pg-h1017-0","fecha":"","concepto":"Pago","monto":800000}],"saldoPeriodo":-530446,"saldoAcumulado":-711},{"id":"2023-12-h1018","mes":11,"anio":2023,"esSAC":false,"horas":345,"valorHora":862.03,"noRemunerativo":18000,"sueldo":315400,"pagos":[],"saldoPeriodo":315400,"saldoAcumulado":314689},{"id":"2023-12SAC-h1019","mes":11,"anio":2023,"esSAC":true,"horas":null,"valorHora":null,"noRemunerativo":0,"sueldo":148700,"pagos":[],"saldoPeriodo":148700,"saldoAcumulado":463389},{"id":"2024-01-h1020","mes":0,"anio":2024,"esSAC":false,"horas":344,"valorHora":862.03,"noRemunerativo":25000,"sueldo":321538,"pagos":[{"id":"pg-h1020-0","fecha":"","concepto":"Pago","monto":75000}],"saldoPeriodo":246538,"saldoAcumulado":709927},{"id":"2024-02-h1021","mes":1,"anio":2024,"esSAC":false,"horas":null,"valorHora":null,"noRemunerativo":0,"sueldo":334508,"pagos":[{"id":"pg-h1021-0","fecha":"","concepto":"Pago","monto":709931}],"saldoPeriodo":-375423,"saldoAcumulado":334504},{"id":"2024-03-h1022","mes":2,"anio":2024,"esSAC":false,"horas":353,"valorHora":1101.34,"noRemunerativo":15000,"sueldo":403773,"pagos":[],"saldoPeriodo":403773,"saldoAcumulado":738277},{"id":"2024-04-h1023","mes":3,"anio":2024,"esSAC":false,"horas":310,"valorHora":1168,"noRemunerativo":0,"sueldo":362080,"pagos":[{"id":"pg-h1023-0","fecha":"","concepto":"Pago","monto":50000}],"saldoPeriodo":312080,"saldoAcumulado":1050357},{"id":"2024-05-h1024","mes":4,"anio":2024,"esSAC":false,"horas":315,"valorHora":1168,"noRemunerativo":35000,"sueldo":402920,"pagos":[{"id":"pg-h1024-0","fecha":"","concepto":"Pago","monto":550000},{"id":"pg-h1024-1","fecha":"","concepto":"Mayo Pago extraordinario","monto":903281}],"saldoPeriodo":-1050361,"saldoAcumulado":-4},{"id":"2024-06-h1025","mes":5,"anio":2024,"esSAC":false,"horas":310.5,"valorHora":1168,"noRemunerativo":55000,"sueldo":417664,"pagos":[],"saldoPeriodo":417664,"saldoAcumulado":417660},{"id":"2024-06SAC-h1026","mes":5,"anio":2024,"esSAC":true,"horas":null,"valorHora":null,"noRemunerativo":0,"sueldo":194386,"pagos":[],"saldoPeriodo":194386,"saldoAcumulado":612046},{"id":"2024-07-h1027","mes":6,"anio":2024,"esSAC":false,"horas":226.5,"valorHora":1401.6,"noRemunerativo":20000,"sueldo":337462,"pagos":[{"id":"pg-h1027-0","fecha":"","concepto":"Pago","monto":200000},{"id":"pg-h1027-1","fecha":"","concepto":"JULIO Pago USD 1500 × $730","monto":1095000}],"saldoPeriodo":-957538,"saldoAcumulado":-345492},{"id":"2024-08-h1028","mes":7,"anio":2024,"esSAC":false,"horas":339.5,"valorHora":1541.76,"noRemunerativo":15000,"sueldo":538427,"pagos":[{"id":"pg-h1028-0","fecha":"","concepto":"Pago","monto":151000}],"saldoPeriodo":387427,"saldoAcumulado":41935},{"id":"2024-09-h1029","mes":8,"anio":2024,"esSAC":false,"horas":318,"valorHora":1773.02,"noRemunerativo":15000,"sueldo":578821,"pagos":[],"saldoPeriodo":578821,"saldoAcumulado":620756},{"id":"2024-10-h1030","mes":9,"anio":2024,"esSAC":false,"horas":316,"valorHora":1950.33,"noRemunerativo":40000,"sueldo":656303,"pagos":[{"id":"pg-h1030-0","fecha":"","concepto":"Pago","monto":300000},{"id":"pg-h1030-1","fecha":"","concepto":"Liquidación cierre ejercicio anterior","monto":977054}],"saldoPeriodo":-620751,"saldoAcumulado":5},{"id":"2024-11-h1031","mes":10,"anio":2024,"esSAC":false,"horas":281,"valorHora":1950.33,"noRemunerativo":70000,"sueldo":618042,"pagos":[],"saldoPeriodo":618042,"saldoAcumulado":618047},{"id":"2024-12-h1032","mes":11,"anio":2024,"esSAC":false,"horas":274.5,"valorHora":2242.88,"noRemunerativo":65000,"sueldo":680670,"pagos":[{"id":"pg-h1032-0","fecha":"","concepto":"Pago","monto":300000}],"saldoPeriodo":380670,"saldoAcumulado":998717},{"id":"2024-12SAC-h1033","mes":11,"anio":2024,"esSAC":true,"horas":null,"valorHora":null,"noRemunerativo":0,"sueldo":308151,"pagos":[],"saldoPeriodo":308151,"saldoAcumulado":1306868},{"id":"2025-01-h1034","mes":0,"anio":2025,"esSAC":false,"horas":303,"valorHora":2781.17,"noRemunerativo":70000,"sueldo":912694,"pagos":[{"id":"pg-h1034-0","fecha":"","concepto":"Pago","monto":400000}],"saldoPeriodo":512694,"saldoAcumulado":1819562},{"id":"2025-02-h1035","mes":1,"anio":2025,"esSAC":false,"horas":301,"valorHora":3476.46,"noRemunerativo":85000,"sueldo":1131415,"pagos":[{"id":"pg-h1035-0","fecha":"","concepto":"Pago","monto":1000000}],"saldoPeriodo":131415,"saldoAcumulado":1950977},{"id":"2025-03-h1036","mes":2,"anio":2025,"esSAC":false,"horas":301,"valorHora":3997.93,"noRemunerativo":100000,"sueldo":1303377,"pagos":[{"id":"pg-h1036-0","fecha":"","concepto":"Pago","monto":3254351}],"saldoPeriodo":-1950974,"saldoAcumulado":3},{"id":"2025-04-h1037","mes":3,"anio":2025,"esSAC":false,"horas":316,"valorHora":4277.79,"noRemunerativo":107000,"sueldo":1458781,"pagos":[],"saldoPeriodo":1458781,"saldoAcumulado":1458784},{"id":"2025-05-h1038","mes":4,"anio":2025,"esSAC":false,"horas":334.5,"valorHora":4534.46,"noRemunerativo":113420,"sueldo":1630195,"pagos":[{"id":"pg-h1038-0","fecha":"","concepto":"Pago","monto":306000}],"saldoPeriodo":1324195,"saldoAcumulado":2782979},{"id":"2025-06-h1039","mes":5,"anio":2025,"esSAC":false,"horas":270.5,"valorHora":4761.18,"noRemunerativo":119091,"sueldo":1406989,"pagos":[{"id":"pg-h1039-0","fecha":"","concepto":"Pago","monto":241500}],"saldoPeriodo":1165489,"saldoAcumulado":3948468},{"id":"2025-06SAC-h1040","mes":5,"anio":2025,"esSAC":true,"horas":null,"valorHora":null,"noRemunerativo":0,"sueldo":758387,"pagos":[],"saldoPeriodo":758387,"saldoAcumulado":4706855},{"id":"2025-07-h1041","mes":6,"anio":2025,"esSAC":false,"horas":335,"valorHora":4951.63,"noRemunerativo":123855,"sueldo":1782649,"pagos":[{"id":"pg-h1041-0","fecha":"","concepto":"Pago","monto":2628749}],"saldoPeriodo":-846100,"saldoAcumulado":3860755},{"id":"2025-08-h1042","mes":7,"anio":2025,"esSAC":false,"horas":286,"valorHora":5100.17,"noRemunerativo":127570,"sueldo":1586219,"pagos":[{"id":"pg-h1042-0","fecha":"","concepto":"Pago","monto":3666000}],"saldoPeriodo":-2079781,"saldoAcumulado":1780974},{"id":"2025-09-h1043","mes":8,"anio":2025,"esSAC":false,"horas":315,"valorHora":5304.18,"noRemunerativo":132673,"sueldo":1803489,"pagos":[{"id":"pg-h1043-0","fecha":"","concepto":"Pago","monto":3142972}],"saldoPeriodo":-1339483,"saldoAcumulado":441491},{"id":"2025-10-h1044","mes":9,"anio":2025,"esSAC":false,"horas":346,"valorHora":5516.35,"noRemunerativo":137980,"sueldo":2046636,"pagos":[{"id":"pg-h1044-0","fecha":"","concepto":"Pago","monto":1154219}],"saldoPeriodo":892417,"saldoAcumulado":1333908},{"id":"2025-11-h1045","mes":10,"anio":2025,"esSAC":false,"horas":315,"valorHora":5681.84,"noRemunerativo":142119,"sueldo":1931898,"pagos":[{"id":"pg-h1045-0","fecha":"","concepto":"Pago","monto":1394000}],"saldoPeriodo":537898,"saldoAcumulado":1871806},{"id":"2025-12-h1046","mes":11,"anio":2025,"esSAC":false,"horas":300,"valorHora":5852.29,"noRemunerativo":146383,"sueldo":1902071,"pagos":[{"id":"pg-h1046-0","fecha":"","concepto":"Pago","monto":1093000}],"saldoPeriodo":809071,"saldoAcumulado":2680877},{"id":"2025-12SAC-h1047","mes":11,"anio":2025,"esSAC":true,"horas":null,"valorHora":null,"noRemunerativo":0,"sueldo":954328,"pagos":[],"saldoPeriodo":954328,"saldoAcumulado":3635205},{"id":"2026-01-h1048","mes":0,"anio":2026,"esSAC":false,"horas":338,"valorHora":6386.02,"noRemunerativo":99540,"sueldo":2258015,"pagos":[{"id":"pg-h1048-0","fecha":"","concepto":"Pago","monto":2606000}],"saldoPeriodo":-347985,"saldoAcumulado":3287220},{"id":"2026-02-h1049","mes":1,"anio":2026,"esSAC":false,"horas":300,"valorHora":6939.05,"noRemunerativo":50766,"sueldo":2132481,"pagos":[{"id":"pg-h1049-0","fecha":"","concepto":"Pago","monto":4165219}],"saldoPeriodo":-2032738,"saldoAcumulado":1254482},{"id":"2026-03-h1050","mes":2,"anio":2026,"esSAC":false,"horas":294,"valorHora":7511.52,"noRemunerativo":0,"sueldo":2208388,"pagos":[{"id":"pg-h1050-0","fecha":"","concepto":"Pago","monto":210000}],"saldoPeriodo":1998388,"saldoAcumulado":3252870},{"id":"2026-04-h1051","mes":3,"anio":2026,"esSAC":false,"horas":319,"valorHora":8131.23,"noRemunerativo":25000,"sueldo":2618860,"pagos":[{"id":"pg-h1051-0","fecha":"","concepto":"Pago","monto":1126000}],"saldoPeriodo":1492860,"saldoAcumulado":4745730}]}
 ;
 </script>
