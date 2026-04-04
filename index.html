@@ -639,10 +639,10 @@ input.mono-input { font-family: 'DM Mono', monospace; }
   <div class="field"><label>Bin ID</label><input type="text" id="cf-bin"/></div>
   <div class="divider"></div>
   <div class="section-label">Datos</div>
-  <button class="btn btn-amber" style="width:100%;margin-bottom:6px" onclick="importHistorico(false)">
-    📥 Importar historial del Excel (51 períodos)
+  <button class="btn btn-amber" style="width:100%;margin-bottom:6px" onclick="importHistorico(false,false)">
+    📥 Cargar datos año 2025 (13 períodos)
   </button>
-  <p style="font-size:11px;color:var(--c-ink4)">Reemplaza todos los datos. Solo para primera carga.</p>
+  <p style="font-size:11px;color:var(--c-ink4)">Reemplaza todos los datos. Usar si los datos no se actualizaron automáticamente.</p>
   <div class="modal-footer">
     <button class="btn btn-white" onclick="closeOv('ov-conf')">Cancelar</button>
     <button class="btn btn-primary" onclick="saveConf()">Guardar</button>
@@ -697,14 +697,17 @@ async function load() {
   try {
     const r = await fetch(`${API}/b/${BIN}/latest`,{headers:{'X-Master-Key':KEY}});
     const j = await r.json();
-    db = j.record || { config:{vh:8131.23}, periodos:[] };
+    db = j.record || { config:{}, periodos:[] };
     if (!db.periodos) db.periodos=[];
-    if (!db.config)   db.config={vh:8131.23};
-    // migrate old key name
+    if (!db.config)   db.config={};
     if (db.config.valorHoraVigente && !db.config.vh) db.config.vh = db.config.valorHoraVigente;
     sync('ok','Sincronizado');
-    if (db.periodos.length === 0) importHistorico(true, true);
-    else renderAll();
+    // Si la versión no coincide con el HISTORICO actual → reimportar automáticamente
+    if (db.config.version !== HISTORICO.config.version) {
+      importHistorico(false, true); // silencioso = true, no pide confirmación
+    } else {
+      renderAll();
+    }
   } catch(e) { sync('err','Sin conexión'); toast('Error al cargar datos'); }
 }
 
@@ -991,10 +994,10 @@ async function saveConf() {
 //  IMPORTAR HISTÓRICO
 // ════════════════════════════════════════════════
 function importHistorico(fromBanner=false, silent=false) {
-  if (!silent && !confirm('⚠ Reemplaza todos los datos con el historial del Excel (51 períodos). ¿Confirmar?')) return;
+  if (!silent && !confirm('⚠ Reemplaza todos los datos con el historial 2025 (13 períodos). ¿Confirmar?')) return;
   closeOv('ov-conf');
   db = JSON.parse(JSON.stringify(HISTORICO));
-  save().then(()=>{ renderAll(); toast(`✓ ${db.periodos.length} períodos importados`); });
+  save().then(()=>{ renderAll(); toast(`✓ Datos 2025 cargados — ${db.periodos.length} períodos`); });
 }
 
 // ════════════════════════════════════════════════
@@ -1020,7 +1023,7 @@ document.querySelectorAll('.overlay').forEach(o=>o.addEventListener('click',e=>{
 // ════════════════════════════════════════════════
 //  DATOS HISTÓRICOS
 // ════════════════════════════════════════════════
-const HISTORICO = {"config":{"vh":9263.905},"periodos":[{"id":"2026-02-0","mes":1,"anio":2026,"esSAC":false,"horas":300,"valorHora":6939.0525,"noRemunerativo":50766,"sueldo":2132482,"pagos":[{"id":"pg-2026-02-0-0","fecha":"","concepto":"Pago 1","monto":357000},{"id":"pg-2026-02-0-1","fecha":"","concepto":"Pago 2","monto":211000},{"id":"pg-2026-02-0-2","fecha":"","concepto":"Pago 3","monto":310000}]},{"id":"2026-03-0","mes":2,"anio":2026,"esSAC":false,"horas":294,"valorHora":7511.5243,"noRemunerativo":0,"sueldo":2208388,"pagos":[{"id":"pg-2026-03-0-0","fecha":"","concepto":"Pago","monto":210000}]},{"id":"2026-04-0","mes":3,"anio":2026,"esSAC":false,"horas":319,"valorHora":8131.2251,"noRemunerativo":25000,"sueldo":2618861,"pagos":[{"id":"pg-2026-04-0-0","fecha":"","concepto":"Pago 1","monto":530000},{"id":"pg-2026-04-0-1","fecha":"","concepto":"Pago 2","monto":530000},{"id":"pg-2026-04-0-2","fecha":"","concepto":"Pago 3","monto":66000}]},{"id":"2026-05-0","mes":4,"anio":2026,"esSAC":false,"horas":331,"valorHora":8334.5057,"noRemunerativo":0,"sueldo":2758721,"pagos":[{"id":"pg-2026-05-0-0","fecha":"","concepto":"Pago 1","monto":611000},{"id":"pg-2026-05-0-1","fecha":"","concepto":"Pago 2","monto":115000},{"id":"pg-2026-05-0-2","fecha":"","concepto":"Pago 3","monto":310000}]},{"id":"2026-06-0","mes":5,"anio":2026,"esSAC":false,"horas":283.5,"valorHora":8417.8507,"noRemunerativo":35000,"sueldo":2421461,"pagos":[{"id":"pg-2026-06-0-0","fecha":"","concepto":"Pago 1","monto":2000000},{"id":"pg-2026-06-0-1","fecha":"","concepto":"Pago 2","monto":115000},{"id":"pg-2026-06-0-2","fecha":"","concepto":"Pago 3","monto":115000},{"id":"pg-2026-06-0-3","fecha":"","concepto":"Pago 4","monto":610000}]},{"id":"2026-06SAC-0","mes":5,"anio":2026,"esSAC":true,"horas":null,"valorHora":null,"noRemunerativo":0,"sueldo":1379361,"pagos":[{"id":"pg-2026-06SAC-0-0","fecha":"","concepto":"SAC Jun pago","monto":2250000},{"id":"pg-2026-06SAC-0-1","fecha":"","concepto":"Liquidación saldo acumulado","monto":5179274}]},{"id":"2026-07-0","mes":6,"anio":2026,"esSAC":false,"horas":338,"valorHora":8502.0293,"noRemunerativo":0,"sueldo":2873686,"pagos":[{"id":"pg-2026-07-0-0","fecha":"","concepto":"Pago","monto":610000}]},{"id":"2026-08-0","mes":7,"anio":2026,"esSAC":false,"horas":323,"valorHora":8587.0495,"noRemunerativo":45000,"sueldo":2818617,"pagos":[{"id":"pg-2026-08-0-0","fecha":"","concepto":"Pago 1","monto":115000},{"id":"pg-2026-08-0-1","fecha":"","concepto":"Pago 2","monto":122000},{"id":"pg-2026-08-0-2","fecha":"","concepto":"Pago 3","monto":580000}]},{"id":"2026-09-0","mes":8,"anio":2026,"esSAC":false,"horas":333,"valorHora":8698.6812,"noRemunerativo":60000,"sueldo":2956661,"pagos":[{"id":"pg-2026-09-0-0","fecha":"","concepto":"Pago 1","monto":300000},{"id":"pg-2026-09-0-1","fecha":"","concepto":"Pago 2","monto":122000},{"id":"pg-2026-09-0-2","fecha":"","concepto":"Pago 3","monto":122000}]},{"id":"2026-10-0","mes":9,"anio":2026,"esSAC":false,"horas":342.5,"valorHora":8803.0654,"noRemunerativo":60000,"sueldo":3075050,"pagos":[{"id":"pg-2026-10-0-0","fecha":"","concepto":"Pago 1","monto":700000},{"id":"pg-2026-10-0-1","fecha":"","concepto":"Pago 2","monto":420000},{"id":"pg-2026-10-0-2","fecha":"","concepto":"Pago 3","monto":124000},{"id":"pg-2026-10-0-3","fecha":"","concepto":"Pago 4","monto":550000},{"id":"pg-2026-10-0-4","fecha":"","concepto":"Pago 5","monto":2432000},{"id":"pg-2026-10-0-5","fecha":"","concepto":"Extra","monto":3000000}]},{"id":"2026-11-0","mes":10,"anio":2026,"esSAC":false,"horas":285,"valorHora":8899.8991,"noRemunerativo":60000,"sueldo":2596471,"pagos":[{"id":"pg-2026-11-0-0","fecha":"","concepto":"Pago 1","monto":132000},{"id":"pg-2026-11-0-1","fecha":"","concepto":"Pago 2","monto":110000},{"id":"pg-2026-11-0-2","fecha":"","concepto":"Pago 3","monto":700000},{"id":"pg-2026-11-0-3","fecha":"","concepto":"Pago 4","monto":140000},{"id":"pg-2026-11-0-4","fecha":"","concepto":"Extra","monto":1010000}]},{"id":"2026-12-0","mes":11,"anio":2026,"esSAC":false,"horas":null,"valorHora":9263.905,"noRemunerativo":0,"sueldo":0,"pagos":[{"id":"pg-2026-12-0-0","fecha":"","concepto":"Liquidación saldo acumulado","monto":3031485}]},{"id":"2026-12SAC-0","mes":11,"anio":2026,"esSAC":true,"horas":null,"valorHora":null,"noRemunerativo":0,"sueldo":1537525,"pagos":[]}]};
+const HISTORICO = {"config":{"vh":9263.905,"version":"2025-limpio-v1"},"periodos":[{"id":"2025-02-0","mes":1,"anio":2025,"esSAC":false,"horas":300,"valorHora":6939.0525,"noRemunerativo":50766,"sueldo":2132482,"pagos":[{"id":"pg-2025-02-0-0","fecha":"","concepto":"Pago 1","monto":357000},{"id":"pg-2025-02-0-1","fecha":"","concepto":"Pago 2","monto":211000},{"id":"pg-2025-02-0-2","fecha":"","concepto":"Pago 3","monto":310000}]},{"id":"2025-03-0","mes":2,"anio":2025,"esSAC":false,"horas":294,"valorHora":7511.5243,"noRemunerativo":0,"sueldo":2208388,"pagos":[{"id":"pg-2025-03-0-0","fecha":"","concepto":"Pago","monto":210000}]},{"id":"2025-04-0","mes":3,"anio":2025,"esSAC":false,"horas":319,"valorHora":8131.2251,"noRemunerativo":25000,"sueldo":2618861,"pagos":[{"id":"pg-2025-04-0-0","fecha":"","concepto":"Pago 1","monto":530000},{"id":"pg-2025-04-0-1","fecha":"","concepto":"Pago 2","monto":530000},{"id":"pg-2025-04-0-2","fecha":"","concepto":"Pago 3","monto":66000}]},{"id":"2025-05-0","mes":4,"anio":2025,"esSAC":false,"horas":331,"valorHora":8334.5057,"noRemunerativo":0,"sueldo":2758721,"pagos":[{"id":"pg-2025-05-0-0","fecha":"","concepto":"Pago 1","monto":611000},{"id":"pg-2025-05-0-1","fecha":"","concepto":"Pago 2","monto":115000},{"id":"pg-2025-05-0-2","fecha":"","concepto":"Pago 3","monto":310000}]},{"id":"2025-06-0","mes":5,"anio":2025,"esSAC":false,"horas":283.5,"valorHora":8417.8507,"noRemunerativo":35000,"sueldo":2421461,"pagos":[{"id":"pg-2025-06-0-0","fecha":"","concepto":"Pago 1","monto":2000000},{"id":"pg-2025-06-0-1","fecha":"","concepto":"Pago 2","monto":115000},{"id":"pg-2025-06-0-2","fecha":"","concepto":"Pago 3","monto":115000},{"id":"pg-2025-06-0-3","fecha":"","concepto":"Pago 4","monto":610000}]},{"id":"2025-06SAC-0","mes":5,"anio":2025,"esSAC":true,"horas":null,"valorHora":null,"noRemunerativo":0,"sueldo":1379361,"pagos":[{"id":"pg-2025-06SAC-0-0","fecha":"","concepto":"SAC Jun pago","monto":2250000},{"id":"pg-2025-06SAC-0-1","fecha":"","concepto":"Liquidación saldo acumulado","monto":5179274}]},{"id":"2025-07-0","mes":6,"anio":2025,"esSAC":false,"horas":338,"valorHora":8502.0293,"noRemunerativo":0,"sueldo":2873686,"pagos":[{"id":"pg-2025-07-0-0","fecha":"","concepto":"Pago","monto":610000}]},{"id":"2025-08-0","mes":7,"anio":2025,"esSAC":false,"horas":323,"valorHora":8587.0495,"noRemunerativo":45000,"sueldo":2818617,"pagos":[{"id":"pg-2025-08-0-0","fecha":"","concepto":"Pago 1","monto":115000},{"id":"pg-2025-08-0-1","fecha":"","concepto":"Pago 2","monto":122000},{"id":"pg-2025-08-0-2","fecha":"","concepto":"Pago 3","monto":580000}]},{"id":"2025-09-0","mes":8,"anio":2025,"esSAC":false,"horas":333,"valorHora":8698.6812,"noRemunerativo":60000,"sueldo":2956661,"pagos":[{"id":"pg-2025-09-0-0","fecha":"","concepto":"Pago 1","monto":300000},{"id":"pg-2025-09-0-1","fecha":"","concepto":"Pago 2","monto":122000},{"id":"pg-2025-09-0-2","fecha":"","concepto":"Pago 3","monto":122000}]},{"id":"2025-10-0","mes":9,"anio":2025,"esSAC":false,"horas":342.5,"valorHora":8803.0654,"noRemunerativo":60000,"sueldo":3075050,"pagos":[{"id":"pg-2025-10-0-0","fecha":"","concepto":"Pago 1","monto":700000},{"id":"pg-2025-10-0-1","fecha":"","concepto":"Pago 2","monto":420000},{"id":"pg-2025-10-0-2","fecha":"","concepto":"Pago 3","monto":124000},{"id":"pg-2025-10-0-3","fecha":"","concepto":"Pago 4","monto":550000},{"id":"pg-2025-10-0-4","fecha":"","concepto":"Pago 5","monto":2432000},{"id":"pg-2025-10-0-5","fecha":"","concepto":"Extra","monto":3000000}]},{"id":"2025-11-0","mes":10,"anio":2025,"esSAC":false,"horas":285,"valorHora":8899.8991,"noRemunerativo":60000,"sueldo":2596471,"pagos":[{"id":"pg-2025-11-0-0","fecha":"","concepto":"Pago 1","monto":132000},{"id":"pg-2025-11-0-1","fecha":"","concepto":"Pago 2","monto":110000},{"id":"pg-2025-11-0-2","fecha":"","concepto":"Pago 3","monto":700000},{"id":"pg-2025-11-0-3","fecha":"","concepto":"Pago 4","monto":140000},{"id":"pg-2025-11-0-4","fecha":"","concepto":"Extra","monto":1010000}]},{"id":"2025-12-0","mes":11,"anio":2025,"esSAC":false,"horas":null,"valorHora":9263.905,"noRemunerativo":0,"sueldo":0,"pagos":[{"id":"pg-2025-12-0-0","fecha":"","concepto":"Liquidación saldo acumulado","monto":3031485}]},{"id":"2025-12SAC-0","mes":11,"anio":2025,"esSAC":true,"horas":null,"valorHora":null,"noRemunerativo":0,"sueldo":1537525,"pagos":[]}]};
 </script>
 </body>
 </html>
