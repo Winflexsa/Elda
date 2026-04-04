@@ -875,7 +875,7 @@ function openNew() {
   q('p-horas').value=''; q('p-noRem').value='';
   q('p-pct').value=''; q('p-sacm').value='';
   const lastVH=lastNormalVH();
-  q('vh-prev').value=lastVH.toFixed(4);
+  q('vh-prev').value=lastVH.toFixed(2);
   q('vh-nuevo').textContent='$'+fmtN(lastVH);
   q('p-vh').value=lastVH;
   q('preview-card').style.display='none';
@@ -891,7 +891,7 @@ function editP(pid) {
   q('p-horas').value=p.horas||''; q('p-noRem').value=p.noRemunerativo||'';
   q('p-pct').value=''; q('p-sacm').value='';
   const prevVH=lastNormalVH(pid);
-  q('vh-prev').value=prevVH.toFixed(4);
+  q('vh-prev').value=prevVH.toFixed(2);
   q('vh-nuevo').textContent='$'+fmtN(p.valorHora||prevVH);
   q('p-vh').value=p.valorHora||prevVH;
   q('preview-card').style.display='none';
@@ -909,9 +909,9 @@ function onTipoChange() {
 function calcVH() {
   const prev=parseFloat(q('vh-prev').value)||0;
   const pct=parseFloat(q('p-pct').value)||0;
-  const nuevo=prev*(1+pct/100);
+  const nuevo=parseFloat((prev*(1+pct/100)).toFixed(2));
   q('vh-nuevo').textContent='$'+fmtN(nuevo);
-  q('p-vh').value=nuevo.toFixed(4);
+  q('p-vh').value=nuevo;
   calcPreview();
 }
 
