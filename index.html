@@ -424,6 +424,7 @@ input.mono-input { font-family: 'DM Mono', monospace; }
   .kpi-strip { padding: 0 16px; }
 }
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
 <body>
 
@@ -468,6 +469,7 @@ input.mono-input { font-family: 'DM Mono', monospace; }
         <span id="sync-text">—</span>
       </div>
       <button class="btn btn-white btn-sm" onclick="openNew()">+ Período</button>
+      <button class="btn btn-white btn-sm" onclick="openExport()">📊 Exportar</button>
       <button class="btn btn-white btn-sm" onclick="openConf()">⚙</button>
     </div>
   </div>
@@ -650,6 +652,49 @@ input.mono-input { font-family: 'DM Mono', monospace; }
 </div>
 </div>
 
+<!-- ════════════════════════════════════
+     MODAL: EXPORTAR
+═════════════════════════════════════ -->
+<div class="overlay" id="ov-export">
+<div class="modal-box" style="max-width:440px">
+  <div class="modal-title">📊 Exportar a Excel</div>
+
+  <div style="display:grid;gap:10px;margin-bottom:8px">
+
+    <div onclick="exportarSueldos()" style="
+      background:var(--c-blue-l);border:1.5px solid var(--c-blue-bd);
+      border-radius:var(--radius-lg);padding:18px 20px;cursor:pointer;
+      transition:all .15s;display:flex;align-items:center;gap:16px"
+      onmouseover="this.style.borderColor='var(--c-blue)'"
+      onmouseout="this.style.borderColor='var(--c-blue-bd)'">
+      <div style="font-size:32px">💸</div>
+      <div>
+        <div style="font-size:14px;font-weight:700;color:var(--c-blue);margin-bottom:3px">Liquidación de sueldos</div>
+        <div style="font-size:12px;color:var(--c-ink3)">Un registro por mes: horas, valor/hora, no rem., total sueldo y pagos</div>
+      </div>
+    </div>
+
+    <div onclick="exportarResumen()" style="
+      background:var(--c-green-l);border:1.5px solid var(--c-green-bd);
+      border-radius:var(--radius-lg);padding:18px 20px;cursor:pointer;
+      transition:all .15s;display:flex;align-items:center;gap:16px"
+      onmouseover="this.style.borderColor='var(--c-green)'"
+      onmouseout="this.style.borderColor='var(--c-green-bd)'">
+      <div style="font-size:32px">📋</div>
+      <div>
+        <div style="font-size:14px;font-weight:700;color:var(--c-green);margin-bottom:3px">Resumen completo</div>
+        <div style="font-size:12px;color:var(--c-ink3)">Cada sueldo y cada pago en orden cronológico con saldo acumulado</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="modal-footer" style="margin-top:12px">
+    <button class="btn btn-white" onclick="closeOv('ov-export')">Cerrar</button>
+  </div>
+</div>
+</div>
+
 <div id="toast"></div>
 
 <script>
@@ -702,9 +747,10 @@ async function load() {
     if (!db.config)   db.config={};
     if (db.config.valorHoraVigente && !db.config.vh) db.config.vh = db.config.valorHoraVigente;
     sync('ok','Sincronizado');
-    // Si la versión no coincide con el HISTORICO actual → reimportar automáticamente
-    if (db.config.version !== HISTORICO.config.version) {
-      importHistorico(false, true); // silencioso = true, no pide confirmación
+    // Solo auto-importa si el bin está genuinamente vacío (0 períodos)
+    // NUNCA sobreescribir datos existentes por diferencia de versión
+    if (db.periodos.length === 0) {
+      importHistorico(false, true);
     } else {
       renderAll();
     }
@@ -1041,6 +1087,166 @@ function openOv(id){ q(id).classList.add('open'); }
 function closeOv(id){ q(id).classList.remove('open'); editId=null; }
 function toast(msg){ const el=q('toast'); el.textContent=msg; el.classList.add('on'); setTimeout(()=>el.classList.remove('on'),2600); }
 document.querySelectorAll('.overlay').forEach(o=>o.addEventListener('click',e=>{ if(e.target===o) o.classList.remove('open'); }));
+
+// ════════════════════════════════════════════════
+//  EXPORTAR
+// ════════════════════════════════════════════════
+function openExport() { openOv('ov-export'); }
+
+function estiloMoneda(ws, ref) {
+  if (!ws[ref]) return;
+  ws[ref].z = '#,##0';
+}
+
+function aplicarEstilos(ws, rango, filas) {
+  // SheetJS community edition no soporta estilos visuales,
+  // pero sí formatos de número y anchos de columna.
+  return ws;
+}
+
+// ── INFORME 1: Liquidación de sueldos ─────────────────────────────────────────
+function exportarSueldos() {
+  closeOv('ov-export');
+  computeSaldos();
+
+  const wb = XLSX.utils.book_new();
+
+  // Una hoja por año
+  const byYear = {};
+  for (const p of db.periodos) {
+    (byYear[p.anio] = byYear[p.anio] || []).push(p);
+  }
+
+  for (const anio of Object.keys(byYear).sort()) {
+    const rows = [];
+
+    // Encabezado
+    rows.push(['LIQUIDACIÓN DE SUELDOS — ELDA', '', '', '', '', '', '', '', '']);
+    rows.push([`Año ${anio}`, '', '', '', '', '', '', '', '']);
+    rows.push([]);
+    rows.push([
+      'Período', 'Tipo', 'Horas', 'Valor Hora', 'Remunerativo', 'No Rem.', 'Total Sueldo',
+      'Total Pagado', 'Saldo Período', 'Saldo Acumulado'
+    ]);
+
+    for (const p of byYear[anio]) {
+      const pag = (p.pagos || []).reduce((s, x) => s + x.monto, 0);
+      const rem = (p.horas || 0) * (p.valorHora || 0);
+      rows.push([
+        `${p.esSAC ? 'SAC · ' : ''}${MESES[p.mes]}`,
+        p.esSAC ? 'SAC' : 'Normal',
+        p.horas ?? '',
+        p.valorHora ?? '',
+        p.esSAC ? '' : Math.round(rem),
+        p.esSAC ? '' : (p.noRemunerativo || 0),
+        p.sueldo,
+        pag,
+        p.saldoPeriodo,
+        p.saldoAcum,
+      ]);
+    }
+
+    // Totales
+    const ps = byYear[anio];
+    const totSueldo = ps.reduce((s, p) => s + p.sueldo, 0);
+    const totPag    = ps.reduce((s, p) => s + (p.pagos || []).reduce((a, x) => a + x.monto, 0), 0);
+    rows.push([]);
+    rows.push(['TOTAL', '', '', '', '', '', totSueldo, totPag, '', ps[ps.length-1]?.saldoAcum ?? 0]);
+
+    const ws = XLSX.utils.aoa_to_sheet(rows);
+
+    // Anchos de columna
+    ws['!cols'] = [
+      {wch:18},{wch:8},{wch:7},{wch:12},{wch:14},{wch:12},{wch:14},{wch:14},{wch:14},{wch:16}
+    ];
+
+    // Formato moneda en columnas numéricas (col D en adelante)
+    const monedaCols = [3, 4, 5, 6, 7, 8, 9];
+    const nFilas = rows.length;
+    for (let r = 4; r < nFilas; r++) {
+      for (const c of monedaCols) {
+        const ref = XLSX.utils.encode_cell({r, c});
+        if (ws[ref] && typeof ws[ref].v === 'number') ws[ref].z = '#,##0';
+      }
+    }
+
+    XLSX.utils.book_append_sheet(wb, ws, `${anio}`);
+  }
+
+  XLSX.writeFile(wb, `Elda_Sueldos_${new Date().toISOString().slice(0,10)}.xlsx`);
+  toast('✓ Descargando liquidación de sueldos...');
+}
+
+// ── INFORME 2: Resumen completo ────────────────────────────────────────────────
+function exportarResumen() {
+  closeOv('ov-export');
+  computeSaldos();
+
+  const wb = XLSX.utils.book_new();
+  const rows = [];
+
+  rows.push(['RESUMEN COMPLETO — ELDA · WINFLEX S.A.']);
+  rows.push([`Generado: ${new Date().toLocaleDateString('es-AR')}`]);
+  rows.push([]);
+  rows.push(['Fecha / Período', 'Tipo', 'Concepto', 'Devengado', 'Pago', 'Saldo Acumulado']);
+
+  let saldoAcum = 0;
+
+  for (const p of db.periodos) {
+    const etiqueta = `${p.esSAC ? 'SAC · ' : ''}${MESES[p.mes]} ${p.anio}`;
+
+    // Fila de devengado (sueldo)
+    saldoAcum += p.sueldo;
+    rows.push([
+      etiqueta,
+      p.esSAC ? 'SAC' : 'Sueldo',
+      p.esSAC
+        ? `Aguinaldo semestral`
+        : `${p.horas ?? '?'}h × $${(p.valorHora||0).toFixed(2)}${p.noRemunerativo ? ` + NR $${(p.noRemunerativo).toLocaleString('es-AR')}` : ''}`,
+      p.sueldo,
+      '',
+      saldoAcum,
+    ]);
+
+    // Una fila por cada pago
+    for (const pg of (p.pagos || [])) {
+      saldoAcum -= pg.monto;
+      rows.push([
+        pg.fecha || etiqueta,
+        'Pago',
+        pg.concepto || 'Pago',
+        '',
+        pg.monto,
+        saldoAcum,
+      ]);
+    }
+
+    // Separador visual (fila vacía entre períodos)
+    rows.push([]);
+  }
+
+  // Fila final de saldo
+  rows.push(['', '', 'SALDO FINAL', '', '', saldoAcum]);
+
+  const ws = XLSX.utils.aoa_to_sheet(rows);
+
+  ws['!cols'] = [
+    {wch:20},{wch:10},{wch:42},{wch:14},{wch:14},{wch:16}
+  ];
+
+  // Formato moneda en columnas D, E, F
+  const nFilas = rows.length;
+  for (let r = 3; r < nFilas; r++) {
+    for (const c of [3, 4, 5]) {
+      const ref = XLSX.utils.encode_cell({r, c});
+      if (ws[ref] && typeof ws[ref].v === 'number') ws[ref].z = '#,##0';
+    }
+  }
+
+  XLSX.utils.book_append_sheet(wb, ws, 'Resumen completo');
+  XLSX.writeFile(wb, `Elda_Resumen_${new Date().toISOString().slice(0,10)}.xlsx`);
+  toast('✓ Descargando resumen completo...');
+}
 
 // ════════════════════════════════════════════════
 //  DATOS HISTÓRICOS
